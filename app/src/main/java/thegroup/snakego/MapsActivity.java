@@ -1,27 +1,36 @@
 package thegroup.snakego;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private LocationRequest mLocationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
+
     }
 
 
@@ -36,11 +45,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+//need error checking
         mMap = googleMap;
+        //
+        //mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+        float zoom =  mMap.getMaxZoomLevel();
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        BitmapDescriptor rvaMarker =
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        // Add a marker in VCU and move the camera
+        LatLng rva = new LatLng(37.5490, -77.4534);
+        mMap.addMarker(new MarkerOptions().position(rva).title("Marker in Richmond").icon(rvaMarker));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(rva));
+
+        //does a slow zoom in could be neat
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(zoom), 10000, null);
+
+
+
+
+
     }
 }
