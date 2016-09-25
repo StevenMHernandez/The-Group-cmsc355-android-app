@@ -3,6 +3,8 @@ package thegroup.snakego.Entities;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 
+import thegroup.snakego.Models.User;
+
 public class RedApple extends BaseEntity {
 
     public RedApple(LatLng latlng) {
@@ -10,7 +12,7 @@ public class RedApple extends BaseEntity {
     }
 
     public void onCollision() {
-        // User gains a point
+        User.get().addPoints(10);
     }
 
     public float getColor() {

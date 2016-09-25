@@ -14,11 +14,14 @@ import java.util.Random;
 import thegroup.snakego.Entities.BaseEntity;
 import thegroup.snakego.Entities.GreenApple;
 import thegroup.snakego.Entities.RedApple;
-import thegroup.snakego.Utils.Listenable;
+import thegroup.snakego.Interfaces.Listenable;
+import thegroup.snakego.Utils.DistanceCalculator;
 
 public class EntitySpawner implements Listenable {
 
     protected static final int SPAWN_FREQUENCY = 20000;
+
+    protected static final int COLLISION_DISTANCE = 10;
 
     protected static final int MAX_ENTITIES = 10;
 
@@ -36,7 +39,7 @@ public class EntitySpawner implements Listenable {
 
     public EntitySpawner(LatLngBounds currentMapBounds) {
         this.currentMapBounds = currentMapBounds;
-        this.handler.postDelayed(this.runnable, SPAWN_FREQUENCY / spawnRate);
+        this.handler.postDelayed(this.spawnEntitiesRunnable, SPAWN_FREQUENCY / spawnRate);
     }
 
     protected LatLng getRandomLocation() {
@@ -52,26 +55,36 @@ public class EntitySpawner implements Listenable {
 
     public void spawnEntity() {
         try {
-            if (this.currentEntities.size() < MAX_ENTITIES) {
-                int index = new Random().nextInt(this.entityTypes.length);
-
-                BaseEntity entity = (BaseEntity) this.entityTypes[index].getConstructor(LatLng.class).newInstance(this.getRandomLocation());
-
-                this.currentEntities.add(entity);
-
-                this.notifyListeners(this, "Entities", this.currentEntities, this.currentEntities);
+            if (this.currentEntities.size() >= MAX_ENTITIES) {
+                this.currentEntities.remove(0);
             }
+            int index = new Random().nextInt(this.entityTypes.length);
+
+            BaseEntity entity = (BaseEntity) this.entityTypes[index].getConstructor(LatLng.class).newInstance(this.getRandomLocation());
+
+            this.currentEntities.add(entity);
+
+            this.notifyListeners(this, "Entities", this.currentEntities, this.currentEntities);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    protected Runnable runnable = new Runnable() {
+    public void checkCollisions(LatLng latlng) {
+        for (BaseEntity entity : this.currentEntities) {
+            if (DistanceCalculator.distance(latlng, entity.getLatlng()) < COLLISION_DISTANCE) {
+                entity.onCollision();
+                this.currentEntities.remove(entity);
+            }
+        }
+    }
+
+    protected Runnable spawnEntitiesRunnable = new Runnable() {
         @Override
         public void run() {
             spawnEntity();
 
-            handler.postDelayed(this, (long)randomInRange(SPAWN_FREQUENCY / spawnRate, 0));
+            handler.postDelayed(this, (long) randomInRange(SPAWN_FREQUENCY / spawnRate, 0));
         }
     };
 
