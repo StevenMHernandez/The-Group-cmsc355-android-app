@@ -35,7 +35,7 @@ public class User {
         return this.score;
     }
 
-    public void updateLocation(LatLng latLng) {
+    public void onLocationUpdated(LatLng latLng) {
         snake.add(latLng);
 
         while (this.snake.size() > this.getMaxSnakeLength()) {

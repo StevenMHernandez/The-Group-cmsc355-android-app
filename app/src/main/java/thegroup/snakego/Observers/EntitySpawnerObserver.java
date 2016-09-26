@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import thegroup.snakego.Entities.BaseEntity;
-import thegroup.snakego.EntitySpawner;
+import thegroup.snakego.Services.EntitySpawner;
 
 public class EntitySpawnerObserver implements PropertyChangeListener {
 

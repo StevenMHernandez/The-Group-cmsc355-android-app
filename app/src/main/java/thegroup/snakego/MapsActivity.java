@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import thegroup.snakego.Observers.EntitySpawnerObserver;
+import thegroup.snakego.Services.EntitySpawner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMapLoadedCallback {
 
