@@ -2,6 +2,7 @@ package thegroup.snakego;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,13 +60,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double snakeLongs;
     private LatLng snakeLoc;
     private Marker snakeSpot;
-
+    private Button iconButton;
     //private float mMinZoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        iconButton = (Button) findViewById(R.id.icon_button);
+        iconButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                pressIconButton();
+            }
+        });
+
+
 
 
         if (mGoogleApiClient == null) {
@@ -97,6 +111,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
     }
+
+    public void pressIconButton() {
+        Intent intent = new Intent(this, OptionsActivity.class);
+        startActivity(intent);
+    }
+
+
+
     /*private void stopAutoManage() {
         if (mGoogleApiClient != null)
             mGoogleApiClient.stopAutoManage();

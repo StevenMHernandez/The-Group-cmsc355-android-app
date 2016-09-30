@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:theme="@style/AppTheme">
+
+    <TextView
+        android:text="Options Page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/options_page_text"
+        android:textSize="30sp"
+        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+        android:layout_marginBottom="150dp"/>
+
+    <TextView
+        android:text="Quit Game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/options_page_text"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+    android:id="@+id/quit_game_text"/>
+
+    <TextView
+        android:text="High Scores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quit_game_text"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:id="@+id/high_scores_text"
+        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"/>
+
+    <TextView
+        android:text="Resume Game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+        android:textSize="30sp"
+        android:id="@+id/resume_game_text"
+        android:layout_below="@+id/high_scores_text"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

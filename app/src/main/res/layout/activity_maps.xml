@@ -19,6 +19,7 @@
             android:layout_gravity="end|top"
             android:layout_marginTop="5dp"
             android:drawableTop="@mipmap/ic_launcher"
+            android:id="@+id/icon_button"
             style="?android:attr/borderlessButtonStyle" />
 
     </fragment>
