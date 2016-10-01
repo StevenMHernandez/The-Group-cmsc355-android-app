@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -32,7 +31,6 @@ import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import thegroup.snakego.Observers.EntitySpawnerObserver;
@@ -50,61 +48,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int REQUEST_FINE_LOCATION = 0;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    //private Location mLastLocation;
-    //protected TextView mLatitudeText;
-    //protected TextView mLongitudeText;
-    private TextView mCameraTextView;
-    //private FusedLocationProviderApi mFusedLoc = LocationServices.FusedLocationApi;
     protected LocationManager mLocationManager;
-    private double snakeLats;
-    private double snakeLongs;
-    private LatLng snakeLoc;
-    private Marker snakeSpot;
-    private Button iconButton;
-    //private float mMinZoom;
+    private Button optionsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_maps);
 
-        iconButton = (Button) findViewById(R.id.icon_button);
-        iconButton.setOnClickListener(new View.OnClickListener(){
+        optionsButton = (Button) findViewById(R.id.icon_button);
+        optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                pressIconButton();
+                onOptionsButtonPressed();
             }
         });
 
-
-
-
-        if (mGoogleApiClient == null) {
+        if (this.mGoogleApiClient == null) {
             // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
             // See https://g.co/AppIndexing/AndroidStudio for more information.
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
+            this.mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .enableAutoManage(this, this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .addApi(AppIndex.API).build();
 
-            mGoogleApiClient.connect();
+            this.mGoogleApiClient.connect();
         }
 
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10 * 1000); //every 10 second
-        mLocationRequest.setFastestInterval(3 * 1000); //checks other apps to see if we can get better location
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //burn the battery
-        mLocationRequest.setSmallestDisplacement(0.1F); //1/10 meter
-        /*mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds*/
-
-
-
+        this.mLocationRequest = new LocationRequest()
+                .setInterval(10 * 1000) //every 10 second
+                .setFastestInterval(3 * 1000) //checks other apps to see if we can get better location
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY) //burn the battery
+                .setSmallestDisplacement(0.1F); //1/10 meter
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -112,133 +90,81 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    public void pressIconButton() {
+    public void onOptionsButtonPressed() {
         Intent intent = new Intent(this, OptionsActivity.class);
         startActivity(intent);
     }
 
-
-
-    /*private void stopAutoManage() {
-        if (mGoogleApiClient != null)
-            mGoogleApiClient.stopAutoManage();
-    }*/
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap map) {
-        // TODO: need error checking
-
         this.mMap = map;
 
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
+            this.mMap.setMyLocationEnabled(true);
         } else {
-            // We check for correct API version usage
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Getting permission if not already granted!
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
-            }
+            this.requestLocationPermission();
         }
 
-        map.setOnMapLoadedCallback(this);
+        float maxZoom = mMap.getMaxZoomLevel();
+        this.mMap.setMaxZoomPreference(maxZoom);
+        this.mMap.setMinZoomPreference(maxZoom);
+
+        this.mMap.setOnMapLoadedCallback(this);
+    }
+
+    protected void requestLocationPermission() {
+        // check for correct API version usage
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
+        }
     }
 
     @Override
     public void onMapLoaded() {
         EntitySpawner spawner = new EntitySpawner(this.mMap.getProjection().getVisibleRegion().latLngBounds);
         new EntitySpawnerObserver(spawner, this.mMap);
-
-
     }
-
 
     @Override
     public void onCameraIdle() {
-        mCameraTextView.setText(mMap.getCameraPosition().toString());
+
     }
 
-
-    //Apart of the GoogleApiClient
+    // part of the GoogleApiClient
     @Override
     public void onConnected(Bundle connectionHint) {
-        locationUpdateRequest();
+        this.locationUpdateRequest();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                    //mGoogleApiClient);
-            /*if (mLastLocation != null) {
-                //place marker at current position
-                mMap.clear();
-                snakeLoc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(snakeLoc);
-                markerOptions.title("Snake GO");
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                snakeSpot = mMap.addMarker(markerOptions);
-            }*/
+            mLocationRequest = new LocationRequest()
+                    .setInterval(10 * 1000) //every 10 second
+                    .setFastestInterval(1000) //checks other apps to see if we can get better location
+                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY) //burn the battery
+                    .setSmallestDisplacement(0.1F); //1/10 meter
 
-            mLocationRequest = new LocationRequest();
-            mLocationRequest.setInterval(10000); //5 seconds
-            mLocationRequest.setFastestInterval(3000); //3 seconds
-            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            mLocationRequest.setSmallestDisplacement(0.1F); //1/10 meter
-
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(this.mGoogleApiClient, mLocationRequest, this);
+        } else {
+            this.requestLocationPermission();
         }
-        else{
-            // We check for correct API version usage
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Getting permission if not already granted!
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
-            }
-        }
-
-        /*try {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                    mGoogleApiClient);
-            if (mLastLocation != null) {
-                mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-                mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-            }
-        }
-        catch(SecurityException e)
-        {
-            e.printStackTrace();
-        }*/
     }
 
     private void locationUpdateRequest() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        } else{
-            // We check for correct API version usage
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Getting permission if not already granted!
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
-            }
+            LocationServices.FusedLocationApi.requestLocationUpdates(this.mGoogleApiClient, mLocationRequest, this);
+        } else {
+            this.requestLocationPermission();
         }
-
-
     }
 
-    //Apart of the GoogleApiClient
+    // part of the GoogleApiClient
     @Override
     public void onConnectionSuspended(int i) {
 
     }
 
-    //Apart of the GoogleApiClient
+    // part of the GoogleApiClient
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         /*
          * Google Play services can resolve some errors it detects.
          * If the error has a resolution, try sending an Intent to
@@ -249,71 +175,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             try {
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-                /*
-                 * Thrown if Google Play services canceled the original
-                 * PendingIntent
-                 */
             } catch (IntentSender.SendIntentException e) {
-                // Log the error
+                // Google Play services canceled the original PendingIntent
                 e.printStackTrace();
             }
         } else {
-            /*
-             * If no resolution is available, display a dialog to the
-             * user with the error.
-             */
             String error = "Location services connection failed with code " + connectionResult.getErrorCode();
 
             Toast.makeText(this, error, Toast.LENGTH_LONG).show();
         }
     }
 
-
-    //our location listener
+    // location listener
     @Override
     public void onLocationChanged(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        float maxZ = mMap.getMaxZoomLevel();
-        //here we can draw our snake, right now it just throwing down markers
-        snakeLats = location.getLatitude();
-        snakeLongs = location.getLongitude();
-
-        LatLng latLng = new LatLng(snakeLats, snakeLongs);
-
-        mMap.addMarker(new MarkerOptions().position(new LatLng(snakeLats, snakeLongs)).title("Snake was here"));
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.setMaxZoomPreference(maxZ);
-        mMap.setMinZoomPreference(maxZ);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        this.mGoogleApiClient.connect();
         mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.start(mGoogleApiClient, getIndexApiAction());
+        AppIndex.AppIndexApi.start(this.mGoogleApiClient, getIndexApiAction());
     }
 
     @Override
     protected void onStop() {
+        super.onStop();
 
-        //endLocationUpdates();
-        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
-// See https://g.co/AppIndexing/AndroidStudio for more information.
-        mGoogleApiClient.disconnect();
-        AppIndex.AppIndexApi.end(mGoogleApiClient, getIndexApiAction());
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        this.mGoogleApiClient.disconnect();
+        AppIndex.AppIndexApi.end(this.mGoogleApiClient, getIndexApiAction());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //if map is lost we need to handle it here
-        //mGoogleApiClient.connect();
-        if (mGoogleApiClient.isConnected()) {
+
+        // if map is lost we need to handle it here
+        // mGoogleApiClient.connect();
+        if (this.mGoogleApiClient.isConnected()) {
             locationUpdateRequest();
         }
     }
@@ -322,8 +231,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onPause() {
         super.onPause();
 
-        if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        if (this.mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(this.mGoogleApiClient, this);
             //mGoogleApiClient.disconnect();
         }
     }
@@ -344,64 +253,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .build();
     }
 
-
-/*
-    @Override
-    public PendingResult flushLocations(GoogleApiClient client)
-    {
-
-    }
-
-    @Override
-    public Location getLastLocation(GoogleApiClient client)
-    {
-
-    }
-
-    @Override
-    public PendingResult setMockLocation(GoogleApiClient client, Location mockLocation)
-    {
-
-    }
-
-    @Override
-    public PendingResult setMockMode(GoogleApiClient client, boolean isMockMode)
-    {
-
-    }
-
-*/
-    /*
-private void loadPermissions(String perm,int requestCode) {
-    if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, perm)) {
-            ActivityCompat.requestPermissions(this, new String[]{perm},requestCode);
-        }
-    }
-}*/
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         switch (requestCode) {
             case REQUEST_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Granted
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         mMap.setMyLocationEnabled(true);
                     }
-
-                }
-                else{
-                    // Not granted
+                } else {
                     Toast.makeText(getApplicationContext(), "No permission, no play", Toast.LENGTH_LONG).show();
                     finish();
                 }
                 break;
             }
-
         }
-
     }
 }
