@@ -31,7 +31,6 @@ import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import thegroup.snakego.Observers.EntitySpawnerObserver;
 import thegroup.snakego.Services.EntitySpawner;
@@ -56,6 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_maps);
+
+
 
         optionsButton = (Button) findViewById(R.id.icon_button);
         optionsButton.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setInterval(10 * 1000) //every 10 second
                 .setFastestInterval(3 * 1000) //checks other apps to see if we can get better location
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY) //burn the battery
-                .setSmallestDisplacement(0.1F); //1/10 meter
+                .setSmallestDisplacement(0.5F); //1/2 meter
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -140,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .setInterval(10 * 1000) //every 10 second
                     .setFastestInterval(1000) //checks other apps to see if we can get better location
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY) //burn the battery
-                    .setSmallestDisplacement(0.1F); //1/10 meter
+                    .setSmallestDisplacement(0.5F); // meter
 
             LocationServices.FusedLocationApi.requestLocationUpdates(this.mGoogleApiClient, mLocationRequest, this);
         } else {
@@ -191,7 +192,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        mMap.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
+
+//        mMap.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 

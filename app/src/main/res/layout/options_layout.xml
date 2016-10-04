@@ -14,28 +14,15 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/options_page_text"
         android:textSize="30sp"
-        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+        android:textColor="@android:color/holo_blue_light"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="150dp"/>
-
-    <TextView
-        android:text="Current Score: 0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:id="@+id/your_score_text"
-        android:layout_below="@+id/options_page_text"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="18dp"
-        android:layout_marginRight="16dp"/>
 
     <TextView
         android:text="Resume Game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="30sp"
         android:id="@+id/resume_game_text"
         android:layout_below="@+id/your_score_text"
@@ -57,7 +44,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"/>
+        android:textColor="@android:color/holo_blue_light"/>
 
     <TextView
         android:text="Quit Game"
@@ -65,12 +52,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/high_scores_text"
         android:textSize="30sp"
-        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+        android:textColor="@android:color/holo_blue_light"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:id="@+id/quit_game_text"/>
+
+    <TextView
+        android:text="Current Score: 0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:id="@+id/your_score_text"
+        android:layout_below="@+id/options_page_text"
+        android:layout_alignLeft="@+id/resume_game_text"
+        android:layout_alignStart="@+id/resume_game_text" />
 
 </RelativeLayout>
