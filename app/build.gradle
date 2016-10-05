@@ -10,6 +10,8 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true // needed because maps is freaking huge!
     }
     buildTypes {
         release {
@@ -22,6 +24,18 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.google.android.gms:play-services:9.4.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.google.android.gms:play-services-maps:9.6.1'
+    compile 'com.google.android.gms:play-services-location:9.6.1'
+    compile 'com.google.android.gms:play-services-appindexing:9.6.1'
+    //compile 'com.google.android.gms:play-services:9.6.1'
+
+    compile 'com.android.support:multidex:1.0.1'
+    androidTestCompile 'com.android.support:support-annotations:24.2.1' // was getting a weird error so I added this
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+//    may need to include {exclude group:  'javax.inject'}
+    //androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    //androidTestCompile 'com.android.support.test:rules:0.5'
+    //androidTestCompile 'com.android.support.test:runner:0.5'
 }
