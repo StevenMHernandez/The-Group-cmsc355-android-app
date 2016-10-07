@@ -43,6 +43,10 @@ public class User {
         }
     }
 
+    public int getScore() {
+        return score;
+    }
+
     protected int getMaxSnakeLength() {
         return (score / 10) + 10;
     }

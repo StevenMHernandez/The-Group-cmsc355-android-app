@@ -56,7 +56,7 @@ public class EntitySpawner implements Listenable {
     public void spawnEntity() {
         try {
             if (this.currentEntities.size() >= MAX_ENTITIES) {
-                this.currentEntities.remove(0);
+                this.currentEntities.remove(0); // Shouldn't we be removing from last position in array? Prevent overly large array
             }
             int index = new Random().nextInt(this.entityTypes.length);
 
@@ -70,7 +70,7 @@ public class EntitySpawner implements Listenable {
         }
     }
 
-    public void checkCollisions(LatLng latlng) {
+    protected void checkCollisions(LatLng latlng) {
         for (BaseEntity entity : this.currentEntities) {
             if (DistanceCalculator.distance(latlng, entity.getLatlng()) < COLLISION_DISTANCE) {
                 entity.onCollision();
@@ -79,7 +79,7 @@ public class EntitySpawner implements Listenable {
         }
     }
 
-    protected Runnable spawnEntitiesRunnable = new Runnable() {
+    public Runnable spawnEntitiesRunnable = new Runnable() {
         @Override
         public void run() {
             spawnEntity();
