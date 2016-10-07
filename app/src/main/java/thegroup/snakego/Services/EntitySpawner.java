@@ -38,8 +38,15 @@ public class EntitySpawner implements Listenable {
     protected List<PropertyChangeListener> listeners = new ArrayList<>();
 
     public EntitySpawner(LatLngBounds currentMapBounds) {
+        this(currentMapBounds, true);
+    }
+
+    public EntitySpawner(LatLngBounds currentMapBounds, boolean automaticSpawning) {
         this.currentMapBounds = currentMapBounds;
-        this.handler.postDelayed(this.spawnEntitiesRunnable, SPAWN_FREQUENCY / spawnRate);
+
+        if (automaticSpawning) {
+            this.handler.postDelayed(this.spawnEntitiesRunnable, SPAWN_FREQUENCY / spawnRate);
+        }
     }
 
     protected LatLng getRandomLocation() {
@@ -53,10 +60,10 @@ public class EntitySpawner implements Listenable {
         return (Math.random() * (max - min)) + min;
     }
 
-    public void spawnEntity() {
+    public BaseEntity spawnEntity() {
         try {
             if (this.currentEntities.size() >= MAX_ENTITIES) {
-                this.currentEntities.remove(0); // Shouldn't we be removing from last position in array? Prevent overly large array
+                this.currentEntities.remove(0);
             }
             int index = new Random().nextInt(this.entityTypes.length);
 
@@ -65,12 +72,16 @@ public class EntitySpawner implements Listenable {
             this.currentEntities.add(entity);
 
             this.notifyListeners(this, "Entities", this.currentEntities, this.currentEntities);
+
+            return entity;
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 
-    protected void checkCollisions(LatLng latlng) {
+    public void checkCollisions(LatLng latlng) {
         for (BaseEntity entity : this.currentEntities) {
             if (DistanceCalculator.distance(latlng, entity.getLatlng()) < COLLISION_DISTANCE) {
                 entity.onCollision();
@@ -79,7 +90,21 @@ public class EntitySpawner implements Listenable {
         }
     }
 
-    public Runnable spawnEntitiesRunnable = new Runnable() {
+    public ArrayList<BaseEntity> getCurrentEntities() {
+        return currentEntities;
+    }
+
+    public void updateLocation(LatLngBounds newMapBounds) {
+        this.currentMapBounds = newMapBounds;
+
+        for (BaseEntity entity : this.currentEntities) {
+            if (!this.currentMapBounds.contains(entity.getLatlng())) {
+                this.currentEntities.remove(entity);
+            }
+        }
+    }
+
+    protected Runnable spawnEntitiesRunnable = new Runnable() {
         @Override
         public void run() {
             spawnEntity();
