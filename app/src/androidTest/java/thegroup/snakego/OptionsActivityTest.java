@@ -21,8 +21,5 @@ public class OptionsActivityTest {
     @Test public void optionsResumeIsClickable() {
         onView(withId(R.id.resume_game_text))
                 .check(matches(withText("Resume Game")));
-
     }
-
-
 }
