@@ -16,18 +16,15 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 
 
 @RunWith(AndroidJUnit4.class)
-public class OptionsActivityTest {
+public class MapsActivityTest {
 
-    @Rule public ActivityTestRule<OptionsActivity> mOptionsActivity = new ActivityTestRule<>(OptionsActivity.class);
+    @Rule public ActivityTestRule<MapsActivity> mMapsActivity = new ActivityTestRule<>(MapsActivity.class);
 
-    @Test public void optionsResumeIsClickable() {
-        onView(withId(R.id.resume_game_text))
-                .check(matches(withText("Resume Game")));
-    }
-
-    @Test public void optionsResumeToGamePage() {
-        onView(withId(R.id.resume_game_text)).perform(click());
-        onView(withId(R.id.icon_button)).check(matches(notNullValue() ));
+    @Test public void SnakeGoIconClickOpensOptionsPage() {
+        //
+        String optionsActivityText = "Options";
+        onView(withId(R.id.icon_button)).perform(click());
+        onView(withText(optionsActivityText)).check(matches(notNullValue()));
 
     }
 
