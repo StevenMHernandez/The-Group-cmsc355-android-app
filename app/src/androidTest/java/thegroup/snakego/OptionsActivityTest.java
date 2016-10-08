@@ -8,9 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -22,4 +24,29 @@ public class OptionsActivityTest {
         onView(withId(R.id.resume_game_text))
                 .check(matches(withText("Resume Game")));
     }
+
+    @Test public void optionsPageClickResumeGame() {
+        // given user is on optionsActivity page
+
+        // when user clicks "resume gaem"
+        onView(withId(R.id.resume_game_text)).perform(click());
+
+        // then user is taken back to game
+        onView(withId(R.id.icon_button)).check(matches(notNullValue() ));
+    }
+
+    @Test public void onOptionsPageClickHighScores() {
+        // given user is on optionsActivity page
+
+        // when user clicks "High Scores"
+        onView(withId(R.id.high_scores_text)).perform(click());
+
+        // then user is taken to page with High Scores
+        onView(withId(R.id.high_scores_page)).check(matches(notNullValue() ));
+    }
+
+
+
+
+
 }

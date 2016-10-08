@@ -23,7 +23,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.+' // this was 4.12 changed for Mockito may need to change back
+    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.google.android.gms:play-services-maps:9.6.1'
     compile 'com.google.android.gms:play-services-location:9.6.1'
@@ -34,12 +34,8 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:24.2.1' // was getting a weird error so I added this
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
 //    may need to include {exclude group:  'javax.inject'}
-//    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    //androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     //androidTestCompile 'com.android.support.test:rules:0.5'
     //androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-   // androidTestCompile 'org.powermock:powermock-api-mockito:1.5.5'
-   // androidTestCompile 'org.powermock:powermock-module-junit4:1.6.4'
 }
