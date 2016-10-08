@@ -25,7 +25,13 @@ public class MapsActivityTest {
         String optionsActivityText = "Options";
         onView(withId(R.id.icon_button)).perform(click());
         onView(withText(optionsActivityText)).check(matches(notNullValue()));
-
     }
 
+    @Test public void mapFragmentIsOnPage() {
+        onView(withId(R.id.map)).check(matches(notNullValue() ));
+    }
+
+    @Test public void iconButtonIsOnPage() {
+        onView(withId(R.id.icon_button)).check(matches(notNullValue() ));
+    }
 }
