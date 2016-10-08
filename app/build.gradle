@@ -29,7 +29,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:9.6.1'
     compile 'com.google.android.gms:play-services-appindexing:9.6.1'
     //compile 'com.google.android.gms:play-services:9.6.1'
-
+    testCompile "org.mockito:mockito-core:1.+"
     compile 'com.android.support:multidex:1.0.1'
     androidTestCompile 'com.android.support:support-annotations:24.2.1' // was getting a weird error so I added this
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
