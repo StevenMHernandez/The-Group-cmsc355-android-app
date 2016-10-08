@@ -47,8 +47,9 @@ public class User {
         return score;
     }
 
-    protected int getMaxSnakeLength() {
-        return (score / 10) + 10;
+//    protected int getMaxSnakeLength() {
+//        return (score / 10) + 10;
+//    }
     public LinkedList<LatLng> getSnake() {
         return snake;
     }
