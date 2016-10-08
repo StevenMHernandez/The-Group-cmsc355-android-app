@@ -20,18 +20,37 @@ public class MapsActivityTest {
 
     @Rule public ActivityTestRule<MapsActivity> mMapsActivity = new ActivityTestRule<>(MapsActivity.class);
 
-    @Test public void SnakeGoIconClickOpensOptionsPage() {
-        //
+    @Test public void onClickSnakeGoIcon1() {
+        // given user is playing game
         String optionsActivityText = "Options";
+
+        // when user clicks on the snageGo icon button
         onView(withId(R.id.icon_button)).perform(click());
+
+        // then the user lands on the options page
         onView(withText(optionsActivityText)).check(matches(notNullValue()));
     }
 
-    @Test public void mapFragmentIsOnPage() {
-        onView(withId(R.id.map)).check(matches(notNullValue() ));
+    @Test public void onClickSnageGoIcon2() {
+        // given user is playing game
+        String optionsActivityText = "High Scores";
+
+        // when user clicks on the snageGo icon button
+        onView(withId(R.id.icon_button)).perform(click());
+
+        // then the user lands on the options page
+        onView(withText(optionsActivityText)).check(matches(notNullValue()));
     }
 
-    @Test public void iconButtonIsOnPage() {
-        onView(withId(R.id.icon_button)).check(matches(notNullValue() ));
+    @Test public void onClickSnageGoIcon3() {
+        // given user is playing game
+        String optionsActivityText = "Quit Game";
+
+        // when user clicks on the snageGo icon button
+        onView(withId(R.id.icon_button)).perform(click());
+
+        // then the user lands on the options page
+        onView(withText(optionsActivityText)).check(matches(notNullValue()));
     }
+
 }

@@ -25,24 +25,28 @@ public class OptionsActivityTest {
                 .check(matches(withText("Resume Game")));
     }
 
-    @Test public void optionsResumeToGamePage() {
+    @Test public void optionsPageClickResumeGame() {
+        // given user is on optionsActivity page
+
+        // when user clicks "resume gaem"
         onView(withId(R.id.resume_game_text)).perform(click());
+
+        // then user is taken back to game
         onView(withId(R.id.icon_button)).check(matches(notNullValue() ));
     }
 
-    @Test public void optionsTitleReadsRight() {
-        onView(withId(R.id.options_page_text))
-                .check(matches(withText("Options")));
+    @Test public void onOptionsPageClickHighScores() {
+        // given user is on optionsActivity page
+
+        // when user clicks "High Scores"
+        onView(withId(R.id.high_scores_text)).perform(click());
+
+        // then user is taken to page with High Scores
+        onView(withId(R.id.high_scores_page)).check(matches(notNullValue() ));
     }
 
-    @Test public void optionsQuitGameReadsRight() {
-        onView(withId(R.id.quit_game_text))
-                .check(matches(withText("Quit Game")));
-    }
 
-    @Test public void optionsHighScoreReadsRight() {
-        onView(withId(R.id.high_scores_text))
-                .check(matches(withText("High Scores")));
-    }
+
+
 
 }
