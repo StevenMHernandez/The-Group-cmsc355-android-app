@@ -1,13 +1,16 @@
 package thegroup.snakego.Models;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.LinkedList;
 
 public class User {
     private static User instance;
 
-    protected LinkedList<LatLng> snake = new LinkedList<>();
+    private LinkedList<LatLng> snake = new LinkedList<>();
+
 
     public synchronized static User get() {
         if (instance == null) {
@@ -16,9 +19,9 @@ public class User {
         return instance;
     }
 
-    protected int score = 0;
+    private int score = 0;
 
-    protected int highScore = 0;
+    private int highScore = 0;
 
     public int addPoints(int points) {
         this.score += points;
@@ -43,7 +46,12 @@ public class User {
         }
     }
 
-    protected int getMaxSnakeLength() {
-        return (score / 10) + 10;
+    public LinkedList<LatLng> getSnake() {
+        return snake;
+    }
+
+
+    private int getMaxSnakeLength() {
+        return (score / 10) + 11;
     }
 }

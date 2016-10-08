@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,7 +32,12 @@ import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.LinkedList;
+
+import thegroup.snakego.Models.User;
 import thegroup.snakego.Observers.EntitySpawnerObserver;
 import thegroup.snakego.Services.EntitySpawner;
 
@@ -49,6 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest mLocationRequest;
     protected LocationManager mLocationManager;
     private Button optionsButton;
+    private Polyline polyline;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,10 +200,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
+        //My addition to code here ZK
+        User.get().onLocationUpdated(latLng);
+        drawSnake();
 
-//        mMap.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
+//      mMap.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
+
+    public void drawSnake() {
+        LinkedList<LatLng> snake = User.get().getSnake();
+        PolylineOptions polySnake = new PolylineOptions();
+        for(LatLng l: snake) {
+            polySnake.add(l);
+        }
+        if(polyline!=null) {
+            polyline.remove();
+        }
+        polyline = mMap.addPolyline(polySnake);
+    }
+
 
     @Override
     protected void onStart() {
