@@ -28,7 +28,21 @@ public class OptionsActivityTest {
     @Test public void optionsResumeToGamePage() {
         onView(withId(R.id.resume_game_text)).perform(click());
         onView(withId(R.id.icon_button)).check(matches(notNullValue() ));
+    }
 
+    @Test public void optionsTitleReadsRight() {
+        onView(withId(R.id.options_page_text))
+                .check(matches(withText("Options")));
+    }
+
+    @Test public void optionsQuitGameReadsRight() {
+        onView(withId(R.id.quit_game_text))
+                .check(matches(withText("Quit Game")));
+    }
+
+    @Test public void optionsHighScoreReadsRight() {
+        onView(withId(R.id.high_scores_text))
+                .check(matches(withText("High Scores")));
     }
 
 }
