@@ -53,4 +53,11 @@ public class MapsActivityTest {
         onView(withText(optionsActivityText)).check(matches(notNullValue()));
     }
 
+    @Test public void onStartUpMapAppears() {
+        // given user clicks on SnageGo app, the MapsActivity begins
+
+        // then the user lands on the options page and sees "Quit Game" text
+        onView(withId(R.id.map)).check(matches(notNullValue()));
+    }
+
 }
