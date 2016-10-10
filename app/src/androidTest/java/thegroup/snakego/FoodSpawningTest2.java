@@ -1,26 +1,17 @@
 package thegroup.snakego;
 
-import android.graphics.Color;
-import android.os.Looper;
-
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import thegroup.snakego.Entities.BaseEntity;
 import thegroup.snakego.Services.EntitySpawner;
-
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 

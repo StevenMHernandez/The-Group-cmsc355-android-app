@@ -2,7 +2,6 @@ package thegroup.snakego;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -12,8 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -100,8 +99,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void onOptionsButtonPressed() {
-        Intent intent = new Intent(this, OptionsActivity.class);
-        startActivity(intent);
+        snakeOptions();  // comment this and uncomment bottom to switch back to activity view
+
+//        Intent intent = new Intent(this, OptionsActivity.class);
+//        startActivity(intent);
     }
 
     @Override
@@ -115,8 +116,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         float maxZoom = mMap.getMaxZoomLevel();
-        this.mMap.setMaxZoomPreference(maxZoom);
-        this.mMap.setMinZoomPreference(maxZoom);
+        this.mMap.setMaxZoomPreference(maxZoom-1);
+        this.mMap.setMinZoomPreference(maxZoom-1);
 
         this.mMap.setOnMapLoadedCallback(this);
     }
@@ -298,4 +299,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+
+    public void snakeOptions() {
+        DialogFragment newFragment = new OptionsDialogFragment();
+        newFragment.show(getSupportFragmentManager(), "snakeOps");
+    }
+
 }

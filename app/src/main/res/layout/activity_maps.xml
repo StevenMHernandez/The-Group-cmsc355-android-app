@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
              android:layout_height="match_parent"
     android:id="@+id/home_page">
+
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="20dp"
+
+        android:clickable="true"
+        android:drawableTop="@mipmap/ic_launcher"
+        android:id="@+id/icon_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:elevation="1dp"
+
+        android:background="@drawable/btn_back" />
 
     <fragment
         android:id="@+id/map"
@@ -13,15 +28,6 @@
               android:layout_height="fill_parent"
               tools:context="thegroup.snakego.MapsActivity">
 
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|top"
-            android:layout_marginTop="5dp"
-            android:drawableTop="@mipmap/ic_launcher"
-            android:id="@+id/icon_button"
-            style="?android:attr/borderlessButtonStyle" />
 
     </fragment>
 

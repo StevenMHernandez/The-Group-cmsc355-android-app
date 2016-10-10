@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">SNAKE GO</string>
     <string name="title_activity_maps">SNAKE GO</string>
+    <string name="dia_title">Menu</string>
+    <string name="dia_score">Score: </string>
+    <string name="dia_ok">Resume</string>
+    <string name="dia_cncl">Cancel</string>
 </resources>

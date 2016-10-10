@@ -35,13 +35,14 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     public void pressResumeGameButton() {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+        finish(); // if we pass intents around our map gets lost
+
     }
 
     public void clickHighScoresText() {
         Intent intent = new Intent(this, HighScoresActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

@@ -26,7 +26,8 @@ public class HighScoresActivity extends AppCompatActivity {
     }
 
     public void pressReturnToOptionsButton() {
-        Intent intent = new Intent(this, OptionsActivity.class);
+        Intent intent = new Intent(HighScoresActivity.this, OptionsActivity.class);
         startActivity(intent);
+        finish(); // clearing the back-stack
     }
 }

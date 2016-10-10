@@ -37,6 +37,8 @@ public class EntitySpawner implements Listenable {
 
     protected List<PropertyChangeListener> listeners = new ArrayList<>();
 
+    public EntitySpawner(){}
+
     public EntitySpawner(LatLngBounds currentMapBounds) {
         this(currentMapBounds, true);
     }

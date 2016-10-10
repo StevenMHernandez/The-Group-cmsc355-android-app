@@ -44,8 +44,12 @@ public class User {
     }
 
     public int getScore() {
-        return score;
+        return this.score;
     }
+    public int getHighScore(){
+        return this.highScore;
+    }
+
 
 //    protected int getMaxSnakeLength() {
 //        return (score / 10) + 10;
@@ -56,6 +60,6 @@ public class User {
 
 
     private int getMaxSnakeLength() {
-        return (score / 10) + 11;
+        return (score / 10) + 2;
     }
 }
