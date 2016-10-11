@@ -15,6 +15,7 @@ import thegroup.snakego.Entities.BaseEntity;
 import thegroup.snakego.Entities.GreenApple;
 import thegroup.snakego.Entities.RedApple;
 import thegroup.snakego.Interfaces.Listenable;
+import thegroup.snakego.Models.User;
 import thegroup.snakego.Utils.DistanceCalculator;
 
 public class EntitySpawner implements Listenable {
@@ -69,7 +70,7 @@ public class EntitySpawner implements Listenable {
 
             BaseEntity entity = (BaseEntity) this.entityTypes[index].getConstructor(LatLng.class).newInstance(this.getRandomLocation());
 
-            this.currentEntities.add(entity);
+            this.addEntity(entity);
 
             this.notifyListeners(this, "Entities", this.currentEntities, this.currentEntities);
 
@@ -81,7 +82,15 @@ public class EntitySpawner implements Listenable {
         return null;
     }
 
-    public void checkCollisions(LatLng latlng) {
+    public void addEntity(BaseEntity entity) {
+        this.currentEntities.add(entity);
+
+        this.checkCollisions();
+    }
+
+    public void checkCollisions() {
+        LatLng latlng = User.get().getLatLng();
+
         for (BaseEntity entity : this.currentEntities) {
             if (DistanceCalculator.distance(latlng, entity.getLatlng()) < COLLISION_DISTANCE) {
                 entity.onCollision();
@@ -102,6 +111,8 @@ public class EntitySpawner implements Listenable {
                 this.currentEntities.remove(entity);
             }
         }
+
+        this.checkCollisions();
     }
 
     protected Runnable spawnEntitiesRunnable = new Runnable() {

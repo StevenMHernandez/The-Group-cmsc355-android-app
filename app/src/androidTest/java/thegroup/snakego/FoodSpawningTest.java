@@ -10,10 +10,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import thegroup.snakego.Entities.BaseEntity;
+import thegroup.snakego.Entities.GreenApple;
+import thegroup.snakego.Entities.RedApple;
+import thegroup.snakego.Models.User;
+import thegroup.snakego.Services.EntitySpawner;
+
 import org.junit.Assert;
 
-import thegroup.snakego.Entities.BaseEntity;
-import thegroup.snakego.Services.EntitySpawner;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class FoodSpawningTest {
@@ -56,5 +63,64 @@ public class FoodSpawningTest {
 
         // assert that our entity no longer exists
         Assert.assertTrue(!spawner.getCurrentEntities().contains(entity));
+    }
+
+    @Test public void entitiesChangeMyScore() {
+        // build our map latitude-longitude bounds
+        LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
+        // build our random food entity spawner
+        EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
+
+        LatLng userLocation = new LatLng(1,1);
+
+        // set our user to some location
+        User.get().setLatLng(userLocation);
+
+        int initialScore = User.get().getScore();
+
+        // spawn good entity
+        spawner.addEntity(new RedApple(userLocation));
+        spawner.checkCollisions();
+
+        int secondScore = User.get().getScore();
+
+        assertThat("Initial score should be less than our score after reaching a red apple.",
+                initialScore,
+                lessThan(secondScore));
+
+        // spawn bad entity
+        spawner.addEntity(new GreenApple(userLocation));
+        spawner.checkCollisions();
+
+        int thirdScore = User.get().getScore();
+
+        assertThat("Green apple collision should caused our score to go down.",
+                secondScore,
+                greaterThan(thirdScore));
+    }
+
+    @Test public void redApplesGrowMySnake() {
+        // build our map latitude-longitude bounds
+        LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
+        // build our random food entity spawner
+        EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
+
+        LatLng userLocation = new LatLng(1,1);
+
+        // set our user to some location
+        User.get().setLatLng(userLocation);
+
+        int initialSnakeLength = User.get().getMaxSnakeLength();
+
+        // spawn some good entity
+        spawner.addEntity(new RedApple(userLocation));
+
+        spawner.checkCollisions();
+
+        int secondSnakeLength = User.get().getMaxSnakeLength();
+
+        assertThat("Snake length should grow after eating enough red apples",
+                initialSnakeLength,
+                lessThan(secondSnakeLength));
     }
 }
