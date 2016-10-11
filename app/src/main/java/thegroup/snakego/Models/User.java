@@ -20,6 +20,8 @@ public class User {
 
     protected int highScore = 0;
 
+    protected LatLng latLng;
+
     public int addPoints(int points) {
         this.score += points;
 
@@ -32,15 +34,22 @@ public class User {
 
     public int removePoints(int points) {
         this.score -= points;
+
+        if (this.score < 0) {
+            this.score = 0;
+        }
+
+        this.updateSnakeLength();
+
         return this.score;
     }
 
     public void onLocationUpdated(LatLng latLng) {
+        this.setLatLng(latLng);
+
         snake.add(latLng);
 
-        while (this.snake.size() > this.getMaxSnakeLength()) {
-            this.snake.removeFirst();
-        }
+        this.updateSnakeLength();
     }
 
     public int getScore() {
@@ -59,7 +68,21 @@ public class User {
     }
 
 
-    private int getMaxSnakeLength() {
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
+
+    public int getMaxSnakeLength() {
         return (score / 10) + 2;
+    }
+
+    public void updateSnakeLength() {
+        while (this.snake.size() > this.getMaxSnakeLength()) {
+            this.snake.removeFirst();
+        }
     }
 }
