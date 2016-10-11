@@ -17,16 +17,14 @@ public class OptionsActivity extends AppCompatActivity {
         setContentView(R.layout.options_layout);
 
         this.resumeGameText = (TextView) findViewById(R.id.resume_game_text);
-        this.resumeGameText.setOnClickListener(new View.OnClickListener()
-        {
+        this.resumeGameText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pressResumeGameButton();
             }
         });
         this.highScoreText = (TextView) findViewById(R.id.high_scores_text);
-        this.highScoreText.setOnClickListener(new View.OnClickListener()
-        {
+        this.highScoreText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickHighScoresText();

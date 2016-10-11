@@ -27,7 +27,7 @@ public class EntitySpawnerObserver implements PropertyChangeListener {
     }
 
     public void addNewMarkers(ArrayList<BaseEntity> entities) {
-        for(BaseEntity entity: entities) {
+        for (BaseEntity entity : entities) {
             if (!this.markers.containsKey(entity)) {
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(entity.getLatlng())
@@ -43,7 +43,7 @@ public class EntitySpawnerObserver implements PropertyChangeListener {
     public void removeOldMarkers(ArrayList<BaseEntity> entities) {
         ArrayList<BaseEntity> markersToRemove = new ArrayList<>();
 
-        for(Map.Entry<BaseEntity, Marker> entry : this.markers.entrySet()) {
+        for (Map.Entry<BaseEntity, Marker> entry : this.markers.entrySet()) {
             BaseEntity entity = entry.getKey();
             Marker marker = entry.getValue();
 
@@ -53,7 +53,7 @@ public class EntitySpawnerObserver implements PropertyChangeListener {
             }
         }
 
-        for (BaseEntity entity: markersToRemove) {
+        for (BaseEntity entity : markersToRemove) {
             this.markers.remove(entity);
         }
     }

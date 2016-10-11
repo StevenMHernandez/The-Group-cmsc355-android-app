@@ -2,6 +2,7 @@ package thegroup.snakego;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -64,7 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
 
-
         optionsButton = (Button) findViewById(R.id.icon_button);
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,10 +99,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void onOptionsButtonPressed() {
-        snakeOptions();  // comment this and uncomment bottom to switch back to activity view
-
-//        Intent intent = new Intent(this, OptionsActivity.class);
-//        startActivity(intent);
+//        snakeOptions();  // comment this and uncomment bottom to switch back to activity view
+        Intent intent = new Intent(this, OptionsActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -116,8 +115,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         float maxZoom = mMap.getMaxZoomLevel();
-        this.mMap.setMaxZoomPreference(maxZoom-1);
-        this.mMap.setMinZoomPreference(maxZoom-1);
+        this.mMap.setMaxZoomPreference(maxZoom - 1);
+        this.mMap.setMinZoomPreference(maxZoom - 1);
 
         this.mMap.setOnMapLoadedCallback(this);
     }
@@ -175,12 +174,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // part of the GoogleApiClient
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        /*
-         * Google Play services can resolve some errors it detects.
-         * If the error has a resolution, try sending an Intent to
-         * start a Google Play services activity that can resolve
-         * error.
-         */
         if (connectionResult.hasResolution()) {
             try {
                 // Start an Activity that tries to resolve the error
@@ -212,10 +205,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void drawSnake() {
         LinkedList<LatLng> snake = User.get().getSnake();
         PolylineOptions polySnake = new PolylineOptions();
-        for(LatLng l: snake) {
+        for (LatLng l : snake) {
             polySnake.add(l);
         }
-        if(polyline!=null) {
+        if (polyline != null) {
             polyline.remove();
         }
         polyline = mMap.addPolyline(polySnake);

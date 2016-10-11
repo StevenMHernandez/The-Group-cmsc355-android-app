@@ -55,12 +55,13 @@ public class User {
     public int getScore() {
         return this.score;
     }
-    public int getHighScore(){
+
+    public int getHighScore() {
         return this.highScore;
     }
 
 
-//    protected int getMaxSnakeLength() {
+    //    protected int getMaxSnakeLength() {
 //        return (score / 10) + 10;
 //    }
     public LinkedList<LatLng> getSnake() {
