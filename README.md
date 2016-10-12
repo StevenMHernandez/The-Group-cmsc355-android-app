@@ -7,7 +7,7 @@ Snake has a drawn length. Implemented an option menu detailing score and option
 to view highscore.
 
 User Stories Completed:
-Display Menu, Random food items, Green apples, Red apples
+Display Menu, Random food items, Green apples, Red apples, End a Game.
 
 Troubles:
 User stories were initially based on the user being able to "see" the map, snake,
