@@ -60,10 +60,6 @@ public class User {
         return this.highScore;
     }
 
-
-    //    protected int getMaxSnakeLength() {
-//        return (score / 10) + 10;
-//    }
     public LinkedList<LatLng> getSnake() {
         return snake;
     }
@@ -78,7 +74,7 @@ public class User {
     }
 
     public int getMaxSnakeLength() {
-        return (score / 10) + 2;
+        return ((score / 10) + 1);
     }
 
     public void updateSnakeLength() {
