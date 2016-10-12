@@ -20,8 +20,8 @@ public class MapsActivityTest {
 
     @Rule public ActivityTestRule<MapsActivity> mMapsActivity = new ActivityTestRule<>(MapsActivity.class);
 
-    @Test public void onClickSnakeGoIcon1() {
-        // given user is playing game
+    @Test public void onClickSnakeGoIconToOptionsPage() {
+        // Display Menu user issue: Scenario 1: given user is playing game
         String optionsActivityText = "Resume Game";
 
         // when user clicks on the snakeGo icon button
@@ -31,8 +31,8 @@ public class MapsActivityTest {
         onView(withText(optionsActivityText)).check(matches(notNullValue()));
     }
 
-    @Test public void onClickSnakeGoIcon2() {
-        // given user is playing game
+    @Test public void onClickSnakeGoIconToOptionsPageHighScore() {
+        // Display Menu user issue: Scenario 3: given user is playing game
         String optionsActivityText = "High Scores";
 
         // when user clicks on the snakeGo icon button
@@ -42,7 +42,7 @@ public class MapsActivityTest {
         onView(withText(optionsActivityText)).check(matches(notNullValue()));
     }
 
-    @Test public void onClickSnakeGoIcon3() {
+    @Test public void onClickSnakeGoIconToOptionsQuitGame() {
         // given user is playing game
         String optionsActivityText = "Quit Game";
 
@@ -54,9 +54,9 @@ public class MapsActivityTest {
     }
 
     @Test public void onStartUpMapAppears() {
-        // given user clicks on SnageGo app, the MapsActivity begins
+        // Map Display user issue: Scenario 1: given user clicks on SnageGo app,
+        // the MapsActivity begins
 
-        // then the user lands on the options page and sees "Quit Game" text
         onView(withId(R.id.map)).check(matches(notNullValue()));
     }
 

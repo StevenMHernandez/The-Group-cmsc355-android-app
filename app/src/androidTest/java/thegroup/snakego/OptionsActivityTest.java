@@ -20,13 +20,8 @@ public class OptionsActivityTest {
 
     @Rule public ActivityTestRule<OptionsActivity> mOptionsActivity = new ActivityTestRule<>(OptionsActivity.class);
 
-    @Test public void optionsResumeIsClickable() {
-        onView(withId(R.id.resume_game_text))
-                .check(matches(withText("Resume Game")));
-    }
-
     @Test public void optionsPageClickResumeGame() {
-        // given user is on optionsActivity page
+        //  Display Menu user issue: Scenario 2: given user is on optionsActivity page
 
         // when user clicks "resume game"
         onView(withId(R.id.resume_game_text)).perform(click());
@@ -45,7 +40,11 @@ public class OptionsActivityTest {
         onView(withId(R.id.high_scores_page)).check(matches(notNullValue() ));
     }
 
+    @Test public void optionsResumeIsClickable() {
 
+        onView(withId(R.id.resume_game_text))
+                .check(matches(withText("Resume Game")));
+    }
 
 
 

@@ -43,7 +43,9 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     public void clickResumeGameButton() {
-        finish(); // if we pass intents around our map gets lost
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+        finish();
 
     }
 
