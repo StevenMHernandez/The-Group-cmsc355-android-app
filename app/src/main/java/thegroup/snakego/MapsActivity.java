@@ -63,7 +63,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_maps);
-
+        if (getIntent().getBooleanExtra("quitclick", false)) {
+            finish();
+            return;
+        }
 
         optionsButton = (Button) findViewById(R.id.icon_button);
         optionsButton.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setFastestInterval(3 * 1000) //checks other apps to see if we can get better location
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY) //burn the battery
                 .setSmallestDisplacement(0.5F); //1/2 meter
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -216,11 +220,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     @Override
-    protected void onStart() {
+    protected void onStart() {  // BUG: Map doesn't OnLoad ever again from this point so spawner never reinitialized
+        //TODO FIX SPAWNER BUG
         super.onStart();
         this.mGoogleApiClient.connect();
         mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.start(this.mGoogleApiClient, getIndexApiAction());

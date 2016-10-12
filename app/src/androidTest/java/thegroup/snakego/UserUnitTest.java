@@ -8,9 +8,7 @@ import thegroup.snakego.Models.User;
 
 import static org.junit.Assert.*;
 
-/**
- * To work on unit tests, switch the Test Artifact in the Build Variants view.
- */
+
 public class UserUnitTest {
     @Test
     public void testSingleton() throws Exception {

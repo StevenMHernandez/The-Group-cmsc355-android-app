@@ -28,7 +28,7 @@ public class OptionsActivityTest {
     @Test public void optionsPageClickResumeGame() {
         // given user is on optionsActivity page
 
-        // when user clicks "resume gaem"
+        // when user clicks "resume game"
         onView(withId(R.id.resume_game_text)).perform(click());
 
         // then user is taken back to game

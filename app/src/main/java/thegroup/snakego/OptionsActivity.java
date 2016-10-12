@@ -10,6 +10,7 @@ public class OptionsActivity extends AppCompatActivity {
 
     TextView resumeGameText;
     TextView highScoreText;
+    TextView quitGameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class OptionsActivity extends AppCompatActivity {
         this.resumeGameText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pressResumeGameButton();
+                clickResumeGameButton();
             }
         });
         this.highScoreText = (TextView) findViewById(R.id.high_scores_text);
@@ -30,9 +31,18 @@ public class OptionsActivity extends AppCompatActivity {
                 clickHighScoresText();
             }
         });
+
+        this.quitGameText = (TextView) findViewById(R.id.quit_game_text);
+        this.quitGameText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickQuit();
+            }
+        });
+
     }
 
-    public void pressResumeGameButton() {
+    public void clickResumeGameButton() {
         finish(); // if we pass intents around our map gets lost
 
     }
@@ -43,4 +53,13 @@ public class OptionsActivity extends AppCompatActivity {
         finish();
     }
 
+    public boolean clickQuit() {
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("quitclick", true);
+        startActivity(intent);
+        finish();
+        return true;
+
+    }
 }
