@@ -1,9 +1,9 @@
-package thegroup.snakego.Entities;
+package thegroup.snakego.entities;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 
-import thegroup.snakego.Models.User;
+import thegroup.snakego.models.User;
 
 public class RedApple extends BaseEntity {
 

@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import thegroup.snakego.Entities.BaseEntity;
-import thegroup.snakego.Entities.GreenApple;
-import thegroup.snakego.Entities.RedApple;
-import thegroup.snakego.Models.User;
-import thegroup.snakego.Services.EntitySpawner;
+import thegroup.snakego.entities.BaseEntity;
+import thegroup.snakego.entities.GreenApple;
+import thegroup.snakego.entities.RedApple;
+import thegroup.snakego.models.User;
+import thegroup.snakego.services.EntitySpawner;
 
 import org.junit.Assert;
 

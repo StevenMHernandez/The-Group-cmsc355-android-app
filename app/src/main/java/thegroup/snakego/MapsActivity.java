@@ -1,5 +1,22 @@
 package thegroup.snakego;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -18,42 +35,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
+import thegroup.snakego.models.User;
+import thegroup.snakego.observers.EntitySpawnerObserver;
+import thegroup.snakego.services.EntitySpawner;
 
 import java.util.LinkedList;
 
-import thegroup.snakego.Models.User;
-import thegroup.snakego.Observers.EntitySpawnerObserver;
-import thegroup.snakego.Services.EntitySpawner;
-
-import static thegroup.snakego.R.id.map;
-
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMapLoadedCallback, GoogleApiClient.ConnectionCallbacks,
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        OnMapLoadedCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, GoogleMap.OnCameraIdleListener {
 
-    private GoogleMap mMap;
+    private GoogleMap map;
 
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int REQUEST_FINE_LOCATION = 0;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    protected LocationManager mLocationManager;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    protected LocationManager locationManager;
     private Button optionsButton;
     private Polyline polyline;
 
@@ -71,58 +70,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         optionsButton = (Button) findViewById(R.id.icon_button);
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 onOptionsButtonPressed();
             }
         });
 
-        if (this.mGoogleApiClient == null) {
-            // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
+        if (this.googleApiClient == null) {
+            // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to
+            // implement the App Indexing API.
             // See https://g.co/AppIndexing/AndroidStudio for more information.
-            this.mGoogleApiClient = new GoogleApiClient.Builder(this)
+            this.googleApiClient = new GoogleApiClient.Builder(this)
                     .enableAutoManage(this, this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .addApi(AppIndex.API).build();
 
-            this.mGoogleApiClient.connect();
+            this.googleApiClient.connect();
         }
 
-        this.mLocationRequest = new LocationRequest()
-                .setInterval(10 * 1000) //every 10 second
-                .setFastestInterval(3 * 1000) //checks other apps to see if we can get better location
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY) //burn the battery
-                .setSmallestDisplacement(0.5F); //1/2 meter
-
+        this.locationRequest = new LocationRequest()
+                .setInterval(10 * 1000)
+                .setFastestInterval(3 * 1000)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setSmallestDisplacement(0.5F);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(map);
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
     public void onOptionsButtonPressed() {
-//        snakeOptions();  // comment this and uncomment bottom to switch back to activity view
+        //snakeOptions();  // comment this and uncomment bottom to switch back to activity view
         Intent intent = new Intent(this, OptionsActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        this.mMap = map;
+        this.map = map;
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            this.mMap.setMyLocationEnabled(true);
+            this.map.setMyLocationEnabled(true);
         } else {
             this.requestLocationPermission();
         }
 
-        float maxZoom = mMap.getMaxZoomLevel();
-        this.mMap.setMaxZoomPreference(maxZoom - 1);
-        this.mMap.setMinZoomPreference(maxZoom - 1);
+        float maxZoom = this.map.getMaxZoomLevel();
+        this.map.setMaxZoomPreference(maxZoom - 1);
+        this.map.setMinZoomPreference(maxZoom - 1);
 
-        this.mMap.setOnMapLoadedCallback(this);
+        this.map.setOnMapLoadedCallback(this);
     }
 
     protected void requestLocationPermission() {
@@ -134,8 +133,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapLoaded() {
-        EntitySpawner spawner = new EntitySpawner(this.mMap.getProjection().getVisibleRegion().latLngBounds);
-        new EntitySpawnerObserver(spawner, this.mMap);
+        EntitySpawner spawner = new EntitySpawner(this.map.getProjection().getVisibleRegion().latLngBounds);
+        new EntitySpawnerObserver(spawner, this.map);
     }
 
     @Override
@@ -149,13 +148,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.locationUpdateRequest();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mLocationRequest = new LocationRequest()
-                    .setInterval(10 * 1000) //every 10 second
-                    .setFastestInterval(1000) //checks other apps to see if we can get better location
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY) //burn the battery
-                    .setSmallestDisplacement(0.5F); // meter
+            locationRequest = new LocationRequest();
 
-            LocationServices.FusedLocationApi.requestLocationUpdates(this.mGoogleApiClient, mLocationRequest, this);
+            locationRequest.setInterval(10 * 1000); //every 10 second
+            locationRequest.setFastestInterval(1000); //checks other apps to see if we can get better location
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //burn the battery
+            locationRequest.setSmallestDisplacement(0.5F); // meter
+
+            LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, locationRequest, this);
         } else {
             this.requestLocationPermission();
         }
@@ -163,7 +163,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void locationUpdateRequest() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(this.mGoogleApiClient, mLocationRequest, this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, locationRequest, this);
         } else {
             this.requestLocationPermission();
         }
@@ -171,7 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // part of the GoogleApiClient
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(int integer) {
 
     }
 
@@ -182,9 +182,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             try {
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-            } catch (IntentSender.SendIntentException e) {
+            } catch (IntentSender.SendIntentException exception) {
                 // Google Play services canceled the original PendingIntent
-                e.printStackTrace();
+                exception.printStackTrace();
             }
         } else {
             String error = "Location services connection failed with code " + connectionResult.getErrorCode();
@@ -202,8 +202,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         User.get().onLocationUpdated(latLng);
         drawSnake();
 
-//      mMap.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        // map.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     public void drawSnake() {
@@ -215,7 +215,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (polyline != null) {
             polyline.remove();
         }
-        polyline = mMap.addPolyline(polySnake);
+        polyline = map.addPolyline(polySnake);
     }
 
 
@@ -223,11 +223,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onStart() {  // BUG: Map doesn't OnLoad ever again from this point so spawner never reinitialized
         //TODO FIX SPAWNER BUG
         super.onStart();
-        this.mGoogleApiClient.connect();
-        mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        this.googleApiClient.connect();
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.start(this.mGoogleApiClient, getIndexApiAction());
+        AppIndex.AppIndexApi.start(this.googleApiClient, getIndexApiAction());
     }
 
     @Override
@@ -236,8 +236,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        this.mGoogleApiClient.disconnect();
-        AppIndex.AppIndexApi.end(this.mGoogleApiClient, getIndexApiAction());
+        this.googleApiClient.disconnect();
+        AppIndex.AppIndexApi.end(this.googleApiClient, getIndexApiAction());
     }
 
     @Override
@@ -245,8 +245,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onResume();
 
         // if map is lost we need to handle it here
-        // mGoogleApiClient.connect();
-        if (this.mGoogleApiClient.isConnected()) {
+        // googleApiClient.connect();
+        if (this.googleApiClient.isConnected()) {
             locationUpdateRequest();
         }
     }
@@ -255,9 +255,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onPause() {
         super.onPause();
 
-        if (this.mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(this.mGoogleApiClient, this);
-            //mGoogleApiClient.disconnect();
+        if (this.googleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(this.googleApiClient, this);
+            //googleApiClient.disconnect();
         }
     }
 
@@ -286,12 +286,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        mMap.setMyLocationEnabled(true);
+                        map.setMyLocationEnabled(true);
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "No permission, no play", Toast.LENGTH_LONG).show();
                     finish();
                 }
+                break;
+            }
+            default: {
                 break;
             }
         }

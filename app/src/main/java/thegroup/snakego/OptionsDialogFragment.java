@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
-import thegroup.snakego.Models.User;
+import thegroup.snakego.models.User;
 
 public class OptionsDialogFragment extends DialogFragment {
 

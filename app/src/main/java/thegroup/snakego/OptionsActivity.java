@@ -1,8 +1,8 @@
 package thegroup.snakego;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,14 +20,14 @@ public class OptionsActivity extends AppCompatActivity {
         this.resumeGameText = (TextView) findViewById(R.id.resume_game_text);
         this.resumeGameText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 clickResumeGameButton();
             }
         });
         this.highScoreText = (TextView) findViewById(R.id.high_scores_text);
         this.highScoreText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 clickHighScoresText();
             }
         });
@@ -35,7 +35,7 @@ public class OptionsActivity extends AppCompatActivity {
         this.quitGameText = (TextView) findViewById(R.id.quit_game_text);
         this.quitGameText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 clickQuit();
             }
         });

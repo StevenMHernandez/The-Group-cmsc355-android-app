@@ -1,8 +1,8 @@
 package thegroup.snakego;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,10 +16,9 @@ public class HighScoresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_high_scores);
 
         this.returnToOptionsText = (TextView) findViewById(R.id.return_to_options_page);
-        this.returnToOptionsText.setOnClickListener(new View.OnClickListener()
-        {
+        this.returnToOptionsText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 pressReturnToOptionsButton();
             }
         });

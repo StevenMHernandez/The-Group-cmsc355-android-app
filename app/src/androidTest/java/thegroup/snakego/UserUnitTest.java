@@ -6,7 +6,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import thegroup.snakego.Models.User;
+import thegroup.snakego.models.User;
 
 import static org.junit.Assert.*;
 
