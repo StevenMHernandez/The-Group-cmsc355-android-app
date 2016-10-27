@@ -1,9 +1,12 @@
-package thegroup.snakego.Observers;
+package thegroup.snakego._observers;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import thegroup.snakego._entities.BaseEntity;
+import thegroup.snakego._services.EntitySpawner;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,14 +14,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import thegroup.snakego.Entities.BaseEntity;
-import thegroup.snakego.Services.EntitySpawner;
-
 public class EntitySpawnerObserver implements PropertyChangeListener {
 
-    GoogleMap map;
+    private GoogleMap map;
 
-    HashMap<BaseEntity, Marker> markers = new HashMap<>();
+    private HashMap<BaseEntity, Marker> markers = new HashMap<>();
 
     public EntitySpawnerObserver(EntitySpawner spawner, GoogleMap map) {
         this.map = map;

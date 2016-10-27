@@ -1,4 +1,4 @@
-package thegroup.snakego.interfaces;
+package thegroup.snakego._interfaces;
 
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;

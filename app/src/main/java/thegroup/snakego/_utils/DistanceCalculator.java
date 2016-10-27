@@ -1,8 +1,8 @@
-package thegroup.snakego.Utils;
-
-import android.location.Location;
+package thegroup.snakego._utils;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import android.location.Location;
 
 public class DistanceCalculator {
     public static float distance(LatLng lat1, LatLng lat2) {

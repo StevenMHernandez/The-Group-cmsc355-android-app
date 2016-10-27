@@ -10,8 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import thegroup.snakego.entities.BaseEntity;
-import thegroup.snakego.services.EntitySpawner;
+import thegroup.snakego._entities.BaseEntity;
+import thegroup.snakego._services.EntitySpawner;
 
 @RunWith(MockitoJUnitRunner.class)
 

@@ -35,9 +35,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import thegroup.snakego.models.User;
-import thegroup.snakego.observers.EntitySpawnerObserver;
-import thegroup.snakego.services.EntitySpawner;
+import thegroup.snakego._models.User;
+import thegroup.snakego._observers.EntitySpawnerObserver;
+import thegroup.snakego._services.EntitySpawner;
 
 import java.util.LinkedList;
 
@@ -218,7 +218,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         polyline = map.addPolyline(polySnake);
     }
 
-
     @Override
     protected void onStart() {  // BUG: Map doesn't OnLoad ever again from this point so spawner never reinitialized
         //TODO FIX SPAWNER BUG
@@ -304,5 +303,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         DialogFragment newFragment = new OptionsDialogFragment();
         newFragment.show(getSupportFragmentManager(), "snakeOps");
     }
-
 }

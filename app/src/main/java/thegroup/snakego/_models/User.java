@@ -1,4 +1,4 @@
-package thegroup.snakego.Models;
+package thegroup.snakego._models;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -7,20 +7,20 @@ import java.util.LinkedList;
 public class User {
     private static User instance;
 
-    protected LinkedList<LatLng> snake = new LinkedList<>();
+    private LinkedList<LatLng> snake = new LinkedList<>();
 
-    public synchronized static User get() {
+    public static synchronized User get() {
         if (instance == null) {
             instance = new User();
         }
         return instance;
     }
 
-    protected int score = 0;
+    private int score = 0;
 
-    protected int highScore = 0;
+    private int highScore = 0;
 
-    protected LatLng latLng;
+    private LatLng latLng;
 
     public int addPoints(int points) {
         this.score += points;
@@ -77,7 +77,7 @@ public class User {
         return ((score / 10) + 1);
     }
 
-    public void updateSnakeLength() {
+    private void updateSnakeLength() {
         while (this.snake.size() > this.getMaxSnakeLength()) {
             this.snake.removeFirst();
         }

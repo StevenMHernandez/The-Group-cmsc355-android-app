@@ -1,4 +1,4 @@
-package thegroup.snakego.entities;
+package thegroup.snakego._entities;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -9,7 +9,7 @@ public abstract class BaseEntity {
 
     protected LatLng latlng;
 
-    public BaseEntity(LatLng latlng) {
+    BaseEntity(LatLng latlng) {
         this.latlng = latlng;
     }
 

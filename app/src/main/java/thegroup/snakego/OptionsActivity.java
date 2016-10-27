@@ -24,6 +24,7 @@ public class OptionsActivity extends AppCompatActivity {
                 clickResumeGameButton();
             }
         });
+
         this.highScoreText = (TextView) findViewById(R.id.high_scores_text);
         this.highScoreText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,14 +40,12 @@ public class OptionsActivity extends AppCompatActivity {
                 clickQuit();
             }
         });
-
     }
 
     public void clickResumeGameButton() {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
         finish();
-
     }
 
     public void clickHighScoresText() {
@@ -62,6 +61,5 @@ public class OptionsActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         return true;
-
     }
 }

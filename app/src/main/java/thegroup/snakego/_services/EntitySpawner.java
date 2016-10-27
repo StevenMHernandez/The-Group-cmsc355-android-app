@@ -1,9 +1,16 @@
-package thegroup.snakego.Services;
-
-import android.os.Handler;
+package thegroup.snakego._services;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+
+import android.os.Handler;
+
+import thegroup.snakego._entities.BaseEntity;
+import thegroup.snakego._entities.GreenApple;
+import thegroup.snakego._entities.RedApple;
+import thegroup.snakego._interfaces.Listenable;
+import thegroup.snakego._models.User;
+import thegroup.snakego._utils.DistanceCalculator;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,32 +18,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import thegroup.snakego.Entities.BaseEntity;
-import thegroup.snakego.Entities.GreenApple;
-import thegroup.snakego.Entities.RedApple;
-import thegroup.snakego.Interfaces.Listenable;
-import thegroup.snakego.Models.User;
-import thegroup.snakego.Utils.DistanceCalculator;
-
 public class EntitySpawner implements Listenable {
 
-    protected static final int SPAWN_FREQUENCY = 20000;
+    private static final int SPAWN_FREQUENCY = 20000;
 
-    protected static final int COLLISION_DISTANCE = 10;
+    private static final int COLLISION_DISTANCE = 10;
 
-    protected static final int MAX_ENTITIES = 10;
+    private static final int MAX_ENTITIES = 10;
 
-    protected int spawnRate = 2;
+    private int spawnRate = 2;
 
-    protected LatLngBounds currentMapBounds;
+    private LatLngBounds currentMapBounds;
 
-    protected Class[] entityTypes = {GreenApple.class, RedApple.class};
+    private Class[] entityTypes = {GreenApple.class, RedApple.class};
 
-    protected ArrayList<BaseEntity> currentEntities = new ArrayList<>();
+    private ArrayList<BaseEntity> currentEntities = new ArrayList<>();
 
-    protected Handler handler = new Handler();
+    private Handler handler = new Handler();
 
-    protected List<PropertyChangeListener> listeners = new ArrayList<>();
+    private List<PropertyChangeListener> listeners = new ArrayList<>();
 
     public EntitySpawner(){}
 
@@ -52,14 +52,14 @@ public class EntitySpawner implements Listenable {
         }
     }
 
-    protected LatLng getRandomLocation() {
+    private LatLng getRandomLocation() {
         double latitude = this.randomInRange(this.currentMapBounds.southwest.latitude, this.currentMapBounds.northeast.latitude);
         double longitude = this.randomInRange(this.currentMapBounds.northeast.longitude, this.currentMapBounds.southwest.longitude);
 
         return new LatLng(latitude, longitude);
     }
 
-    protected double randomInRange(double max, double min) {
+    private double randomInRange(double max, double min) {
         return (Math.random() * (max - min)) + min;
     }
 
@@ -77,8 +77,8 @@ public class EntitySpawner implements Listenable {
             this.notifyListeners(this, "Entities", this.currentEntities, this.currentEntities);
 
             return entity;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         return null;
@@ -117,7 +117,7 @@ public class EntitySpawner implements Listenable {
         this.checkCollisions();
     }
 
-    protected Runnable spawnEntitiesRunnable = new Runnable() {
+    private Runnable spawnEntitiesRunnable = new Runnable() {
         @Override
         public void run() {
             spawnEntity();
