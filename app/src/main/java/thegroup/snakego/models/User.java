@@ -1,4 +1,4 @@
-package thegroup.snakego._models;
+package thegroup.snakego.models;
 
 import com.google.android.gms.maps.model.LatLng;
 

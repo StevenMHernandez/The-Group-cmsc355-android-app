@@ -1,16 +1,16 @@
-package thegroup.snakego._services;
+package thegroup.snakego.services;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import android.os.Handler;
 
-import thegroup.snakego._entities.BaseEntity;
-import thegroup.snakego._entities.GreenApple;
-import thegroup.snakego._entities.RedApple;
-import thegroup.snakego._interfaces.Listenable;
-import thegroup.snakego._models.User;
-import thegroup.snakego._utils.DistanceCalculator;
+import thegroup.snakego.entities.BaseEntity;
+import thegroup.snakego.entities.GreenApple;
+import thegroup.snakego.entities.RedApple;
+import thegroup.snakego.interfaces.Listenable;
+import thegroup.snakego.models.User;
+import thegroup.snakego.utils.DistanceCalculator;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

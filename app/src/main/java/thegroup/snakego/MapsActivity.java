@@ -35,9 +35,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import thegroup.snakego._models.User;
-import thegroup.snakego._observers.EntitySpawnerObserver;
-import thegroup.snakego._services.EntitySpawner;
+import thegroup.snakego.models.User;
+import thegroup.snakego.observers.EntitySpawnerObserver;
+import thegroup.snakego.services.EntitySpawner;
 
 import java.util.LinkedList;
 

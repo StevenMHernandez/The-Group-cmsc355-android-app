@@ -1,12 +1,12 @@
-package thegroup.snakego._observers;
+package thegroup.snakego.observers;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import thegroup.snakego._entities.BaseEntity;
-import thegroup.snakego._services.EntitySpawner;
+import thegroup.snakego.entities.BaseEntity;
+import thegroup.snakego.services.EntitySpawner;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
