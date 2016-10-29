@@ -3,6 +3,7 @@ package thegroup.snakego.entities;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 
+import thegroup.snakego.R;
 import thegroup.snakego.models.User;
 
 public class GreenApple extends BaseEntity {
@@ -15,7 +16,7 @@ public class GreenApple extends BaseEntity {
         User.get().removePoints(50);
     }
 
-    public float getColor() {
-        return BitmapDescriptorFactory.HUE_GREEN;
+    public int getColor() {
+        return R.mipmap.ic_greenapple;
     }
 }
