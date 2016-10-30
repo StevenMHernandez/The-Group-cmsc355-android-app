@@ -34,7 +34,7 @@ public class EntitySpawnerObserver implements PropertyChangeListener {
                         .position(entity.getLatlng());
                 //.icon(BitmapDescriptorFactory.defaultMarker(entity.getColor()));
 
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(entity.getColor()));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(entity.getImage()));
                 Marker marker = this.map.addMarker(markerOptions);
 
                 this.markers.put(entity, marker);

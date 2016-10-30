@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 public abstract class BaseEntity {
     public abstract void onCollision();
 
-    public abstract int getColor();
+    public abstract int getImage();
 
     protected LatLng latlng;
 

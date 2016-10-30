@@ -16,7 +16,7 @@ public class GreenApple extends BaseEntity {
         User.get().removePoints(50);
     }
 
-    public int getColor() {
+    public int getImage() {
         return R.mipmap.ic_greenapple;
     }
 }
