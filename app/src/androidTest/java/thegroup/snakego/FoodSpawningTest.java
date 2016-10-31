@@ -3,7 +3,6 @@ package thegroup.snakego;
 import android.os.Looper;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -26,16 +25,14 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class FoodSpawningTest {
 
-    @Before
-    public void setup() {
+    @Before public void setup() {
         // required for EntitySpawner; ignore for now.
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
     }
 
-    @Test
-    public void randomFoodSpawnsInMyVicinity() {
+    @Test public void randomFoodSpawnsInMyVicinity() {
         // build our map latitude-longitude bounds
         LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
 
@@ -49,8 +46,7 @@ public class FoodSpawningTest {
         Assert.assertTrue(latLngBounds.contains(entity.getLatlng()));
     }
 
-    @Test
-    public void foodDissapearsWhenIWalkAway() {
+    @Test public void foodDissapearsWhenIWalkAway() {
         // build our map latitude-longitude bounds
         LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
 
@@ -69,14 +65,13 @@ public class FoodSpawningTest {
         Assert.assertTrue(!spawner.getCurrentEntities().contains(entity));
     }
 
-    @Test
-    public void entitiesChangeMyScore() {
+    @Test public void entitiesChangeMyScore() {
         // build our map latitude-longitude bounds
         LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
         // build our random food entity spawner
         EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
 
-        LatLng userLocation = new LatLng(1, 1);
+        LatLng userLocation = new LatLng(1,1);
 
         // set our user to some location
         User.get().setLatLng(userLocation);
@@ -104,14 +99,13 @@ public class FoodSpawningTest {
                 greaterThan(thirdScore));
     }
 
-    @Test
-    public void redApplesGrowMySnake() {
+    @Test public void redApplesGrowMySnake() {
         // build our map latitude-longitude bounds
         LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
         // build our random food entity spawner
         EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
 
-        LatLng userLocation = new LatLng(1, 1);
+        LatLng userLocation = new LatLng(1,1);
 
         // set our user to some location
         User.get().setLatLng(userLocation);
@@ -129,25 +123,6 @@ public class FoodSpawningTest {
                 initialSnakeLength,
                 lessThan(secondSnakeLength));
     }
-
-    @Test
-    public void testAppleImageAppears() {
-
-        // build our map latitude-longitude bounds
-        LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
-        // build our random food entity spawner
-        EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
-
-
-        int redAppleImage = R.mipmap.ic_redapple;
-        int greenAppleImage = R.mipmap.ic_greenapple;
-
-        // spawn some random entity
-        BaseEntity entity = spawner.spawnEntity();
-
-        Assert.assertTrue(entity.getImage() == redAppleImage || entity.getImage() == greenAppleImage);
-    }
-
 
 
 }
