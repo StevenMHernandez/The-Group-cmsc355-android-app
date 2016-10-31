@@ -58,7 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected LocationManager locationManager;
     private Button optionsButton;
     private Polyline polyline;
-
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             finish();
             return;
         }
-
+        context = getApplicationContext();
         optionsButton = (Button) findViewById(R.id.icon_button);
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         try {
 
-                // this disables the 1,2,3,lg indoor map zoom options
+            // this disables the 1,2,3,lg indoor map zoom options
             map.getUiSettings().setIndoorLevelPickerEnabled(false);
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -157,9 +157,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
+
     @Override
     public void onMapLoaded() {
-        EntitySpawner spawner = new EntitySpawner(this.map.getProjection().getVisibleRegion().latLngBounds);
+
+        EntitySpawner spawner = new EntitySpawner(this.map.getProjection().getVisibleRegion().latLngBounds, context);
         new EntitySpawnerObserver(spawner, this.map);
     }
 

@@ -3,12 +3,15 @@ package thegroup.snakego.services;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import android.content.Context;
 import android.os.Handler;
+import android.widget.Toast;
 
 import thegroup.snakego.entities.BaseEntity;
 import thegroup.snakego.entities.GreenApple;
 import thegroup.snakego.entities.RedApple;
 import thegroup.snakego.interfaces.Listenable;
+import thegroup.snakego.models.Milestones;
 import thegroup.snakego.models.User;
 import thegroup.snakego.utils.DistanceCalculator;
 
@@ -38,10 +41,17 @@ public class EntitySpawner implements Listenable {
 
     private List<PropertyChangeListener> listeners = new ArrayList<>();
 
+    private Context context;
+
+    private int count = 100;
+
+    private int index = 0;
+
     public EntitySpawner(){}
 
-    public EntitySpawner(LatLngBounds currentMapBounds) {
+    public EntitySpawner(LatLngBounds currentMapBounds, Context context) {
         this(currentMapBounds, true);
+        this.context = context;
     }
 
     public EntitySpawner(LatLngBounds currentMapBounds, boolean automaticSpawning) {
@@ -98,6 +108,15 @@ public class EntitySpawner implements Listenable {
                 entity.onCollision();
                 this.currentEntities.remove(entity);
             }
+        }
+
+        if (User.get().getScore() >= count) {
+            CharSequence text = new Milestones().getMilestones()[index];
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            count += 100;
+            index++;
         }
     }
 
