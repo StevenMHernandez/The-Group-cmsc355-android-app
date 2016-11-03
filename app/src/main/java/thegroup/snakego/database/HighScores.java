@@ -10,7 +10,7 @@ import thegroup.snakego.services.ApiRequester;
 public class HighScores extends ApiRequester {
     private Context ctx;
 
-    private String endpoint = "example.json";
+    private String endpoint = "highscores";
 
     public HighScores(Context ctx) {
         this.ctx = ctx;
@@ -23,8 +23,8 @@ public class HighScores extends ApiRequester {
     public void store(String username, int highscore) {
         try {
             JSONObject params = new JSONObject();
-            params.put("user", username);
-            params.put("score", Integer.toString(highscore));
+            params.put("Username", username);
+            params.put("Score", Integer.toString(highscore));
 
             this.postObject(this.ctx, this.endpoint, params);
         } catch (JSONException ex) {

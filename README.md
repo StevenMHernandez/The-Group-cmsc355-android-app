@@ -1,8 +1,14 @@
 # The-Group-cmsc355-android-app
-cmsc355-android-app created for The-Group
 
-Snake GO Iteration 1(Summary):
-Implemented Google Maps and Location Sevices. Spawning "apples" working correctly. 
+# Snake GO
+
+## Iteration 2 Summary
+
+Added API server: https://github.com/StevenmHernandez/the-group-cmsc355-api-server
+
+## Iteration 1 Summary
+
+Implemented Google Maps and Location Services. Spawning "apples" working correctly. 
 Snake has a drawn length. Implemented an option menu detailing score and option
 to view highscore.
 

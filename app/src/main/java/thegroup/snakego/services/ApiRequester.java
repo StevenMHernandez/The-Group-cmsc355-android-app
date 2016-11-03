@@ -16,7 +16,7 @@ import thegroup.snakego.interfaces.HttpResultsInterface;
 
 public class ApiRequester {
 
-    private String baseUrl = "http://shmah.com/";
+    private String baseUrl = "http://snake-go.shmah.com/";
 
     private void requestArray(final String method, Context ctx, final String endpoint,
                               JSONArray params) {

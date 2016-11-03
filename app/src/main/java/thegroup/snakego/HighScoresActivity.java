@@ -51,7 +51,7 @@ public class HighScoresActivity extends AppCompatActivity implements HttpResults
             for (int i = 0; i < highscores.length(); i++) {
                 JSONObject score = highscores.getJSONObject(i);
 
-                listItems[i] = score.getString("user") + " - " + score.getString("score");
+                listItems[i] = score.getString("Username") + " - " + score.getString("Score");
             }
 
             ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.highscore_list_view, listItems);
