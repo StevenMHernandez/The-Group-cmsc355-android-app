@@ -4,6 +4,8 @@
 
 ## Iteration 2 Summary
 
+**important note:** package directories in `app/src/main/java/thegroup/snakego/` have been changed to all lowercase for the new checkstyle guidelines. These changes may not show up if the repo had been pulled down from Github previously. Either rename the directories to all lowercase or remove and re-checkout the project from Github. 
+
 Added API server: https://github.com/StevenmHernandez/the-group-cmsc355-api-server
 
 ## Iteration 1 Summary
