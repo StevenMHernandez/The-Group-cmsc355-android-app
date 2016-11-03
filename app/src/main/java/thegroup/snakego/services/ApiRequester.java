@@ -18,13 +18,13 @@ public class ApiRequester {
 
     private String baseUrl = "http://snake-go.shmah.com/";
 
-    private void requestArray(final String method, Context ctx, final String endpoint,
+    private void requestArray(final int method, Context ctx, final String endpoint,
                               JSONArray params) {
         String url = this.baseUrl + endpoint;
 
         final HttpResultsInterface callback = (HttpResultsInterface) ctx;
 
-        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, params,
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(method, url, params,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -40,13 +40,13 @@ public class ApiRequester {
         Volley.newRequestQueue(ctx).add(jsonRequest);
     }
 
-    private void requestObject(final String method, Context ctx, final String endpoint,
+    private void requestObject(final int method, Context ctx, final String endpoint,
                                JSONObject params) {
         String url = this.baseUrl + endpoint;
 
         final HttpResultsInterface callback = (HttpResultsInterface) ctx;
 
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, params,
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(method, url, params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -63,18 +63,18 @@ public class ApiRequester {
     }
 
     protected void getArray(Context ctx, final String endpoint) {
-        this.requestArray("GET", ctx, endpoint, null);
+        this.requestArray(Request.Method.GET, ctx, endpoint, null);
     }
 
     protected void postArray(Context ctx, final String endpoint, final JSONObject params) {
-        this.requestObject("POST", ctx, endpoint, params);
+        this.requestObject(Request.Method.POST, ctx, endpoint, params);
     }
 
     protected void getObject(Context ctx, final String endpoint) {
-        this.requestArray("GET", ctx, endpoint, null);
+        this.requestArray(Request.Method.GET, ctx, endpoint, null);
     }
 
     protected void postObject(Context ctx, final String endpoint, final JSONObject params) {
-        this.requestObject("POST", ctx, endpoint, params);
+        this.requestObject(Request.Method.POST, ctx, endpoint, params);
     }
 }

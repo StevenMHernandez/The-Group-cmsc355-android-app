@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
@@ -65,19 +66,19 @@ public class HighScoresActivity extends AppCompatActivity implements HttpResults
     }
 
     @Override
-    public void onSuccess(JSONObject response, String method, String endpoint) {
+    public void onSuccess(JSONObject response, int method, String endpoint) {
         //
     }
 
     @Override
-    public void onSuccess(JSONArray response, String method, String endpoint) {
-        if (method.equals("GET")) {
+    public void onSuccess(JSONArray response, int method, String endpoint) {
+        if (method == Request.Method.GET) {
             this.renderHighScores(response);
         }
     }
 
     @Override
-    public void onError(VolleyError error, String method, String endpoint) {
+    public void onError(VolleyError error, int method, String endpoint) {
         //
     }
 }
