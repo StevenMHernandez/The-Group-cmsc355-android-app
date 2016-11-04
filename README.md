@@ -1,8 +1,16 @@
 # The-Group-cmsc355-android-app
-cmsc355-android-app created for The-Group
 
-Snake GO Iteration 1(Summary):
-Implemented Google Maps and Location Sevices. Spawning "apples" working correctly. 
+# Snake GO
+
+## Iteration 2 Summary
+
+**important note:** package directories in `app/src/main/java/thegroup/snakego/` have been changed to all lowercase for the new checkstyle guidelines. These changes may not show up if the repo had been pulled down from Github previously. Either rename the directories to all lowercase or remove and re-checkout the project from Github. 
+
+Added API server: https://github.com/StevenmHernandez/the-group-cmsc355-api-server
+
+## Iteration 1 Summary
+
+Implemented Google Maps and Location Services. Spawning "apples" working correctly. 
 Snake has a drawn length. Implemented an option menu detailing score and option
 to view highscore.
 

@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import thegroup.snakego.R;
 import thegroup.snakego.entities.BaseEntity;
 import thegroup.snakego.services.EntitySpawner;
 
@@ -30,9 +31,10 @@ public class EntitySpawnerObserver implements PropertyChangeListener {
         for (BaseEntity entity : entities) {
             if (!this.markers.containsKey(entity)) {
                 MarkerOptions markerOptions = new MarkerOptions()
-                        .position(entity.getLatlng())
-                        .icon(BitmapDescriptorFactory.defaultMarker(entity.getColor()));
+                        .position(entity.getLatlng());
+                //.icon(BitmapDescriptorFactory.defaultMarker(entity.getColor()));
 
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(entity.getImage()));
                 Marker marker = this.map.addMarker(markerOptions);
 
                 this.markers.put(entity, marker);

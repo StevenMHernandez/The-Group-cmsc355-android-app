@@ -3,6 +3,7 @@ package thegroup.snakego.entities;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 
+import thegroup.snakego.R;
 import thegroup.snakego.models.User;
 
 public class RedApple extends BaseEntity {
@@ -15,7 +16,7 @@ public class RedApple extends BaseEntity {
         User.get().addPoints(10);
     }
 
-    public float getColor() {
-        return BitmapDescriptorFactory.HUE_RED;
+    public int getImage() {
+        return R.mipmap.ic_redapple;
     }
 }
