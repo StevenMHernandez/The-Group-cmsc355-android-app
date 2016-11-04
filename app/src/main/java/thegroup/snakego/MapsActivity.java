@@ -22,6 +22,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -31,6 +35,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -44,7 +49,7 @@ import java.util.LinkedList;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         OnMapLoadedCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, GoogleMap.OnCameraIdleListener {
+        LocationListener, SensorEventListener, GoogleMap.OnCameraIdleListener {
 
     private GoogleMap map;
 
@@ -56,9 +61,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button optionsButton;
     private Polyline polyline;
 
+    //Accelerator Global Variables
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    long lastTime;
+    float lastX;
+    float lastY;
+    float lastZ;
+    private static final int THRESHOLD = 600;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        lastTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_maps);
@@ -99,6 +114,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Accelerometer Setup
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void onOptionsButtonPressed() {
@@ -216,6 +236,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             polyline.remove();
         }
         polyline = map.addPolyline(polySnake);
+    }
+
+
+    //Accelerometer Methods Below
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        long currentTime = System.currentTimeMillis();
+        long diffTime = currentTime - lastTime;
+        if (diffTime < 1000) {
+            return;
+        }
+        lastTime = currentTime;
+        Sensor sensor = event.sensor;
+        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            //Log.v("onSensorChanged", "Sensor information changed!");
+            //Input more info here
+            //Reference Website: https://www.sitepoint.com/using-android-sensors-application/
+            float currX = event.values[0];
+            float currY = event.values[1];
+            float currZ = event.values[2];
+
+            lastX = currX;
+            lastY = currY;
+            lastZ = currZ;
+
+            float speed = Math.abs(currX + currY + currZ - lastX - lastY - lastZ) / diffTime * 10000;
+            User.get().setIsMoving(speed > THRESHOLD);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     @Override

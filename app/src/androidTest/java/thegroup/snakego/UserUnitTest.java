@@ -66,6 +66,4 @@ public class UserUnitTest {
         Assert.assertEquals(1, userOne.getSnake().size());
     }
 
-
-
 }
