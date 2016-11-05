@@ -34,13 +34,10 @@ public class EntitySpawnerObserver implements PropertyChangeListener {
 
         for (final BaseEntity entity : entities) {
             if (!this.markers.containsKey(entity)) {
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(entity.getPosition());
+                MarkerOptions markerOptions = new MarkerOptions().position(entity.getPosition());
 
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(entity.getImage()));
                 marker = this.map.addMarker(markerOptions);
-
-                marker.setTag(entity);
 
                 this.markers.put(entity, marker);
             }

@@ -19,8 +19,9 @@ public class RedApple extends BaseEntity {
     public int getImage() {
         return R.mipmap.ic_redapple;
     }
+
     public float getColor() {
-    return BitmapDescriptorFactory.HUE_MAGENTA;
-}
+        return BitmapDescriptorFactory.HUE_MAGENTA;
+    }
 
 }

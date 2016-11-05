@@ -18,6 +18,7 @@ import thegroup.snakego.interfaces.Listenable;
 import thegroup.snakego.models.User;
 import thegroup.snakego.utils.DistanceCalculator;
 
+
 public class EntitySpawner implements Listenable {
 
     private static final int SPAWN_FREQUENCY = 20000;
@@ -27,6 +28,8 @@ public class EntitySpawner implements Listenable {
     private static final int MAX_ENTITIES = 10;
 
     private int spawnRate = 2;
+
+    private int refreshMoveRate = 100;
 
     private LatLngBounds currentMapBounds;
 
@@ -60,8 +63,12 @@ public class EntitySpawner implements Listenable {
     }
 
     private LatLng getRandomLocation() {
-        double latitude = this.randomInRange(this.currentMapBounds.southwest.latitude, this.currentMapBounds.northeast.latitude);
-        double longitude = this.randomInRange(this.currentMapBounds.northeast.longitude, this.currentMapBounds.southwest.longitude);
+        double slat = this.currentMapBounds.southwest.latitude;
+        double nlat = this.currentMapBounds.northeast.latitude;
+        double nlong = this.currentMapBounds.northeast.longitude;
+        double slong = this.currentMapBounds.southwest.longitude;
+        double latitude = this.randomInRange(slat, nlat);
+        double longitude = this.randomInRange(nlong, slong);
 
         return new LatLng(latitude, longitude);
     }
@@ -77,20 +84,18 @@ public class EntitySpawner implements Listenable {
             }
             int index = new Random().nextInt(this.entityTypes.length);
 
-            entity = (BaseEntity) this.entityTypes[index].getConstructor(LatLng.class).newInstance(this.getRandomLocation());
-
+            entity = (BaseEntity) this.entityTypes[index]
+                    .getConstructor(LatLng.class)
+                    .newInstance(this.getRandomLocation());
             this.addEntity(entity);
 
-
-                moveEntityRunnable.run();
-
-
+            moveEntityRunnable.run();
             this.notifyListeners(this, "Entities", null, this.currentEntities);
 
             return entity;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            }
+        catch (Exception ex) {
+            ex.printStackTrace();}
 
         return null;
     }
@@ -101,24 +106,24 @@ public class EntitySpawner implements Listenable {
         this.checkCollisions();
     }
 
-    public boolean checkCollisions() {
+    public void checkCollisions() {
         LatLng latlng = User.get().getPosition();
 
         for (BaseEntity entity : this.currentEntities) {
             if (DistanceCalculator.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
                 entity.onCollision();
-                if(entity instanceof GreenApple) {
+                if (entity instanceof GreenApple) {
                     this.removeGreenEntities.add(entity);
                 }
                 else {
                     this.currentEntities.remove(entity);
                 }
                 notifyListeners(this, "Entities", null, currentEntities);
-                return true;
+//                return true;
             }
 
         }
-        return false;
+//        return false;
     }
 
     public ArrayList<BaseEntity> getCurrentEntities() {
@@ -148,42 +153,17 @@ public class EntitySpawner implements Listenable {
     private Runnable moveEntityRunnable =  new Runnable() {
         @Override
         public void run() {
-
-
-            //Iterator<BaseEntity> iterator = currentEntities.iterator();
-            //while (iterator.hasNext()) {
                 for (BaseEntity entity : currentEntities) {
                     if (entity instanceof GreenApple) {
-                    double oldLong = entity.getPosition().longitude;
-                    double oldLat = entity.getPosition().latitude;
-                    double newLong = oldLong;
-                    double newLat = oldLat;
-                    // move the apple
-                    if (entity.getPosition() != User.get().getPosition()) {
-                        if (oldLong < User.get().getPosition().longitude) {
-                            newLong += .000001;
-                        } else {
-                            newLong -= .000001;
-                        }
-                        if (oldLat < User.get().getPosition().latitude) {
-                            newLat += .000001;
-                        } else {
-                            newLat -= .000001;
-                        }
-
-                    }
-                    entity.setPosition(newLat, newLong);
-
-                    if (checkCollisions()) {
+                        ((GreenApple) entity).animate();
+                        checkCollisions();
                         handler.removeCallbacks(moveEntityRunnable);
-                    }
                 }
             }
             currentEntities.removeAll(removeGreenEntities);
             notifyListeners(this, "Entities", null, currentEntities);
 
-
-            handler.postDelayed(this, 1000);
+            handler.postDelayed(this, refreshMoveRate);
 
 
         }

@@ -4,7 +4,7 @@ package thegroup.snakego.interfaces;
 public interface AnimateEntity {
 
 
-    void followUser();
+    void animate();
     //    public void followUser(final LatLng userLoc, final BaseEntity entity) {
     //        final LatLng current = entity.getLatlng();
     //        // to work with interpolator we need to get time

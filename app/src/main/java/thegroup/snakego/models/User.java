@@ -2,11 +2,11 @@ package thegroup.snakego.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import thegroup.snakego.interfaces.Listenable;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
+
+import thegroup.snakego.interfaces.Listenable;
 
 public class User implements Listenable {
     private static User instance;
@@ -57,10 +57,10 @@ public class User implements Listenable {
             this.setLatLng(latLng);
             snake.add(latLng);
             this.updateSnakeLength();
-//            Log.v("onLocationUpdated", "Phone was moving when updated!");
-//        } else {
-//            Log.v("onLocationUpdated", "Phone was not moving, location not updated!");
-//        }
+    //      Log.v("onLocationUpdated", "Phone was moving when updated!");
+    //      } else {
+    //      Log.v("onLocationUpdated", "Phone was not moving, location not updated!");
+    //      }
     }
 
     public int getScore() {
