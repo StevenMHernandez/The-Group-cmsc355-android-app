@@ -4,12 +4,15 @@ import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 
 import thegroup.snakego.database.HighScores;
 import thegroup.snakego.interfaces.HttpResultsInterface;
@@ -18,6 +21,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeastOnce;
@@ -81,6 +85,60 @@ public class HighScoresActivityTest {
 
         // check that a request was added to the request queue
         verify(mockedRequestQueue, atLeastOnce()).add(any(Request.class));
+    }
+
+    @Test
+    public void highscoreRequestsCorrectAPIEndpoint() {
+        // create mock objects
+        Context mockedContext = mock(Context.class);
+        HttpResultsInterface mockedCallback = mock(HttpResultsInterface.class);
+        RequestQueue mockedRequestQueue = mock(RequestQueue.class);
+
+        // create new highscores api requester
+        HighScores highScores = new HighScores(mockedContext, mockedCallback);
+
+        // set our mock request queue
+        highScores.setRequestQueue(mockedRequestQueue);
+
+        // attempt to load highscores
+        highScores.load();
+
+        // capture the argument that was passed to .add()
+        ArgumentCaptor<Request> argument = ArgumentCaptor.forClass(Request.class);
+        verify(mockedRequestQueue).add(argument.capture());
+
+        // make sure that the url endpoint is correct
+        assertEquals("http://snake-go.shmah.com/highscores", argument.getValue().getUrl());
+
+        // make sure that the request is a GET request
+        assertEquals(Request.Method.GET, argument.getValue().getMethod());
+    }
+
+    @Test
+    public void highscorePostRequestsCorrectAPIEndpoint() {
+        // create mock objects
+        Context mockedContext = mock(Context.class);
+        HttpResultsInterface mockedCallback = mock(HttpResultsInterface.class);
+        RequestQueue mockedRequestQueue = mock(RequestQueue.class);
+
+        // create new highscores api requester
+        HighScores highScores = new HighScores(mockedContext, mockedCallback);
+
+        // set our mock request queue
+        highScores.setRequestQueue(mockedRequestQueue);
+
+        // attempt to store a new highscore
+        highScores.store("Example User Name", 999);
+
+        // capture the argument that was passed to .add()
+        ArgumentCaptor<JsonObjectRequest> argument = ArgumentCaptor.forClass(JsonObjectRequest.class);
+        verify(mockedRequestQueue).add(argument.capture());
+
+        // make sure that the url endpoint is correct
+        assertEquals("http://snake-go.shmah.com/highscores", argument.getValue().getUrl());
+
+        // make sure that the request is a POST request
+        assertEquals(Request.Method.POST, argument.getValue().getMethod());
     }
 
 }
