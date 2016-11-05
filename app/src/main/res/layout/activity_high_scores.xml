@@ -10,17 +10,18 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="thegroup.snakego.HighScoresActivity"
-    android:background="@android:color/white">
+    android:background="@android:color/black">
 
-    <TextView
-        android:text="High Scores"
+
+    <thegroup.snakego.utils.SnakeTypeface
+        android:text="@string/highscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/high_scores_page"
         android:textSize="30sp"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="@android:color/holo_green_light"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="150dp"
         android:textAlignment="viewStart" />
@@ -33,13 +34,15 @@
         android:layout_alignTop="@+id/high_scores_page"
         android:layout_alignParentStart="true"
         android:layout_marginTop="54dp"
-        android:layout_above="@+id/return_to_options_page" />
+        android:layout_above="@+id/return_to_options_page"
+        android:background="@android:color/black"
+        android:cacheColorHint="@android:color/black" />
 
-    <TextView
-        android:text="Return to Options Page"
+    <thegroup.snakego.utils.SnakeTypeface
+        android:text="@string/rturn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="@android:color/holo_green_light"
         android:textSize="30sp"
         android:id="@+id/return_to_options_page"
         android:layout_marginBottom="13dp"

@@ -13,10 +13,16 @@ public class GreenApple extends BaseEntity {
     }
 
     public void onCollision() {
-        User.get().removePoints(50);
+        User.get().removePoints(5);
     }
 
     public int getImage() {
         return R.mipmap.ic_greenapple;
     }
+
+    public float getColor() {
+        return BitmapDescriptorFactory.HUE_GREEN;
+    }
 }
+
+

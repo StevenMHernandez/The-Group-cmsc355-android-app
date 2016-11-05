@@ -13,10 +13,14 @@ public class RedApple extends BaseEntity {
     }
 
     public void onCollision() {
-        User.get().addPoints(10);
+        User.get().addPoints(20);
     }
 
     public int getImage() {
         return R.mipmap.ic_redapple;
     }
+    public float getColor() {
+    return BitmapDescriptorFactory.HUE_MAGENTA;
+}
+
 }

@@ -29,8 +29,9 @@ public class ApiRequester {
         this.ctx = ctx;
 
         this.callback = (HttpResultsInterface) ctx;
-
-        this.requestQueue = Volley.newRequestQueue(ctx);
+        if(ctx != null) {
+            this.requestQueue = Volley.newRequestQueue(ctx);
+        }
     }
 
     public ApiRequester(Context ctx, HttpResultsInterface callback) {

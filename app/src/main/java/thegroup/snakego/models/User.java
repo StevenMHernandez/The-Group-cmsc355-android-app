@@ -2,11 +2,9 @@ package thegroup.snakego.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import android.util.Log;
+import java.util.LinkedList;
 
 import thegroup.snakego.database.HighScores;
-
-import java.util.LinkedList;
 
 public class User {
     private static User instance;
@@ -54,16 +52,14 @@ public class User {
     }
 
     public void onLocationUpdated(LatLng latLng) {
-        if (isMoving) {
+        //if (isMoving) {
             this.setLatLng(latLng);
             snake.add(latLng);
             this.updateSnakeLength();
-
-            Log.v("onLocationUpdated", "Phone was moving when updated!");
-        } else {
-            Log.v("onLocationUpdated", "Phone was not moving, location not updated!");
-        }
-
+//            Log.v("onLocationUpdated", "Phone was moving when updated!");
+//        } else {
+//            Log.v("onLocationUpdated", "Phone was not moving, location not updated!");
+//        }
     }
 
     public int getScore() {
@@ -78,7 +74,8 @@ public class User {
         return snake;
     }
 
-    public LatLng getLatLng() {
+
+    public LatLng getPosition() {
         return latLng;
     }
 
