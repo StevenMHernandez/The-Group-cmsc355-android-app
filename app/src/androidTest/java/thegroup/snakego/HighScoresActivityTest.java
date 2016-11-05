@@ -50,12 +50,11 @@ public class HighScoresActivityTest {
     @Test
     public void requestsHighscoreFromServer() {
         // create mock objects
-        Context mockedContext = mock(Context.class);
         HttpResultsInterface mockedCallback = mock(HttpResultsInterface.class);
         RequestQueue mockedRequestQueue = mock(RequestQueue.class);
 
         // create new highscores api requester
-        HighScores highScores = new HighScores(mockedContext, mockedCallback);
+        HighScores highScores = new HighScores(null, mockedCallback);
 
         // set our mock request queue
         highScores.setRequestQueue(mockedRequestQueue);
@@ -70,12 +69,11 @@ public class HighScoresActivityTest {
     @Test
     public void postsHighscoreToServer() {
         // create mock objects
-        Context mockedContext = mock(Context.class);
         HttpResultsInterface mockedCallback = mock(HttpResultsInterface.class);
         RequestQueue mockedRequestQueue = mock(RequestQueue.class);
 
         // create new highscores api requester
-        HighScores highScores = new HighScores(mockedContext, mockedCallback);
+        HighScores highScores = new HighScores(null, mockedCallback);
 
         // set our mock request queue
         highScores.setRequestQueue(mockedRequestQueue);
@@ -90,12 +88,11 @@ public class HighScoresActivityTest {
     @Test
     public void highscoreRequestsCorrectAPIEndpoint() {
         // create mock objects
-        Context mockedContext = mock(Context.class);
         HttpResultsInterface mockedCallback = mock(HttpResultsInterface.class);
         RequestQueue mockedRequestQueue = mock(RequestQueue.class);
 
         // create new highscores api requester
-        HighScores highScores = new HighScores(mockedContext, mockedCallback);
+        HighScores highScores = new HighScores(null, mockedCallback);
 
         // set our mock request queue
         highScores.setRequestQueue(mockedRequestQueue);
@@ -117,12 +114,11 @@ public class HighScoresActivityTest {
     @Test
     public void highscorePostRequestsCorrectAPIEndpoint() {
         // create mock objects
-        Context mockedContext = mock(Context.class);
         HttpResultsInterface mockedCallback = mock(HttpResultsInterface.class);
         RequestQueue mockedRequestQueue = mock(RequestQueue.class);
 
         // create new highscores api requester
-        HighScores highScores = new HighScores(mockedContext, mockedCallback);
+        HighScores highScores = new HighScores(null, mockedCallback);
 
         // set our mock request queue
         highScores.setRequestQueue(mockedRequestQueue);

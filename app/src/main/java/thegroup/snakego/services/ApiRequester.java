@@ -19,6 +19,11 @@ public class ApiRequester {
 
     private String baseUrl = "http://snake-go.shmah.com/";
 
+    // The url below can be used instead for testing our go api locally
+    // Android gives access to your local machine's localhost through 10.0.2.2
+    // just run `go run main.go` and you should be able to access your local api
+    //private String baseUrl = "http://10.0.2.2:3000/";
+
     private RequestQueue requestQueue;
 
     private HttpResultsInterface callback;
@@ -30,7 +35,9 @@ public class ApiRequester {
 
         this.callback = (HttpResultsInterface) ctx;
 
-        this.requestQueue = Volley.newRequestQueue(ctx);
+        if (ctx != null) {
+            this.requestQueue = Volley.newRequestQueue(ctx);
+        }
     }
 
     public ApiRequester(Context ctx, HttpResultsInterface callback) {
@@ -38,7 +45,9 @@ public class ApiRequester {
 
         this.callback = callback;
 
-        this.requestQueue = Volley.newRequestQueue(ctx);
+        if (ctx != null) {
+            this.requestQueue = Volley.newRequestQueue(ctx);
+        }
     }
 
     private void requestArray(final int method, final String endpoint, JSONArray params) {
