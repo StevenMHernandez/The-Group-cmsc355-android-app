@@ -29,9 +29,7 @@ public class HighScores extends ApiRequester {
             JSONObject params = new JSONObject();
             params.put("Username", username);
             params.put("Score", highscore);
-            if(this.endpoint != null) {
-                this.postObject(this.endpoint, params);
-            }
+            this.postObject(this.endpoint, params);
         } catch (JSONException ex) {
             ex.printStackTrace();
         }

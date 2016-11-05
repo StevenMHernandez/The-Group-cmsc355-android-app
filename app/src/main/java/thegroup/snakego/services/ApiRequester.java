@@ -29,15 +29,16 @@ public class ApiRequester {
         this.ctx = ctx;
 
         this.callback = (HttpResultsInterface) ctx;
-        if(ctx != null) {
-            this.requestQueue = Volley.newRequestQueue(ctx);
-        }
+
+        this.requestQueue = Volley.newRequestQueue(ctx);
     }
 
     public ApiRequester(Context ctx, HttpResultsInterface callback) {
         this.ctx = ctx;
 
         this.callback = callback;
+
+        this.requestQueue = Volley.newRequestQueue(ctx);
     }
 
     private void requestArray(final int method, final String endpoint, JSONArray params) {
@@ -47,12 +48,16 @@ public class ApiRequester {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        callback.onSuccess(response, method, endpoint);
+                        if (callback != null) {
+                            callback.onSuccess(response, method, endpoint);
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        callback.onError(error, method, endpoint);
+                        if (callback != null) {
+                            callback.onError(error, method, endpoint);
+                        }
                     }
                 });
 
@@ -66,12 +71,16 @@ public class ApiRequester {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        callback.onSuccess(response, method, endpoint);
+                        if (callback != null) {
+                            callback.onSuccess(response, method, endpoint);
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        callback.onError(error, method, endpoint);
+                        if (callback != null) {
+                            callback.onError(error, method, endpoint);
+                        }
                     }
                 });
 

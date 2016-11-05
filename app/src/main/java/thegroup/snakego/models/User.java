@@ -2,11 +2,13 @@ package thegroup.snakego.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import thegroup.snakego.interfaces.Listenable;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
-import thegroup.snakego.database.HighScores;
-
-public class User {
+public class User implements Listenable {
     private static User instance;
 
     private LinkedList<LatLng> snake = new LinkedList<>();
@@ -32,8 +34,7 @@ public class User {
         if (this.score > this.highScore) {
             this.highScore = this.score;
 
-            HighScores highScores = new HighScores(null);
-            highScores.store("USERNAME", this.getHighScore());
+            this.notifyListeners(this, "new_highscore", this.highScore - points, this.highScore);
         }
 
         return this.score;
@@ -97,4 +98,15 @@ public class User {
         isMoving = moving;
     }
 
+    @Override
+    public void notifyListeners(Object object, String property, Object oldValue, Object newValue) {
+        for (PropertyChangeListener name : listeners) {
+            name.propertyChange(new PropertyChangeEvent(object, property, oldValue, newValue));
+        }
+    }
+
+    @Override
+    public void addChangeListener(PropertyChangeListener newListener) {
+        listeners.add(newListener);
+    }
 }

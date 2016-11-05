@@ -50,6 +50,10 @@ public class EntitySpawner implements Listenable {
     public EntitySpawner(LatLngBounds currentMapBounds, boolean automaticSpawning) {
         this.currentMapBounds = currentMapBounds;
 
+        this.spawnEntity();
+        this.spawnEntity();
+        this.spawnEntity();
+
         if (automaticSpawning) {
             this.handler.postDelayed(this.spawnEntitiesRunnable, SPAWN_FREQUENCY / spawnRate);
         }

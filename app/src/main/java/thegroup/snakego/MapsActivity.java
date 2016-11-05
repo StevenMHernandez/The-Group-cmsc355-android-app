@@ -43,6 +43,7 @@ import java.util.LinkedList;
 
 import thegroup.snakego.models.User;
 import thegroup.snakego.observers.EntitySpawnerObserver;
+import thegroup.snakego.observers.UserObserver;
 import thegroup.snakego.services.EntitySpawner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -174,6 +175,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapLoaded() {
+        User.get().addChangeListener(new UserObserver(this));
+
         EntitySpawner spawner = new EntitySpawner(this.map.getProjection().getVisibleRegion().latLngBounds);
         new EntitySpawnerObserver(spawner, this.map);
     }
