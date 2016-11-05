@@ -43,7 +43,7 @@ public class FoodSpawningTest {
         BaseEntity entity = spawner.spawnEntity();
 
         // assert the entity is in the latitude-longitude bounds
-        Assert.assertTrue(latLngBounds.contains(entity.getLatlng()));
+        Assert.assertTrue(latLngBounds.contains(entity.getPosition()));
     }
 
     @Test public void foodDissapearsWhenIWalkAway() {

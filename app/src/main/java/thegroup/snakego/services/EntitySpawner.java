@@ -1,9 +1,15 @@
 package thegroup.snakego.services;
 
+import android.os.Handler;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import android.os.Handler;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import thegroup.snakego.entities.BaseEntity;
 import thegroup.snakego.entities.GreenApple;
@@ -12,21 +18,18 @@ import thegroup.snakego.interfaces.Listenable;
 import thegroup.snakego.models.User;
 import thegroup.snakego.utils.DistanceCalculator;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class EntitySpawner implements Listenable {
 
     private static final int SPAWN_FREQUENCY = 20000;
 
-    private static final int COLLISION_DISTANCE = 10;
+    private static final double COLLISION_DISTANCE = 3;
 
     private static final int MAX_ENTITIES = 10;
 
     private int spawnRate = 2;
+
+    private int refreshMoveRate = 100;
 
     private LatLngBounds currentMapBounds;
 
@@ -34,11 +37,14 @@ public class EntitySpawner implements Listenable {
 
     private ArrayList<BaseEntity> currentEntities = new ArrayList<>();
 
+    private ArrayList<BaseEntity> removeGreenEntities = new ArrayList<>();
+
     private Handler handler = new Handler();
+
+    private BaseEntity entity;
 
     private List<PropertyChangeListener> listeners = new ArrayList<>();
 
-    public EntitySpawner(){}
 
     public EntitySpawner(LatLngBounds currentMapBounds) {
         this(currentMapBounds, true);
@@ -47,14 +53,22 @@ public class EntitySpawner implements Listenable {
     public EntitySpawner(LatLngBounds currentMapBounds, boolean automaticSpawning) {
         this.currentMapBounds = currentMapBounds;
 
+        this.spawnEntity();
+        this.spawnEntity();
+        this.spawnEntity();
+
         if (automaticSpawning) {
             this.handler.postDelayed(this.spawnEntitiesRunnable, SPAWN_FREQUENCY / spawnRate);
         }
     }
 
     private LatLng getRandomLocation() {
-        double latitude = this.randomInRange(this.currentMapBounds.southwest.latitude, this.currentMapBounds.northeast.latitude);
-        double longitude = this.randomInRange(this.currentMapBounds.northeast.longitude, this.currentMapBounds.southwest.longitude);
+        double slat = this.currentMapBounds.southwest.latitude;
+        double nlat = this.currentMapBounds.northeast.latitude;
+        double nlong = this.currentMapBounds.northeast.longitude;
+        double slong = this.currentMapBounds.southwest.longitude;
+        double latitude = this.randomInRange(slat, nlat);
+        double longitude = this.randomInRange(nlong, slong);
 
         return new LatLng(latitude, longitude);
     }
@@ -70,16 +84,18 @@ public class EntitySpawner implements Listenable {
             }
             int index = new Random().nextInt(this.entityTypes.length);
 
-            BaseEntity entity = (BaseEntity) this.entityTypes[index].getConstructor(LatLng.class).newInstance(this.getRandomLocation());
-
+            entity = (BaseEntity) this.entityTypes[index]
+                    .getConstructor(LatLng.class)
+                    .newInstance(this.getRandomLocation());
             this.addEntity(entity);
 
-            this.notifyListeners(this, "Entities", this.currentEntities, this.currentEntities);
+            moveEntityRunnable.run();
+            this.notifyListeners(this, "Entities", null, this.currentEntities);
 
             return entity;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            }
+        catch (Exception ex) {
+            ex.printStackTrace();}
 
         return null;
     }
@@ -91,14 +107,23 @@ public class EntitySpawner implements Listenable {
     }
 
     public void checkCollisions() {
-        LatLng latlng = User.get().getLatLng();
+        LatLng latlng = User.get().getPosition();
 
         for (BaseEntity entity : this.currentEntities) {
-            if (DistanceCalculator.distance(latlng, entity.getLatlng()) < COLLISION_DISTANCE) {
+            if (DistanceCalculator.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
                 entity.onCollision();
-                this.currentEntities.remove(entity);
+                if (entity instanceof GreenApple) {
+                    this.removeGreenEntities.add(entity);
+                }
+                else {
+                    this.currentEntities.remove(entity);
+                }
+                notifyListeners(this, "Entities", null, currentEntities);
+//                return true;
             }
+
         }
+//        return false;
     }
 
     public ArrayList<BaseEntity> getCurrentEntities() {
@@ -109,11 +134,10 @@ public class EntitySpawner implements Listenable {
         this.currentMapBounds = newMapBounds;
 
         for (BaseEntity entity : this.currentEntities) {
-            if (!this.currentMapBounds.contains(entity.getLatlng())) {
+            if (!this.currentMapBounds.contains(entity.getPosition())) {
                 this.currentEntities.remove(entity);
             }
         }
-
         this.checkCollisions();
     }
 
@@ -125,6 +149,26 @@ public class EntitySpawner implements Listenable {
             handler.postDelayed(this, (long) randomInRange(SPAWN_FREQUENCY / spawnRate, 0));
         }
     };
+
+    private Runnable moveEntityRunnable =  new Runnable() {
+        @Override
+        public void run() {
+                for (BaseEntity entity : currentEntities) {
+                    if (entity instanceof GreenApple) {
+                        ((GreenApple) entity).animate();
+                        checkCollisions();
+                        handler.removeCallbacks(moveEntityRunnable);
+                }
+            }
+            currentEntities.removeAll(removeGreenEntities);
+            notifyListeners(this, "Entities", null, currentEntities);
+
+            handler.postDelayed(this, refreshMoveRate);
+
+
+        }
+    };
+
 
     public void notifyListeners(Object object, String property, Object oldValue, Object newValue) {
         for (PropertyChangeListener name : listeners) {

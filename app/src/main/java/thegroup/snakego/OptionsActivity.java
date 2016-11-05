@@ -4,20 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
+
+import thegroup.snakego.models.User;
+import thegroup.snakego.utils.SnakeTypeface;
 
 public class OptionsActivity extends AppCompatActivity {
 
-    TextView resumeGameText;
-    TextView highScoreText;
-    TextView quitGameText;
+    SnakeTypeface resumeGameText, hsText, quitText, score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.options_layout);
 
-        this.resumeGameText = (TextView) findViewById(R.id.resume_game_text);
+        int scores = User.get().getScore();
+
+        score = (SnakeTypeface) findViewById(R.id.your_score_text);
+        score.setText("Score: " + scores);
+
+        resumeGameText = (SnakeTypeface) findViewById(R.id.resume_game_text);
         this.resumeGameText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -25,16 +30,17 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
 
-        this.highScoreText = (TextView) findViewById(R.id.high_scores_text);
-        this.highScoreText.setOnClickListener(new View.OnClickListener() {
+        hsText = (SnakeTypeface) findViewById(R.id.high_scores_text);
+
+        hsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickHighScoresText();
             }
         });
 
-        this.quitGameText = (TextView) findViewById(R.id.quit_game_text);
-        this.quitGameText.setOnClickListener(new View.OnClickListener() {
+        quitText = (SnakeTypeface) findViewById(R.id.quit_game_text);
+        quitText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickQuit();
@@ -44,14 +50,14 @@ public class OptionsActivity extends AppCompatActivity {
 
     public void clickResumeGameButton() {
         Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+//        startActivity(intent);
         finish();
     }
 
     public void clickHighScoresText() {
         Intent intent = new Intent(this, HighScoresActivity.class);
         startActivity(intent);
-        finish();
+//        finish();
     }
 
     public boolean clickQuit() {

@@ -5,4 +5,11 @@
     <string name="dia_score">Score: </string>
     <string name="dia_ok">Resume</string>
     <string name="dia_cncl">Cancel</string>
+    <string name="highscore">High Score</string>
+    <string name="rturn">Return</string>
+    <string name="options">Options</string>
+    <string name="score">Score:</string>
+    <string name="h_scores">High Scores</string>
+    <string name="resume">Resume Game</string>
+    <string name="quit">Quit Game</string>
 </resources>
