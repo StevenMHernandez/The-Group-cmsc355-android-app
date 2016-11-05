@@ -65,11 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private SensorManager sensorManager;
     private Sensor accelerometer;
     long lastTime;
-    float lastX;
-    float lastY;
-    float lastZ;
-    private static final int THRESHOLD = 600;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,25 +245,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lastTime = currentTime;
         Sensor sensor = event.sensor;
         if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            //Log.v("onSensorChanged", "Sensor information changed!");
-            //Input more info here
-            //Reference Website: https://www.sitepoint.com/using-android-sensors-application/
             float currX = event.values[0];
             float currY = event.values[1];
             float currZ = event.values[2];
 
-            lastX = currX;
-            lastY = currY;
-            lastZ = currZ;
-
-            float speed = Math.abs(currX + currY + currZ - lastX - lastY - lastZ) / diffTime * 10000;
-            User.get().setIsMoving(speed > THRESHOLD);
+            User.get().accelerometerChanged(currX, currY, currZ, diffTime);
         }
     }
 
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        //Not needed for now
     }
 
     @Override

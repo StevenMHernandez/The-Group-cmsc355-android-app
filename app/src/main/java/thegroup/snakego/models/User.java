@@ -11,6 +11,11 @@ public class User {
 
     private LinkedList<LatLng> snake = new LinkedList<>();
 
+    private float lastX;
+    private float lastY;
+    private float lastZ;
+    private static final int THRESHOLD = 5;
+
     public static synchronized User get() {
         if (instance == null) {
             instance = new User();
@@ -24,7 +29,7 @@ public class User {
 
     private LatLng latLng;
 
-    private boolean isMoving;
+    private boolean moving;
 
     public int addPoints(int points) {
         this.score += points;
@@ -49,17 +54,29 @@ public class User {
     }
 
     public void onLocationUpdated(LatLng latLng) {
-        if (isMoving) {
+        if (moving) {
             this.setLatLng(latLng);
             snake.add(latLng);
             this.updateSnakeLength();
-
-            Log.v("onLocationUpdated", "Phone was moving when updated!");
-        } else {
-            Log.v("onLocationUpdated", "Phone was not moving, location not updated!");
         }
 
     }
+
+    public void accelerometerChanged(float paramX, float paramY, float paramZ, long diffTime) {
+        //Reference Website: https://www.sitepoint.com/using-android-sensors-application/
+        float currX = paramX;
+        float currY = paramY;
+        float currZ = paramZ;
+
+        float speed = Math.abs(currX + currY + currZ - lastX - lastY - lastZ) / diffTime * 10000;
+
+        User.get().setMoving(speed > THRESHOLD);
+
+        lastX = currX;
+        lastY = currY;
+        lastZ = currZ;
+    }
+
 
     public int getScore() {
         return this.score;
@@ -91,8 +108,8 @@ public class User {
         }
     }
 
-    public void setIsMoving(boolean moving) {
-        isMoving = moving;
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 
 }
