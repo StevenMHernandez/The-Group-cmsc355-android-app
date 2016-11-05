@@ -5,19 +5,23 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import thegroup.snakego.interfaces.HttpResultsInterface;
 import thegroup.snakego.services.ApiRequester;
 
 public class HighScores extends ApiRequester {
-    private Context ctx;
 
     private String endpoint = "highscores";
 
     public HighScores(Context ctx) {
-        this.ctx = ctx;
+        super(ctx);
+    }
+
+    public HighScores(Context ctx, HttpResultsInterface callback) {
+        super(ctx, callback);
     }
 
     public void load() {
-        this.getArray(this.ctx, this.endpoint);
+        this.getArray(this.endpoint);
     }
 
     public void store(String username, int highscore) {
@@ -26,7 +30,7 @@ public class HighScores extends ApiRequester {
             params.put("Username", username);
             params.put("Score", highscore);
 
-            this.postObject(this.ctx, this.endpoint, params);
+            this.postObject(this.endpoint, params);
         } catch (JSONException ex) {
             ex.printStackTrace();
         }

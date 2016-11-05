@@ -4,6 +4,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import android.util.Log;
 
+import thegroup.snakego.database.HighScores;
+
 import java.util.LinkedList;
 
 public class User {
@@ -31,6 +33,9 @@ public class User {
 
         if (this.score > this.highScore) {
             this.highScore = this.score;
+
+            HighScores highScores = new HighScores(null);
+            highScores.store("USERNAME", this.getHighScore());
         }
 
         return this.score;

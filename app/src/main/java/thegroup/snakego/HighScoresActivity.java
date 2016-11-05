@@ -35,8 +35,8 @@ public class HighScoresActivity extends AppCompatActivity implements HttpResults
             }
         });
 
-        HighScores highscore = new HighScores(this);
-        highscore.load();
+        HighScores highScores = new HighScores(this);
+        highScores.load();
     }
 
     public void pressReturnToOptionsButton() {
@@ -47,15 +47,15 @@ public class HighScoresActivity extends AppCompatActivity implements HttpResults
 
     private void renderHighScores(JSONArray highscores) {
         try {
-            String[] listItems = new String[highscores.length()];
+            String[] items = new String[highscores.length()];
 
             for (int i = 0; i < highscores.length(); i++) {
                 JSONObject score = highscores.getJSONObject(i);
 
-                listItems[i] = score.getString("Username") + " - " + score.getString("Score");
+                items[i] = score.getString("Username") + " - " + score.getString("Score");
             }
 
-            ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.highscore_list_view, listItems);
+            ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.highscore_list_view, items);
 
             this.highscoresList = (ListView) findViewById(R.id.high_scores_list);
 

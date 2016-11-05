@@ -3,6 +3,7 @@ package thegroup.snakego.services;
 import android.content.Context;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -18,11 +19,28 @@ public class ApiRequester {
 
     private String baseUrl = "http://snake-go.shmah.com/";
 
-    private void requestArray(final int method, Context ctx, final String endpoint,
-                              JSONArray params) {
-        String url = this.baseUrl + endpoint;
+    private RequestQueue requestQueue;
 
-        final HttpResultsInterface callback = (HttpResultsInterface) ctx;
+    private HttpResultsInterface callback;
+
+    private Context ctx;
+
+    public ApiRequester(Context ctx) {
+        this.ctx = ctx;
+
+        this.callback = (HttpResultsInterface) ctx;
+
+        this.requestQueue = Volley.newRequestQueue(ctx);
+    }
+
+    public ApiRequester(Context ctx, HttpResultsInterface callback) {
+        this.ctx = ctx;
+
+        this.callback = callback;
+    }
+
+    private void requestArray(final int method, final String endpoint, JSONArray params) {
+        String url = this.baseUrl + endpoint;
 
         JsonArrayRequest jsonRequest = new JsonArrayRequest(method, url, params,
                 new Response.Listener<JSONArray>() {
@@ -37,14 +55,11 @@ public class ApiRequester {
                     }
                 });
 
-        Volley.newRequestQueue(ctx).add(jsonRequest);
+        requestQueue.add(jsonRequest);
     }
 
-    private void requestObject(final int method, Context ctx, final String endpoint,
-                               JSONObject params) {
+    private void requestObject(final int method, final String endpoint, JSONObject params) {
         String url = this.baseUrl + endpoint;
-
-        final HttpResultsInterface callback = (HttpResultsInterface) ctx;
 
         JsonObjectRequest jsonRequest = new JsonObjectRequest(method, url, params,
                 new Response.Listener<JSONObject>() {
@@ -59,22 +74,26 @@ public class ApiRequester {
                     }
                 });
 
-        Volley.newRequestQueue(ctx).add(jsonRequest);
+        requestQueue.add(jsonRequest);
     }
 
-    protected void getArray(Context ctx, final String endpoint) {
-        this.requestArray(Request.Method.GET, ctx, endpoint, null);
+    protected void getArray(final String endpoint) {
+        this.requestArray(Request.Method.GET, endpoint, null);
     }
 
-    protected void postArray(Context ctx, final String endpoint, final JSONObject params) {
-        this.requestObject(Request.Method.POST, ctx, endpoint, params);
+    protected void postArray(final String endpoint, final JSONObject params) {
+        this.requestObject(Request.Method.POST, endpoint, params);
     }
 
-    protected void getObject(Context ctx, final String endpoint) {
-        this.requestArray(Request.Method.GET, ctx, endpoint, null);
+    protected void getObject(final String endpoint) {
+        this.requestArray(Request.Method.GET, endpoint, null);
     }
 
-    protected void postObject(Context ctx, final String endpoint, final JSONObject params) {
-        this.requestObject(Request.Method.POST, ctx, endpoint, params);
+    protected void postObject(final String endpoint, final JSONObject params) {
+        this.requestObject(Request.Method.POST, endpoint, params);
+    }
+
+    public void setRequestQueue(RequestQueue requestQueue) {
+        this.requestQueue = requestQueue;
     }
 }
