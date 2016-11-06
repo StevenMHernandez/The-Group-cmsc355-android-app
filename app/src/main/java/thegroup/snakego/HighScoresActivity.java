@@ -43,6 +43,7 @@ public class HighScoresActivity extends AppCompatActivity implements HttpResults
     }
 
     private void renderHighScores(JSONArray highscores) {
+
         try {
             String[] items = new String[highscores.length()];
 

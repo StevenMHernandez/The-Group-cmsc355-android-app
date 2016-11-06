@@ -2,19 +2,16 @@ package thegroup.snakego.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import android.util.Log;
-
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
-public class User {
+import thegroup.snakego.interfaces.Listenable;
+
+public class User implements Listenable {
     private static User instance;
 
     private LinkedList<LatLng> snake = new LinkedList<>();
-
-    private float lastX;
-    private float lastY;
-    private float lastZ;
-    private static final int THRESHOLD = 5;
 
     public static synchronized User get() {
         if (instance == null) {
@@ -29,13 +26,15 @@ public class User {
 
     private LatLng latLng;
 
-    private boolean moving;
+    private boolean isMoving;
 
     public int addPoints(int points) {
         this.score += points;
 
         if (this.score > this.highScore) {
             this.highScore = this.score;
+
+            this.notifyListeners(this, "new_highscore", this.highScore - points, this.highScore);
         }
 
         return this.score;
@@ -54,29 +53,15 @@ public class User {
     }
 
     public void onLocationUpdated(LatLng latLng) {
-        if (moving) {
+        //if (isMoving) {
             this.setLatLng(latLng);
             snake.add(latLng);
             this.updateSnakeLength();
-        }
-
+    //      Log.v("onLocationUpdated", "Phone was moving when updated!");
+    //      } else {
+    //      Log.v("onLocationUpdated", "Phone was not moving, location not updated!");
+    //      }
     }
-
-    public void accelerometerChanged(float paramX, float paramY, float paramZ, long diffTime) {
-        //Reference Website: https://www.sitepoint.com/using-android-sensors-application/
-        float currX = paramX;
-        float currY = paramY;
-        float currZ = paramZ;
-
-        float speed = Math.abs(currX + currY + currZ - lastX - lastY - lastZ) / diffTime * 10000;
-
-        User.get().setMoving(speed > THRESHOLD);
-
-        lastX = currX;
-        lastY = currY;
-        lastZ = currZ;
-    }
-
 
     public int getScore() {
         return this.score;
@@ -90,7 +75,8 @@ public class User {
         return snake;
     }
 
-    public LatLng getLatLng() {
+
+    public LatLng getPosition() {
         return latLng;
     }
 
@@ -108,8 +94,19 @@ public class User {
         }
     }
 
-    public void setMoving(boolean moving) {
-        this.moving = moving;
+    public void setIsMoving(boolean moving) {
+        isMoving = moving;
     }
 
+    @Override
+    public void notifyListeners(Object object, String property, Object oldValue, Object newValue) {
+        for (PropertyChangeListener name : listeners) {
+            name.propertyChange(new PropertyChangeEvent(object, property, oldValue, newValue));
+        }
+    }
+
+    @Override
+    public void addChangeListener(PropertyChangeListener newListener) {
+        listeners.add(newListener);
+    }
 }

@@ -27,7 +27,8 @@ public class OptionsActivityTest {
         onView(withId(R.id.resume_game_text)).perform(click());
 
         // then user is taken back to game
-        onView(withId(R.id.icon_button)).check(matches(notNullValue() ));
+        // this test will never work since there is no calling method
+        onView(withId(R.id.icon_button)).check(matches(notNullValue()));
     }
 
     @Test public void onOptionsPageClickHighScores() {
