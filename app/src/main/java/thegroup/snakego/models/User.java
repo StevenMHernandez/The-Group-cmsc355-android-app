@@ -1,5 +1,7 @@
 package thegroup.snakego.models;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.beans.PropertyChangeEvent;
@@ -13,6 +15,12 @@ public class User implements Listenable {
 
     private LinkedList<LatLng> snake = new LinkedList<>();
 
+    private boolean moving;
+    private float lastX;
+    private float lastY;
+    private float lastZ;
+    private static final int THRESHOLD = 5;
+
     public static synchronized User get() {
         if (instance == null) {
             instance = new User();
@@ -25,8 +33,6 @@ public class User implements Listenable {
     private int highScore = 0;
 
     private LatLng latLng;
-
-    private boolean isMoving;
 
     public int addPoints(int points) {
         this.score += points;
@@ -53,14 +59,36 @@ public class User implements Listenable {
     }
 
     public void onLocationUpdated(LatLng latLng) {
-        //if (isMoving) {
+        if (moving) {
             this.setLatLng(latLng);
             snake.add(latLng);
             this.updateSnakeLength();
-    //      Log.v("onLocationUpdated", "Phone was moving when updated!");
-    //      } else {
-    //      Log.v("onLocationUpdated", "Phone was not moving, location not updated!");
-    //      }
+
+            Log.v("onLocationUpdated", "Location updated!");
+        } else {
+            Log.v("onLocationUpdated", "Location not updated!");
+        }
+    }
+
+    public void accelerometerChanged(float paramX, float paramY, float paramZ, long diffTime) {
+        //Reference Website: https://www.sitepoint.com/using-android-sensors-application/
+        float currX = paramX;
+        float currY = paramY;
+        float currZ = paramZ;
+
+        float speed = Math.abs(currX + currY + currZ - lastX - lastY - lastZ) / diffTime * 10000;
+        String speedString = String.valueOf(speed);
+        Log.v("accelerometerChanged", "speed = "+speedString);
+
+        User.get().setMoving(speed > THRESHOLD);
+
+        lastX = currX;
+        lastY = currY;
+        lastZ = currZ;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 
     public int getScore() {
@@ -75,7 +103,6 @@ public class User implements Listenable {
         return snake;
     }
 
-
     public LatLng getPosition() {
         return latLng;
     }
@@ -88,14 +115,14 @@ public class User implements Listenable {
         return ((score / 10) + 1);
     }
 
+    public boolean getMoving() {
+        return moving;
+    }
+
     private void updateSnakeLength() {
         while (this.snake.size() > this.getMaxSnakeLength()) {
             this.snake.removeFirst();
         }
-    }
-
-    public void setIsMoving(boolean moving) {
-        isMoving = moving;
     }
 
     @Override
@@ -109,4 +136,6 @@ public class User implements Listenable {
     public void addChangeListener(PropertyChangeListener newListener) {
         listeners.add(newListener);
     }
+
+
 }

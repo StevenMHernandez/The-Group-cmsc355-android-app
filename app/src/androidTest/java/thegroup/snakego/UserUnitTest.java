@@ -62,8 +62,22 @@ public class UserUnitTest {
 
     @Test
     public void testAddPointToSnake(){
-        userOne.onLocationUpdated(new LatLng(33.0, -77.0));
-        Assert.assertEquals(1, userOne.getSnake().size());
+        User.get().onLocationUpdated(new LatLng(33.0, -77.0));
+        Assert.assertEquals(1, User.get().getSnake().size());
+    }
+
+    @Test
+    public void testAccelerometerMoving() {
+        User.get().accelerometerChanged((float)0.0, (float)9.8, (float)-1.4, 1001);
+        User.get().accelerometerChanged((float)1.0, (float)9.2, (float)-1.2, 1001);
+        Assert.assertEquals(true, User.get().getMoving());
+    }
+
+    @Test
+    public void testSnakeUpdated() {
+        User.get().accelerometerChanged((float)0.0, (float)9.8, (float)-1.4, 1001);
+        User.get().onLocationUpdated(new LatLng(33.0, -77.5));
+        Assert.assertEquals(1, User.get().getSnake().size());
     }
 
 }
