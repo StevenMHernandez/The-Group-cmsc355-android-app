@@ -28,16 +28,13 @@ public class User implements Listenable {
 
     private boolean isMoving;
 
-    public int addPoints(int points) {
+    public void addPoints(int points) {
         this.score += points;
 
         if (this.score > this.highScore) {
             this.highScore = this.score;
-
             this.notifyListeners(this, "new_highscore", this.highScore - points, this.highScore);
         }
-
-        return this.score;
     }
 
     public int removePoints(int points) {

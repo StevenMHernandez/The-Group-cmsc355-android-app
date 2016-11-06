@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +16,6 @@ import thegroup.snakego.entities.GreenApple;
 import thegroup.snakego.entities.RedApple;
 import thegroup.snakego.models.User;
 import thegroup.snakego.services.EntitySpawner;
-
-import org.junit.Assert;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;

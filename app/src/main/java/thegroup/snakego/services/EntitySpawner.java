@@ -14,6 +14,7 @@ import java.util.Random;
 import thegroup.snakego.entities.BaseEntity;
 import thegroup.snakego.entities.GreenApple;
 import thegroup.snakego.entities.RedApple;
+import thegroup.snakego.interfaces.AnimateEntity;
 import thegroup.snakego.interfaces.Listenable;
 import thegroup.snakego.models.User;
 import thegroup.snakego.utils.DistanceCalculator;
@@ -29,7 +30,9 @@ public class EntitySpawner implements Listenable {
 
     private int spawnRate = 2;
 
-    private int refreshMoveRate = 100;
+    private int refreshMoveRate = 1000;
+
+    public boolean collide = false;
 
     private LatLngBounds currentMapBounds;
 
@@ -104,6 +107,10 @@ public class EntitySpawner implements Listenable {
         this.currentEntities.add(entity);
 
         this.checkCollisions();
+        // needed for testing
+        moveEntityRunnable.run();
+        this.notifyListeners(this, "Entities", null, this.currentEntities);
+
     }
 
     public void checkCollisions() {
@@ -112,6 +119,7 @@ public class EntitySpawner implements Listenable {
         for (BaseEntity entity : this.currentEntities) {
             if (DistanceCalculator.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
                 entity.onCollision();
+                collide = true; // test dependency
                 if (entity instanceof GreenApple) {
                     this.removeGreenEntities.add(entity);
                 }
@@ -119,11 +127,9 @@ public class EntitySpawner implements Listenable {
                     this.currentEntities.remove(entity);
                 }
                 notifyListeners(this, "Entities", null, currentEntities);
-//                return true;
             }
 
         }
-//        return false;
     }
 
     public ArrayList<BaseEntity> getCurrentEntities() {
@@ -153,8 +159,11 @@ public class EntitySpawner implements Listenable {
     private Runnable moveEntityRunnable =  new Runnable() {
         @Override
         public void run() {
+            if (User.get().getScore() > 20) {
+                refreshMoveRate = 100; // this can be adjusted later
+            }
                 for (BaseEntity entity : currentEntities) {
-                    if (entity instanceof GreenApple) {
+                    if (entity instanceof AnimateEntity) {
                         ((GreenApple) entity).animate();
                         checkCollisions();
                         handler.removeCallbacks(moveEntityRunnable);
@@ -162,6 +171,8 @@ public class EntitySpawner implements Listenable {
             }
             currentEntities.removeAll(removeGreenEntities);
             notifyListeners(this, "Entities", null, currentEntities);
+
+
 
             handler.postDelayed(this, refreshMoveRate);
 

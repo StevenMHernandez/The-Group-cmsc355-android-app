@@ -9,6 +9,8 @@ import thegroup.snakego.models.User;
 
 public class GreenApple extends BaseEntity implements AnimateEntity {
 
+    private double latLngMove = .000001;
+
     public GreenApple(LatLng latlng) {
         super(latlng);
     }
@@ -27,23 +29,28 @@ public class GreenApple extends BaseEntity implements AnimateEntity {
 
     @Override
     public void animate() {
-        double oldLong = GreenApple.this.getPosition().longitude;
-        double oldLat = GreenApple.this.getPosition().latitude;
+        // added for test, better ways to do this
+        if (User.get().getScore() > 200) {
+            latLngMove = .000009;
+        }
+
+        double oldLong = this.getPosition().longitude;
+        double oldLat = this.getPosition().latitude;
         double newLong = oldLong;
         double newLat = oldLat;
         // move the apple
-        if (GreenApple.this.getPosition() != User.get().getPosition()) {
+        if (this.getPosition() != User.get().getPosition()) {
             if (oldLong < User.get().getPosition().longitude) {
-                newLong += .000001;
+                newLong += latLngMove;
             } else {
-                newLong -= .000001;
+                newLong -= latLngMove;
             }
             if (oldLat < User.get().getPosition().latitude) {
-                newLat += .000001;
+                newLat += latLngMove;
             } else {
-                newLat -= .000001;
+                newLat -= latLngMove;
             }
-            GreenApple.this.setPosition(newLat, newLong);
+            this.setPosition(newLat, newLong);
 
         }
     }
