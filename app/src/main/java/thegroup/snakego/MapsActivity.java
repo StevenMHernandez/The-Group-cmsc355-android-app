@@ -12,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -50,7 +51,7 @@ import java.util.LinkedList;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         OnMapLoadedCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener , SensorEventListener, GoogleMap.OnCameraIdleListener {
+        LocationListener, SensorEventListener, GoogleMap.OnCameraIdleListener {
 
     private GoogleMap map;
 
@@ -143,7 +144,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e("MapsActivityRaw", "Can't find style.", exception);
         }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        int grantedPermission = ActivityCompat
+                .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (grantedPermission == PackageManager.PERMISSION_GRANTED) {
             this.map.setMyLocationEnabled(true);
         } else {
             this.requestLocationPermission();
@@ -159,7 +162,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void requestLocationPermission() {
         // check for correct API version usage
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION);
+            String[] permissionString = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+            requestPermissions(permissionString, REQUEST_FINE_LOCATION);
         }
     }
 
@@ -167,7 +171,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapLoaded() {
         User.get().addChangeListener(new UserObserver(this));
 
-        EntitySpawner spawner = new EntitySpawner(this.map.getProjection().getVisibleRegion().latLngBounds);
+        LatLngBounds latLngBounds = this.map.getProjection().getVisibleRegion().latLngBounds;
+
+        EntitySpawner spawner = new EntitySpawner(latLngBounds);
+
         new EntitySpawnerObserver(spawner, this.map);
     }
 
@@ -191,7 +198,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //burn the battery
             locationRequest.setSmallestDisplacement(0.5F); // meter
 
-            LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, locationRequest, this);
+            LocationServices.FusedLocationApi
+                    .requestLocationUpdates(this.googleApiClient, locationRequest, this);
         } else {
             this.requestLocationPermission();
         }
@@ -200,7 +208,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void locationUpdateRequest() {
         String perLoc = Manifest.permission.ACCESS_FINE_LOCATION;
         if (ActivityCompat.checkSelfPermission(this, perLoc) == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, locationRequest, this);
+            LocationServices.FusedLocationApi
+                    .requestLocationUpdates(this.googleApiClient, locationRequest, this);
         } else {
             this.requestLocationPermission();
         }
@@ -218,13 +227,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (connectionResult.hasResolution()) {
             try {
                 // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                connectionResult
+                        .startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
             } catch (IntentSender.SendIntentException exception) {
                 // Google Play services canceled the original PendingIntent
                 exception.printStackTrace();
             }
         } else {
-            String error = "Location services connection failed with code " + connectionResult.getErrorCode();
+            String error = "Location services connection failed with code "
+                    + connectionResult.getErrorCode();
 
             Toast.makeText(this, error, Toast.LENGTH_LONG).show();
         }
@@ -316,18 +327,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch (requestCode) {
             case REQUEST_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    int grantedPermission = ActivityCompat
+                            .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+                    if (grantedPermission == PackageManager.PERMISSION_GRANTED) {
                         map.setMyLocationEnabled(true);
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "No permission, no play", Toast.LENGTH_LONG).show();
+                    String notification = "No permission, no play";
+                    Toast.makeText(getApplicationContext(), notification, Toast.LENGTH_LONG).show();
                     finish();
                 }
                 break;
