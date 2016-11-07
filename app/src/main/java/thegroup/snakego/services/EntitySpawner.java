@@ -1,15 +1,9 @@
 package thegroup.snakego.services;
 
-import android.os.Handler;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import android.os.Handler;
 
 import thegroup.snakego.entities.BaseEntity;
 import thegroup.snakego.entities.GreenApple;
@@ -19,6 +13,11 @@ import thegroup.snakego.interfaces.Listenable;
 import thegroup.snakego.models.User;
 import thegroup.snakego.utils.DistanceCalculator;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class EntitySpawner implements Listenable {
 
@@ -96,9 +95,9 @@ public class EntitySpawner implements Listenable {
             this.notifyListeners(this, "Entities", null, this.currentEntities);
 
             return entity;
-            }
-        catch (Exception ex) {
-            ex.printStackTrace();}
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         return null;
     }
@@ -110,7 +109,6 @@ public class EntitySpawner implements Listenable {
         // needed for testing
         moveEntityRunnable.run();
         this.notifyListeners(this, "Entities", null, this.currentEntities);
-
     }
 
     public void checkCollisions() {
@@ -122,8 +120,7 @@ public class EntitySpawner implements Listenable {
                 collide = true; // test dependency
                 if (entity instanceof GreenApple) {
                     this.removeGreenEntities.add(entity);
-                }
-                else {
+                } else {
                     this.currentEntities.remove(entity);
                 }
                 notifyListeners(this, "Entities", null, currentEntities);

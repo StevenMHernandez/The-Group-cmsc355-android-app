@@ -1,14 +1,16 @@
 package thegroup.snakego.models;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
+import thegroup.snakego.interfaces.Listenable;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
-import thegroup.snakego.interfaces.Listenable;
+
 
 public class User implements Listenable {
     private static User instance;
@@ -78,7 +80,7 @@ public class User implements Listenable {
 
         float speed = Math.abs(currX + currY + currZ - lastX - lastY - lastZ) / diffTime * 10000;
         String speedString = String.valueOf(speed);
-        Log.v("accelerometerChanged", "speed = "+speedString);
+        Log.v("accelerometerChanged", "speed = " + speedString);
 
         User.get().setMoving(speed > THRESHOLD);
 
@@ -140,5 +142,5 @@ public class User implements Listenable {
     public void clearSnake() {
         snake.clear();
     }
-    
+
 }

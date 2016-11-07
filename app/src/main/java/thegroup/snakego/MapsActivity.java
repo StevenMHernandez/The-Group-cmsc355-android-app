@@ -1,5 +1,21 @@
 package thegroup.snakego;
 
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -23,28 +39,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-
-import java.util.LinkedList;
-
 import thegroup.snakego.models.User;
 import thegroup.snakego.observers.EntitySpawnerObserver;
 import thegroup.snakego.observers.UserObserver;
 import thegroup.snakego.services.EntitySpawner;
+
+import java.util.LinkedList;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         OnMapLoadedCallback, GoogleApiClient.ConnectionCallbacks,
@@ -127,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         try {
 
-                // this disables the 1,2,3,lg indoor map zoom options
+            // this disables the 1,2,3,lg indoor map zoom options
             map.getUiSettings().setIndoorLevelPickerEnabled(false);
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -138,15 +139,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (!success) {
                 Log.e("MapsActivityRaw", "Style parsing failed.");
             }
-        } catch (Resources.NotFoundException e) {
-            Log.e("MapsActivityRaw", "Can't find style.", e);
+        } catch (Resources.NotFoundException exception) {
+            Log.e("MapsActivityRaw", "Can't find style.", exception);
         }
-
-
-
-
-
-
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             this.map.setMyLocationEnabled(true);
@@ -178,19 +173,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onCameraIdle() {
-
     }
 
     // part of the GoogleApiClient
     @Override
     public void onConnected(Bundle connectionHint) {
         this.locationUpdateRequest();
+        //Fixed line longer than 100 characters
+        String perLoc = Manifest.permission.ACCESS_FINE_LOCATION;
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, perLoc) == PackageManager.PERMISSION_GRANTED) {
             locationRequest = new LocationRequest();
-
-            locationRequest.setInterval(10 * 1000); //every 10 second
-            locationRequest.setFastestInterval(1000); //checks other apps to see if we can get better location
+            //every 10 second
+            locationRequest.setInterval(10 * 1000);
+            //checks other apps to see if we can get better location
+            locationRequest.setFastestInterval(1000);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //burn the battery
             locationRequest.setSmallestDisplacement(0.5F); // meter
 
@@ -201,7 +198,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void locationUpdateRequest() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        String perLoc = Manifest.permission.ACCESS_FINE_LOCATION;
+        if (ActivityCompat.checkSelfPermission(this, perLoc) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, locationRequest, this);
         } else {
             this.requestLocationPermission();

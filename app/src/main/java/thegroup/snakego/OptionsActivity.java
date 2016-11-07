@@ -10,7 +10,10 @@ import thegroup.snakego.utils.SnakeTypeface;
 
 public class OptionsActivity extends AppCompatActivity {
 
-    SnakeTypeface resumeGameText, hsText, quitText, score;
+    SnakeTypeface resumeGameText;
+    SnakeTypeface hsText;
+    SnakeTypeface quitText;
+    SnakeTypeface score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +53,14 @@ public class OptionsActivity extends AppCompatActivity {
 
     public void clickResumeGameButton() {
         Intent intent = new Intent(this, MapsActivity.class);
-//        startActivity(intent);
+        //startActivity(intent);
         finish();
     }
 
     public void clickHighScoresText() {
         Intent intent = new Intent(this, HighScoresActivity.class);
         startActivity(intent);
-//        finish();
+        //finish();
     }
 
     public boolean clickQuit() {
