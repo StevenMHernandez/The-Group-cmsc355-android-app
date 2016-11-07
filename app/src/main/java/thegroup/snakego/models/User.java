@@ -137,5 +137,8 @@ public class User implements Listenable {
         listeners.add(newListener);
     }
 
-
+    public void clearSnake() {
+        snake.clear();
+    }
+    
 }
