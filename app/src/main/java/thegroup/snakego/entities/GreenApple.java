@@ -16,7 +16,7 @@ public class GreenApple extends BaseEntity implements AnimateEntity {
     }
 
     public void onCollision() {
-        User.get().removePoints(5);
+        User.get().addPoints(400);
     }
 
     public int getImage() {

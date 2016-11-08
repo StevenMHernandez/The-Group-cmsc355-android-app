@@ -193,7 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (event.getPropertyName().equals("score")) {
             for (int i = 6; i > 0; i--) {
-                if (User.get().getScore() > i * 300) {
+                if ((int) event.getNewValue() > i * 300 && (int)event.getOldValue() < i * 300) {
                     Resources res = getResources();
                     String[] milestones = res.getStringArray(R.array.milestones);
                     Toast.makeText(context, milestones[i], Toast.LENGTH_SHORT).show();
