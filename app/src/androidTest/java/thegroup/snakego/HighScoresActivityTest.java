@@ -33,18 +33,6 @@ public class HighScoresActivityTest {
     public ActivityTestRule<HighScoresActivity> mHighScoresActivity = new ActivityTestRule<>(HighScoresActivity.class);
 
     @Test
-    public void onOptionsPageClickHighScoresBackToOptions() {
-        // given user is on High Scores Activity page
-        onView(withId(R.layout.activity_high_scores));
-
-        // when user clicks "Return to Options Page"
-        onView(withId(R.id.return_to_options_page)).perform(click());
-
-        // then user is taken to Options page
-        onView(withId(R.id.options_page_text)).check(matches(notNullValue()));
-    }
-
-    @Test
     public void requestsHighscoreFromServer() {
         // create mock objects
         HttpResultsInterface mockedCallback = mock(HttpResultsInterface.class);
