@@ -78,7 +78,7 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void resourceStringArrayInRe(){
+    public void milestonePropertyChangeToastTest(){
         //  Given that the user starts the app, when the game starts automatically, the user
         //  sees his first milestone, Just a Walk in the Park, which trips the flag to true
         //  in the MapsActivity.class, which is the main activity
