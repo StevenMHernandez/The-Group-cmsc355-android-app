@@ -1,10 +1,8 @@
 package thegroup.snakego;
 
-import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -27,7 +25,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
 
 @RunWith(AndroidJUnit4.class)
 public class HighScoresActivityTest {
@@ -136,5 +133,4 @@ public class HighScoresActivityTest {
         // make sure that the request is a POST request
         assertEquals(Request.Method.POST, argument.getValue().getMethod());
     }
-
 }

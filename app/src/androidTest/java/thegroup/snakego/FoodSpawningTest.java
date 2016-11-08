@@ -122,6 +122,4 @@ public class FoodSpawningTest {
                 initialSnakeLength,
                 lessThan(secondSnakeLength));
     }
-
-
 }

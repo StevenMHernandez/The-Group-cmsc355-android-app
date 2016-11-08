@@ -104,7 +104,4 @@ public class GreenAppleMoveTest {
         moveEntityRunnable.run();
         Assert.assertTrue(spawner.collide);
     }
-
-
-
 }

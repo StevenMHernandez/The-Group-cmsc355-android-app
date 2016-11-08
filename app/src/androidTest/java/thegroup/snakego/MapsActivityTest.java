@@ -14,7 +14,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
 
@@ -59,5 +58,4 @@ public class MapsActivityTest {
 
         onView(withId(R.id.map)).check(matches(notNullValue()));
     }
-
 }

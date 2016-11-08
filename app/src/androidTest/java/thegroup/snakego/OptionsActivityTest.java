@@ -3,24 +3,29 @@ package thegroup.snakego;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import thegroup.snakego.models.User;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-
 @RunWith(AndroidJUnit4.class)
 public class OptionsActivityTest {
 
-    @Rule public ActivityTestRule<OptionsActivity> mOptionsActivity = new ActivityTestRule<>(OptionsActivity.class);
+    @Rule
+    public ActivityTestRule<OptionsActivity> mOptionsActivity = new ActivityTestRule<>(OptionsActivity.class);
 
-    @Test public void optionsPageClickResumeGame() {
+    @Test
+    public void optionsPageClickResumeGame() {
         //  Display Menu user issue: Scenario 2: given user is on optionsActivity page
 
         // when user clicks "resume game"
@@ -31,22 +36,31 @@ public class OptionsActivityTest {
         onView(withId(R.id.icon_button)).check(matches(notNullValue()));
     }
 
-    @Test public void onOptionsPageClickHighScores() {
+    @Test
+    public void onOptionsPageClickHighScores() {
         // given user is on optionsActivity page
 
         // when user clicks "High Scores"
         onView(withId(R.id.high_scores_text)).perform(click());
 
         // then user is taken to page with High Scores
-        onView(withId(R.id.high_scores_page)).check(matches(notNullValue() ));
+        onView(withId(R.id.high_scores_page)).check(matches(notNullValue()));
     }
 
-    @Test public void optionsResumeIsClickable() {
-
+    @Test
+    public void optionsResumeIsClickable() {
         onView(withId(R.id.resume_game_text))
                 .check(matches(withText("Resume Game")));
     }
 
+    @Test
+    public void userCanSetUserName() {
+        // given user is on optionsActivity page
 
+        // when user types in their username
+        onView(withId(R.id.user_name)).perform(replaceText("NEW_USERNAME"));
 
+        // their username should be whatever they set
+        Assert.assertTrue("Username should be set to NEW_USERNAME", User.get().getName().equals("NEW_USERNAME"));
+    }
 }
