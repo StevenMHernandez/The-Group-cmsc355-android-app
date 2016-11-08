@@ -13,4 +13,13 @@
     <string name="resume">Resume Game</string>
     <string name="quit">Quit Game</string>
     <string name="type_your_username">Type your Username</string>
+    <string-array name="milestones">
+        <item>Just a walk in the park...</item>
+        <item>You\'re a beast.</item>
+        <item>You rock!</item>
+        <item>You\'re still playing this game?</item>
+        <item>You\'re a SnakeGo god</item>
+        <item>You\'re a living legend</item>
+        <item>You\'re SnakeGo accomplishments will be recorded in the annals of history</item>
+    </string-array>
 </resources>

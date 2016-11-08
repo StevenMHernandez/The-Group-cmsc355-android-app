@@ -45,13 +45,16 @@ import thegroup.snakego.observers.EntitySpawnerObserver;
 import thegroup.snakego.observers.UserObserver;
 import thegroup.snakego.services.EntitySpawner;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         OnMapLoadedCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, SensorEventListener, GoogleMap.OnCameraIdleListener {
+        LocationListener, SensorEventListener, GoogleMap.OnCameraIdleListener,
+        PropertyChangeListener {
 
     private GoogleMap map;
 
@@ -62,6 +65,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected LocationManager locationManager;
     private Button optionsButton;
     private Polyline polyline;
+    public static boolean flag;
+    public static boolean jsonFlag;
+    private Context context;
 
     //Accelerator Global Variables
     private SensorManager sensorManager;
@@ -72,6 +78,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         lastTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
+        User.get().addPoints(150);
 
         setContentView(R.layout.activity_maps);
         if (getIntent().getBooleanExtra("quitclick", false)) {
@@ -134,8 +142,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             boolean success = map.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            this, R.raw.json_style));
+                    MapStyleOptions.loadRawResourceStyle(this, R.raw.json_style));
+            jsonFlag = true;
 
             if (!success) {
                 Log.e("MapsActivityRaw", "Style parsing failed.");
@@ -170,12 +178,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapLoaded() {
         User.get().addChangeListener(new UserObserver(this));
+        User.get().addChangeListener(this);
 
         LatLngBounds latLngBounds = this.map.getProjection().getVisibleRegion().latLngBounds;
 
         EntitySpawner spawner = new EntitySpawner(latLngBounds);
 
         new EntitySpawnerObserver(spawner, this.map);
+    }
+
+
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+
+        if (event.getPropertyName().equals("score")) {
+            for (int i = 6; i > 0; i--) {
+                if (User.get().getScore() > i * 300) {
+                    Resources res = getResources();
+                    String[] milestones = res.getStringArray(R.array.milestones);
+                    Toast.makeText(context, milestones[i], Toast.LENGTH_SHORT).show();
+                    flag = true;
+                    break;
+                }
+            }
+
+        }
     }
 
     @Override

@@ -24,17 +24,6 @@ public class OptionsActivityTest {
     @Rule
     public ActivityTestRule<OptionsActivity> mOptionsActivity = new ActivityTestRule<>(OptionsActivity.class);
 
-    @Test
-    public void optionsPageClickResumeGame() {
-        //  Display Menu user issue: Scenario 2: given user is on optionsActivity page
-
-        // when user clicks "resume game"
-        onView(withId(R.id.resume_game_text)).perform(click());
-
-        // then user is taken back to game
-        // this test will never work since there is no calling method
-        onView(withId(R.id.icon_button)).check(matches(notNullValue()));
-    }
 
     @Test
     public void onOptionsPageClickHighScores() {

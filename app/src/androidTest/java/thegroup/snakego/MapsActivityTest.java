@@ -3,6 +3,7 @@ package thegroup.snakego;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 @RunWith(AndroidJUnit4.class)
@@ -58,4 +60,33 @@ public class MapsActivityTest {
 
         onView(withId(R.id.map)).check(matches(notNullValue()));
     }
+
+
+    @Test public void returnFromOptionsPageafterPause() {
+        //  Given user is on options page after clicking icon button, if user
+        // clicks on Resume Game, he will return to the game
+        onView(withId(R.id.icon_button)).perform(click());
+        onView(withId(R.id.resume_game_text)).perform(click());
+        onView(withId(R.id.map)).check(matches(notNullValue()));
+    }
+
+    @Test public void jsonMapStyleLoads() {
+        //  Given that the user starts the app, when the game starts automatically, the user
+        //  sees that the landscape is green, the roads are yellow, there are no labels, and
+        //  the water is purple.  This tests that the json object is passed to Google Services
+        Assert.assertTrue(MapsActivity.jsonFlag);
+    }
+
+    @Test
+    public void resourceStringArrayInRe(){
+        //  Given that the user starts the app, when the game starts automatically, the user
+        //  sees his first milestone, Just a Walk in the Park, which trips the flag to true
+        //  in the MapsActivity.class, which is the main activity
+        Assert.assertTrue(MapsActivity.flag);
+    }
+
+
+
+
+
 }

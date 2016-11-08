@@ -122,4 +122,26 @@ public class FoodSpawningTest {
                 initialSnakeLength,
                 lessThan(secondSnakeLength));
     }
+
+
+    @Test public void spawnedEntityIsEitherRedOrGreenApple() {
+        // Given the the user starts playing the game, which starts automatically, when the apples begin
+        // to populate the screen, the graphics look like images of apples that are green and red
+
+        // build our map latitude-longitude bounds
+        LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
+
+        // build our random food entity spawner
+        EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
+
+        // spawn some random entity
+        BaseEntity entity = spawner.spawnEntity();
+
+        Assert.assertTrue(entity.getImage() == R.mipmap.ic_greenapple || entity.getImage() == R.mipmap.ic_redapple);
+    }
+
+
+
+
+
 }

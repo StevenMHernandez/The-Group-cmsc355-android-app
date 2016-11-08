@@ -35,6 +35,11 @@ public class User implements Listenable {
     private LatLng latLng;
 
     public int addPoints(int points) {
+
+        if (this.score + points > this.score) {
+            this.notifyListeners(this, "score", this.score, this.score + points);
+        }
+
         this.score += points;
 
         if (this.score > this.highScore) {
