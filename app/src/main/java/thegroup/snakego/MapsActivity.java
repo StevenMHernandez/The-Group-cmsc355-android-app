@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected LocationManager locationManager;
     private Button optionsButton;
     private Polyline polyline;
-    public static boolean flag;
+    public static boolean PropertyChangeFlag;
     public static boolean jsonFlag;
     private Context context;
 
@@ -79,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lastTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        User.get().addPoints(150);
+        User.get().addPoints(350);  // add points to test milestone toasts. Delete later
 
         setContentView(R.layout.activity_maps);
         if (getIntent().getBooleanExtra("quitclick", false)) {
@@ -185,6 +185,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         EntitySpawner spawner = new EntitySpawner(latLngBounds);
 
         new EntitySpawnerObserver(spawner, this.map);
+        User.get().removePoints(350);  // remove points from milestone toast test.
     }
 
 
@@ -197,7 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Resources res = getResources();
                     String[] milestones = res.getStringArray(R.array.milestones);
                     Toast.makeText(context, milestones[i], Toast.LENGTH_SHORT).show();
-                    flag = true;
+                    PropertyChangeFlag = true;
                     break;
                 }
             }
