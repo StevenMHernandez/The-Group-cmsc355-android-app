@@ -45,7 +45,7 @@ public class FoodSpawningTest {
         Assert.assertTrue(latLngBounds.contains(entity.getPosition()));
     }
 
-    @Test public void foodDissapearsWhenIWalkAway() {
+    @Test public void foodDisappearsWhenIWalkAway() {
         // build our map latitude-longitude bounds
         LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
 

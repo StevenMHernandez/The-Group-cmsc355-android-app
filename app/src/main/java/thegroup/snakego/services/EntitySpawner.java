@@ -136,11 +136,14 @@ public class EntitySpawner implements Listenable {
     public void updateLocation(LatLngBounds newMapBounds) {
         this.currentMapBounds = newMapBounds;
 
-        for (BaseEntity entity : this.currentEntities) {
+        ArrayList<BaseEntity> entitiesCopy = new ArrayList<>(this.currentEntities);
+
+        for (BaseEntity entity : entitiesCopy) {
             if (!this.currentMapBounds.contains(entity.getPosition())) {
                 this.currentEntities.remove(entity);
             }
         }
+
         this.checkCollisions();
     }
 
