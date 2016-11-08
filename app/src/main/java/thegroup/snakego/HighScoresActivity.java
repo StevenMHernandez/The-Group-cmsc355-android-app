@@ -13,12 +13,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import thegroup.snakego.database.HighScores;
+import thegroup.snakego.elements.SnakeTextView;
 import thegroup.snakego.interfaces.HttpResultsInterface;
-import thegroup.snakego.utils.SnakeTypeface;
 
 public class HighScoresActivity extends AppCompatActivity implements HttpResultsInterface {
 
-    SnakeTypeface returnToOptionsText;
+    SnakeTextView returnToOptionsText;
     ListView highscoresList;
 
     @Override
@@ -26,7 +26,7 @@ public class HighScoresActivity extends AppCompatActivity implements HttpResults
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_scores);
 
-        returnToOptionsText = (SnakeTypeface) findViewById(R.id.return_to_options_page);
+        returnToOptionsText = (SnakeTextView) findViewById(R.id.return_to_options_page);
         this.returnToOptionsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

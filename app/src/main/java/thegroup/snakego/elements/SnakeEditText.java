@@ -1,23 +1,22 @@
-package thegroup.snakego.utils;
-
+package thegroup.snakego.elements;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.widget.EditText;
 
-public class SnakeTypeface extends TextView {
-    public SnakeTypeface(Context context) {
+public class SnakeEditText extends EditText {
+    public SnakeEditText(Context context) {
         super(context);
         init();
     }
 
-    public SnakeTypeface(Context context, AttributeSet attrs) {
+    public SnakeEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public SnakeTypeface(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SnakeEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -29,5 +28,4 @@ public class SnakeTypeface extends TextView {
             setTypeface(snake);
         }
     }
-
 }

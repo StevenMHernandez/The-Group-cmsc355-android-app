@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import thegroup.snakego.elements.SnakeEditText;
+import thegroup.snakego.elements.SnakeTextView;
 import thegroup.snakego.models.User;
-import thegroup.snakego.utils.SnakeTypeface;
+import thegroup.snakego.watchers.UsernameTextWatcher;
 
 public class OptionsActivity extends AppCompatActivity {
 
-    SnakeTypeface resumeGameText;
-    SnakeTypeface hsText;
-    SnakeTypeface quitText;
-    SnakeTypeface score;
+    SnakeEditText usernameInput;
+    SnakeTextView resumeGameText;
+    SnakeTextView highScoreText;
+    SnakeTextView quitText;
+    SnakeTextView score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +25,14 @@ public class OptionsActivity extends AppCompatActivity {
 
         int scores = User.get().getScore();
 
-        score = (SnakeTypeface) findViewById(R.id.your_score_text);
+        score = (SnakeTextView) findViewById(R.id.your_score_text);
         score.setText("Score: " + scores);
 
-        resumeGameText = (SnakeTypeface) findViewById(R.id.resume_game_text);
+        this.usernameInput = (SnakeEditText) findViewById(R.id.user_name);
+        this.usernameInput.setText(User.get().getName());
+        this.usernameInput.addTextChangedListener(new UsernameTextWatcher());
+
+        resumeGameText = (SnakeTextView) findViewById(R.id.resume_game_text);
         this.resumeGameText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,16 +40,16 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
 
-        hsText = (SnakeTypeface) findViewById(R.id.high_scores_text);
+        highScoreText = (SnakeTextView) findViewById(R.id.high_scores_text);
 
-        hsText.setOnClickListener(new View.OnClickListener() {
+        highScoreText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickHighScoresText();
             }
         });
 
-        quitText = (SnakeTypeface) findViewById(R.id.quit_game_text);
+        quitText = (SnakeTextView) findViewById(R.id.quit_game_text);
         quitText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

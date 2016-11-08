@@ -2,20 +2,18 @@ package thegroup.snakego.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import android.util.Log;
-
 import thegroup.snakego.interfaces.Listenable;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
-
-
 public class User implements Listenable {
     private static User instance;
 
     private LinkedList<LatLng> snake = new LinkedList<>();
+
+    private String name = null;
 
     private boolean moving;
     private float lastX;
@@ -65,22 +63,12 @@ public class User implements Listenable {
             this.setLatLng(latLng);
             snake.add(latLng);
             this.updateSnakeLength();
-
-            Log.v("onLocationUpdated", "Location updated!");
-        } else {
-            Log.v("onLocationUpdated", "Location not updated!");
         }
     }
 
-    public void accelerometerChanged(float paramX, float paramY, float paramZ, long diffTime) {
+    public void accelerometerChanged(float currX, float currY, float currZ, long diffTime) {
         //Reference Website: https://www.sitepoint.com/using-android-sensors-application/
-        float currX = paramX;
-        float currY = paramY;
-        float currZ = paramZ;
-
         float speed = Math.abs(currX + currY + currZ - lastX - lastY - lastZ) / diffTime * 10000;
-        String speedString = String.valueOf(speed);
-        Log.v("accelerometerChanged", "speed = " + speedString);
 
         User.get().setMoving(speed > THRESHOLD);
 
@@ -143,4 +131,11 @@ public class User implements Listenable {
         snake.clear();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

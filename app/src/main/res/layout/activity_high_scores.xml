@@ -1,53 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_high_scores"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="thegroup.snakego.HighScoresActivity"
-    android:background="@android:color/black">
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:background="@android:color/white"
+    android:hapticFeedbackEnabled="true"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Translucent">
 
-
-    <thegroup.snakego.utils.SnakeTypeface
-        android:text="@string/highscore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/high_scores_page"
-        android:textSize="30sp"
-        android:textColor="@android:color/holo_green_light"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="150dp"
-        android:textAlignment="viewStart" />
-
-    <ListView
-        android:layout_below="@+id/high_scores_page"
-        android:id="@+id/high_scores_list"
+    <LinearLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/high_scores_page"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="54dp"
-        android:layout_above="@+id/return_to_options_page"
+        android:layout_alignParentTop="true"
         android:background="@android:color/black"
-        android:cacheColorHint="@android:color/black" />
+        android:orientation="vertical"
+        android:weightSum="1">
 
-    <thegroup.snakego.utils.SnakeTypeface
-        android:text="@string/rturn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_green_light"
-        android:textSize="30sp"
-        android:id="@+id/return_to_options_page"
-        android:layout_marginBottom="13dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        <thegroup.snakego.elements.SnakeTextView
+            android:id="@+id/high_scores_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/highscore"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="30sp"/>
 
+        <ListView
+            android:id="@+id/high_scores_list"
+            android:layout_width="match_parent"
+            android:layout_height="422dp"
+            android:layout_above="@+id/return_to_options_page"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/high_scores_page"
+            android:layout_below="@+id/high_scores_page"
+            android:layout_marginTop="54dp"
+            android:background="@android:color/black"
+            android:cacheColorHint="@android:color/black"/>
+
+        <thegroup.snakego.elements.SnakeTextView
+            android:id="@+id/return_to_options_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/rturn"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="22sp"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
