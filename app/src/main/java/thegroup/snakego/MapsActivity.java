@@ -57,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         PropertyChangeListener {
 
     private GoogleMap map;
+    private EntitySpawner spawner;
 
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int REQUEST_FINE_LOCATION = 0;
@@ -182,9 +183,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLngBounds latLngBounds = this.map.getProjection().getVisibleRegion().latLngBounds;
 
-        EntitySpawner spawner = new EntitySpawner(latLngBounds);
+        this.spawner = new EntitySpawner(latLngBounds);
 
-        new EntitySpawnerObserver(spawner, this.map);
+        new EntitySpawnerObserver(this.spawner, this.map);
+
         User.get().removePoints(350);  // remove points from milestone toast test.
     }
 
@@ -280,6 +282,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // map.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        spawner.updateLocation(this.map.getProjection().getVisibleRegion().latLngBounds);
     }
 
     public void drawSnake() {
