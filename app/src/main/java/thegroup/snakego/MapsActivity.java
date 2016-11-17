@@ -276,14 +276,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        //My addition to code here ZK
         User.get().onLocationUpdated(latLng);
         drawSnake();
 
-        // map.addMarker(new MarkerOptions().position(latLng).title("Snake was here"));
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        spawner.updateLocation(this.map.getProjection().getVisibleRegion().latLngBounds);
+        if (null != spawner) {
+            spawner.updateLocation(this.map.getProjection().getVisibleRegion().latLngBounds);
+        }
     }
 
     public void drawSnake() {
