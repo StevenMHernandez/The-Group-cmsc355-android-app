@@ -17,6 +17,7 @@ public class OptionsActivity extends AppCompatActivity {
     SnakeTextView highScoreText;
     SnakeTextView quitText;
     SnakeTextView score;
+    SnakeTextView snakeGoPoetry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +42,18 @@ public class OptionsActivity extends AppCompatActivity {
         });
 
         highScoreText = (SnakeTextView) findViewById(R.id.high_scores_text);
-
         highScoreText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickHighScoresText();
+            }
+        });
+
+        snakeGoPoetry = (SnakeTextView) findViewById(R.id.snakego_poetry_text);
+        snakeGoPoetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickSnakeGoPoetryText();
             }
         });
 
@@ -66,6 +74,12 @@ public class OptionsActivity extends AppCompatActivity {
 
     public void clickHighScoresText() {
         Intent intent = new Intent(this, HighScoresActivity.class);
+        startActivity(intent);
+        //finish();
+    }
+
+    public void clickSnakeGoPoetryText() {
+        Intent intent = new Intent(this, SnakeGoPoetry.class);
         startActivity(intent);
         //finish();
     }
