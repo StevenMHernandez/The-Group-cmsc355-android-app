@@ -1,22 +1,5 @@
 package thegroup.snakego;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -40,14 +23,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import thegroup.snakego.models.User;
-import thegroup.snakego.observers.EntitySpawnerObserver;
-import thegroup.snakego.observers.UserObserver;
-import thegroup.snakego.services.EntitySpawner;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
+
+import thegroup.snakego.models.User;
+import thegroup.snakego.observers.EntitySpawnerObserver;
+import thegroup.snakego.observers.UserObserver;
+import thegroup.snakego.services.EntitySpawner;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -80,7 +80,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lastTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        User.get().addPoints(350);  // add points to test milestone toasts. Delete later
 
         setContentView(R.layout.activity_maps);
         if (getIntent().getBooleanExtra("quitclick", false)) {
@@ -187,7 +186,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         new EntitySpawnerObserver(this.spawner, this.map);
 
-        User.get().removePoints(350);  // remove points from milestone toast test.
     }
 
 

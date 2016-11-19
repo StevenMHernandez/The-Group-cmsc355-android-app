@@ -29,7 +29,7 @@ public class GreenApple extends BaseEntity implements AnimateEntity {
 
     @Override
     public void animate() {
-        // added for test, better ways to do this
+        // better ways to do this
         if (User.get().getScore() > 200) {
             latLngMove = .000009;
         }
