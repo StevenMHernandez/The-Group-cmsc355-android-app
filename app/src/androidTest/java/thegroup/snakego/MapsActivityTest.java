@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import thegroup.snakego.models.User;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -20,6 +22,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class MapsActivityTest {
 
     @Rule public ActivityTestRule<MapsActivity> mMapsActivity = new ActivityTestRule<>(MapsActivity.class);
+
 
     @Test public void onClickSnakeGoIconToOptionsPage() {
         // Display Menu user issue: Scenario 1: given user is playing game
@@ -79,6 +82,9 @@ public class MapsActivityTest {
 
     @Test
     public void milestonePropertyChangeToastTest(){
+
+
+        User.get().addPoints(350);
         //  Given that the user starts the app, when the game starts automatically, the user
         //  sees his first milestone, Just a Walk in the Park, which trips the flag to true
         //  in the MapsActivity.class, which is the main activity

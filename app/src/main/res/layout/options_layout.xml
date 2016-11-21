@@ -98,10 +98,24 @@
             android:textSize="30sp"/>
 
         <thegroup.snakego.elements.SnakeTextView
+            android:id="@+id/snakego_poetry_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/resume_game_text"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:textColor="@android:color/holo_green_light"
+            android:text="Snake Poetry"
+            android:textSize="30sp"/>
+
+        <thegroup.snakego.elements.SnakeTextView
             android:id="@+id/quit_game_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/high_scores_text"
+            android:layout_below="@+id/snakego_poetry_text"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
@@ -110,6 +124,8 @@
             android:text="@string/quit"
             android:textColor="@android:color/darker_gray"
             android:textSize="30sp"/>
+
+
 
     </LinearLayout>
 

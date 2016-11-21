@@ -14,7 +14,7 @@
     <string name="quit">Quit Game</string>
     <string name="type_your_username">Type your Username</string>
     <string-array name="milestones">
-        <item>Just a walk in the park...</item>
+        <item>Just a walk in the park</item>
         <item>You\'re a beast.</item>
         <item>You rock!</item>
         <item>You\'re still playing this game?</item>
@@ -22,4 +22,46 @@
         <item>You\'re a living legend</item>
         <item>You\'re SnakeGo accomplishments will be recorded in the annals of history</item>
     </string-array>
+    <string name="snakego_poetry">Snake Poetry for our fellow SnakeGoers&#8230;\n\nThe appearance of
+        a snake can evoke intense feelings of terror. And rightly
+        so considering a snakebite can be so deadly. But beyond this visceral response,
+        the snake is a multifaceted symbol. A little investigating reveals rich histories of the
+        snake showing up in literature, art, and mythologies from around the world. Some of the
+        following descriptions are among the most prevalent meanings attributed to the snake,
+        despite cultural inflections: \n\nrenewal, as snakes periodically shed their skin,
+        spiritual and physical rebirth,
+        resurrection, life, Mother Earth, pregnancy, primordial nature, the sea, good and evil,
+        the sun and moon, power, knowledge, cunning, deceit, and death. Snakes are sometimes
+        portrayed as guardians of treasure, esoteric knowledge, and the afterlife. They also
+        connote venom, medicine, expanded consciousness, the elixir of life, and immortality.\n\nIn
+        Greek mythology, Asclepius is a god of healing and medicine who carries a snake
+        entwined staff. The rod of Asclepius as its often called can be found throughout the world
+        on flags and emblems of distinguished medical institutions, such as the World Health
+        Organization and the American Medical Association.  The rod of Asclepius is sometimes confused
+        with the Caduceus, a rod with wings and two snakes wrapped around it, carried by the Greek god
+        Hermes. Although their meanings overlap, when two snakes are coiled around each other
+        (or a staff in this case), this tends to signify the union of opposing forces, similar
+        to the yin and the yang. \n\nSimilarly, the Ouroboros is a well-known example of snake
+        iconography which depicts a snake eating its tail. This represents cyclic manifestation,
+        re-absorption, wholeness, Earth, and the infinite.\n\nThe snake is
+        widely considered to be synonymous with the serpent. In some East Asian cultures, there\'s no
+        distinction between snakes, serpents, and dragons. \n\nWith so many meanings attached to the
+        snake, it\'s a difficult creature to pin down, figuratively. How does the snake fit into
+        our lives? Why do we impart such significance to the snake? We see its frequent recurrence -
+        in art, movies, and literature? \n\nOne element of the snake\'s appeal is arguably its
+        difficulty in being pinned down. The mysticism that surrounds the snake comes at least in part
+        from its skin shedding trait. The snake\'s impression of continual regeneration combined with the terror, awe, and
+        mystery of its lethal venom is a paradox that parallels life. Deep questions remain
+        about the meaning of life. These are often wrapped in metaphors, symbols, and contradictions.
+        As a wise person once said, \"to live is to suffer&#8230; to survive is to find some meaning in the
+        suffering.\" Ascribing some meaning to the snake is one way we have survived. Many of life\'s paradoxes
+        lie outside our ability to understand. They are better left as symbols that refer to that which
+        we don\'t understand. This can offer us some humility and peace. In one manifestation of snake
+        iconography, the Ouroboros, life eats life, creating death&#8230; changing, evolving,
+        self-generating&#8230; this captures a lasting conundrum that percolates out (and in) -
+        beyond to infinity, residing in a timeless place, and constituting an unnameable transcendence.
+        As such, the snake stays. \n\nSnakeGo\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+        \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSources \n\nWikipedia \n\nAn Illustrated Encyclopedia of
+        Traditional Symbols by J.C. Cooper \n\nThe Power of Myth by Joseph Campbell
+        \n\nDictionary.com </string>
 </resources>
