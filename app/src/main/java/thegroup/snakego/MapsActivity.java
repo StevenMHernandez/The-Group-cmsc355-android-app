@@ -1,11 +1,14 @@
 package thegroup.snakego;
 
 import android.Manifest;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -44,6 +47,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
+import thegroup.snakego.elements.SnakeTextView;
 import thegroup.snakego.models.User;
 import thegroup.snakego.observers.EntitySpawnerObserver;
 import thegroup.snakego.observers.UserObserver;
@@ -56,19 +60,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationListener, SensorEventListener, GoogleMap.OnCameraIdleListener,
         PropertyChangeListener {
 
-    private GoogleMap map;
     private EntitySpawner spawner;
+    private Context context;
 
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int REQUEST_FINE_LOCATION = 0;
+
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     protected LocationManager locationManager;
+
+    private GoogleMap map;
     private Button optionsButton;
+    public SnakeTextView currentScore;
     private Polyline polyline;
+
     public static boolean PropertyChangeFlag;
     public static boolean jsonFlag;
-    private Context context;
 
     //Accelerator Global Variables
     private SensorManager sensorManager;
@@ -94,6 +102,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 onOptionsButtonPressed();
             }
         });
+
+        currentScore = (SnakeTextView) findViewById(R.id.score);
+        currentScore.setText(Integer.toString(User.get().getScore()));
 
         if (this.googleApiClient == null) {
             this.googleApiClient = new GoogleApiClient.Builder(this)
@@ -188,11 +199,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-
         if (event.getPropertyName().equals("score")) {
+            this.updateScore((int)event.getOldValue(), (int)event.getNewValue());
+
             for (int i = 6; i > 0; i--) {
                 if ((int) event.getNewValue() > i * 300 && (int)event.getOldValue() < i * 300) {
                     Resources res = getResources();
@@ -204,6 +215,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         }
+    }
+
+    public void updateScore(int oldScore, int newScore) {
+        currentScore.setText(Integer.toString(newScore));
+
+        if (oldScore < newScore) {
+            this.blinkScoreText(Color.BLUE);
+        } else if (oldScore > newScore) {
+            this.blinkScoreText(Color.RED);
+        }
+    }
+
+    public void blinkScoreText(int color) {
+        ObjectAnimator animator = ObjectAnimator
+                .ofInt(currentScore, "textColor", color, Color.WHITE);
+        animator.setEvaluator(new ArgbEvaluator());
+        animator.start();
     }
 
     @Override
