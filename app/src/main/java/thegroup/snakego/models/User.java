@@ -1,6 +1,7 @@
 package thegroup.snakego.models;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,7 +12,7 @@ import thegroup.snakego.interfaces.Listenable;
 public class User implements Listenable {
     private static User instance;
 
-    private LinkedList<LatLng> snake = new LinkedList<>();
+    private LinkedList<PolygonOptions> snake = new LinkedList<>();
 
     private String name = null;
 
@@ -63,9 +64,16 @@ public class User implements Listenable {
     public void onLocationUpdated(LatLng latLng) {
         if (moving || this.latLng == null) {
             this.setLatLng(latLng);
-            snake.add(latLng);
+            snake.add(computeRectangleFromCenterPoint(latLng));
             this.updateSnakeLength();
         }
+    }
+
+    private PolygonOptions computeRectangleFromCenterPoint(LatLng center) {
+        return new PolygonOptions().add(new LatLng(center.latitude - 0.00002, center.longitude - 0.00002),
+                new LatLng(center.latitude - 0.00002, center.longitude + 0.00002),
+                new LatLng(center.latitude + 0.00002, center.longitude + 0.00002),
+                new LatLng(center.latitude + 0.00002, center.longitude - 0.00002));
     }
 
     public void accelerometerChanged(float currX, float currY, float currZ, long diffTime) {
@@ -91,7 +99,7 @@ public class User implements Listenable {
         return this.highScore;
     }
 
-    public LinkedList<LatLng> getSnake() {
+    public LinkedList<PolygonOptions> getSnake() {
         return snake;
     }
 

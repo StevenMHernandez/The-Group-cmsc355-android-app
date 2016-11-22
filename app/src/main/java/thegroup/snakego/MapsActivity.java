@@ -37,11 +37,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import thegroup.snakego.models.User;
@@ -69,6 +72,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static boolean PropertyChangeFlag;
     public static boolean jsonFlag;
     private Context context;
+
+    private ArrayList<Polygon> snakeSegments = new ArrayList<Polygon>();
 
     //Accelerator Global Variables
     private SensorManager sensorManager;
@@ -198,6 +203,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Resources res = getResources();
                     String[] milestones = res.getStringArray(R.array.milestones);
                     Toast.makeText(context, milestones[i], Toast.LENGTH_SHORT).show();
+
                     PropertyChangeFlag = true;
                     break;
                 }
@@ -275,6 +281,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         User.get().onLocationUpdated(latLng);
+
         drawSnake();
 
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -284,18 +291,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void drawSnake() {
-        LinkedList<LatLng> snake = User.get().getSnake();
-        PolylineOptions polySnake = new PolylineOptions();
-        for (LatLng l : snake) {
-            polySnake.add(l);
-        }
-        if (polyline != null) {
-            polyline.remove();
-        }
-        polyline = map.addPolyline(polySnake);
-    }
 
+    public void drawSnake() {
+
+        for(Polygon p : snakeSegments)
+            p.remove();
+
+        snakeSegments.clear();
+
+        for (PolygonOptions po : User.get().getSnake()) {
+            snakeSegments.add(map.addPolygon(po));
+        }
+    }
 
     //Accelerometer Methods Below
     @Override
