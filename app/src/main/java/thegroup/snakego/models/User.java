@@ -36,8 +36,8 @@ public class User implements Listenable {
     private LatLng latLng;
 
     public int addPoints(int points) {
-
         this.notifyListeners(this, "score", this.score, this.score + points);
+
         this.score += points;
 
         if (this.score > this.highScore) {
@@ -50,11 +50,15 @@ public class User implements Listenable {
     }
 
     public int removePoints(int points) {
+        int oldScore = this.score;
+
         this.score -= points;
 
         if (this.score < 0) {
             this.score = 0;
         }
+
+        this.notifyListeners(this, "score", oldScore, this.score);
 
         this.updateSnakeLength();
 

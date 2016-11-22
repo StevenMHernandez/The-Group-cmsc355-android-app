@@ -27,9 +27,18 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               tools:context="thegroup.snakego.MapsActivity">
-
-
     </fragment>
 
+    <thegroup.snakego.elements.SnakeTextView
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/score"
+        android:textSize="30sp"/>
 
 </FrameLayout>

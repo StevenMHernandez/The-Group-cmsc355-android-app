@@ -103,12 +103,12 @@ public class EntitySpawner implements Listenable {
     }
 
     public void addEntity(BaseEntity entity) {
-        this.currentEntities.add(entity);
         if (User.get().getPosition() != null) {
+            this.currentEntities.add(entity);
             this.checkCollisions();
+            moveEntityRunnable.run();
+            this.notifyListeners(this, "Entities", null, this.currentEntities);
         }
-        moveEntityRunnable.run();
-        this.notifyListeners(this, "Entities", null, this.currentEntities);
     }
 
     public void checkCollisions() {
@@ -156,22 +156,21 @@ public class EntitySpawner implements Listenable {
         }
     };
 
-    private Runnable moveEntityRunnable =  new Runnable() {
+    private Runnable moveEntityRunnable = new Runnable() {
         @Override
         public void run() {
             if (User.get().getScore() > 20) {
                 refreshMoveRate = 100; // this can be adjusted later
             }
-                for (BaseEntity entity : currentEntities) {
-                    if (entity instanceof AnimateEntity) {
-                        ((GreenApple) entity).animate();
-                        checkCollisions();
-                        handler.removeCallbacks(moveEntityRunnable);
+            for (BaseEntity entity : currentEntities) {
+                if (entity instanceof AnimateEntity) {
+                    ((GreenApple) entity).animate();
+                    checkCollisions();
+                    handler.removeCallbacks(moveEntityRunnable);
                 }
             }
             currentEntities.removeAll(removeGreenEntities);
             notifyListeners(this, "Entities", null, currentEntities);
-
 
 
             handler.postDelayed(this, refreshMoveRate);
