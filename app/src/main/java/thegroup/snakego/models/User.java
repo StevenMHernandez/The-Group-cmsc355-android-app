@@ -3,11 +3,11 @@ package thegroup.snakego.models;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import thegroup.snakego.interfaces.Listenable;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
-
-import thegroup.snakego.interfaces.Listenable;
 
 public class User implements Listenable {
     private static User instance;
@@ -21,6 +21,7 @@ public class User implements Listenable {
     private float lastY;
     private float lastZ;
     private static final int THRESHOLD = 5;
+    private static final double RECTANGLESIZE = 0.00002;
 
     public static synchronized User get() {
         if (instance == null) {
@@ -74,10 +75,10 @@ public class User implements Listenable {
     }
 
     private PolygonOptions computeRectangleFromCenterPoint(LatLng center) {
-        return new PolygonOptions().add(new LatLng(center.latitude - 0.00002, center.longitude - 0.00002),
-                new LatLng(center.latitude - 0.00002, center.longitude + 0.00002),
-                new LatLng(center.latitude + 0.00002, center.longitude + 0.00002),
-                new LatLng(center.latitude + 0.00002, center.longitude - 0.00002));
+        return new PolygonOptions().add(new LatLng(center.latitude - RECTANGLESIZE, center.longitude - RECTANGLESIZE),
+                new LatLng(center.latitude - RECTANGLESIZE, center.longitude + RECTANGLESIZE),
+                new LatLng(center.latitude + RECTANGLESIZE, center.longitude + RECTANGLESIZE),
+                new LatLng(center.latitude + RECTANGLESIZE, center.longitude - RECTANGLESIZE));
     }
 
     public void accelerometerChanged(float currX, float currY, float currZ, long diffTime) {
