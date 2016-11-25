@@ -132,6 +132,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+        User.get().addChangeListener(new UserObserver(this));
+        User.get().addChangeListener(this);
     }
 
     public void onOptionsButtonPressed() {
@@ -188,9 +191,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapLoaded() {
-        User.get().addChangeListener(new UserObserver(this));
-        User.get().addChangeListener(this);
-
         LatLngBounds latLngBounds = this.map.getProjection().getVisibleRegion().latLngBounds;
 
         this.spawner = new EntitySpawner(latLngBounds);

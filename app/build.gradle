@@ -33,9 +33,10 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     androidTestCompile 'com.android.support:support-annotations:24.2.1' // was getting a weird error so I added this
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestCompile "org.mockito:mockito-core:1.10.19"
+    androidTestCompile "com.crittercism.dexmaker:dexmaker:1.4"
+    androidTestCompile "com.crittercism.dexmaker:dexmaker-mockito:1.4"
+    androidTestCompile "com.crittercism.dexmaker:dexmaker-dx:1.4"
 //    may need to include {exclude group:  'javax.inject'}
     //androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
