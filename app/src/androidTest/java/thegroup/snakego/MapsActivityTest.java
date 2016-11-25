@@ -100,10 +100,14 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void milestonePropertyChangeToastTest() {
+    public void milestonePropertyChangeToastTest() throws Throwable {
+        this.mMapsActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                User.get().addPoints(350);
+            }
+        });
 
-
-        User.get().addPoints(350);
         //  Given that the user starts the app, when the game starts automatically, the user
         //  sees his first milestone, Just a Walk in the Park, which trips the flag to true
         //  in the MapsActivity.class, which is the main activity
@@ -136,7 +140,7 @@ public class MapsActivityTest {
     public void scoreUpdatesWhenIGainPoints() throws Throwable {
         final User user = User.get();
 
-        mMapsActivity.runOnUiThread(new Runnable() {
+        this.mMapsActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 user.addPoints(100);
@@ -153,7 +157,7 @@ public class MapsActivityTest {
     public void scoreUpdatesWhenILosePoints() throws Throwable {
         final User user = User.get();
 
-        mMapsActivity.runOnUiThread(new Runnable() {
+        this.mMapsActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 user.addPoints(1000);
@@ -172,7 +176,7 @@ public class MapsActivityTest {
     public void scoreTextBlinksBlueWhenIGainPoints() throws Throwable {
         final MapsActivity spyActivity = Mockito.spy(this.mMapsActivity.getActivity());
 
-        mMapsActivity.runOnUiThread(new Runnable() {
+        this.mMapsActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // score goes up from 0 to 100
@@ -187,7 +191,7 @@ public class MapsActivityTest {
     public void scoreTextBlinksRedWhenILosePoints() throws Throwable {
         final MapsActivity spyActivity = Mockito.spy(this.mMapsActivity.getActivity());
 
-        mMapsActivity.runOnUiThread(new Runnable() {
+        this.mMapsActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // score goes down from 100 to 0
@@ -202,7 +206,7 @@ public class MapsActivityTest {
     public void scoreTextDoesNotBlinkIfMyScoreStaysTheSame() throws Throwable {
         final MapsActivity spyActivity = Mockito.spy(this.mMapsActivity.getActivity());
 
-        mMapsActivity.runOnUiThread(new Runnable() {
+        this.mMapsActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 spyActivity.updateScore(100, 100);
