@@ -32,8 +32,8 @@ public class UserUnitTest {
         //        User user = User.get();
         for (int i = 0; i < 100; ++i) {
             userOne.onLocationUpdated(new LatLng(37.0, 77.0));
-            System.out.println("snakeSize = " + userOne.getSnake().size());
-            assertTrue(userOne.getSnake().size() <= 11);
+            System.out.println("snakeSize = " + userOne.getUserLocationHistory().size());
+            assertTrue(userOne.getUserLocationHistory().size() <= 11);
         }
 
     }
@@ -58,7 +58,7 @@ public class UserUnitTest {
         User.get().accelerometerChanged((float) 0.0, (float) 9.8, (float) -1.4, 1001);
         User.get().accelerometerChanged((float) 1.0, (float) 9.2, (float) -1.2, 1001);
         User.get().onLocationUpdated(new LatLng(33.0, -77.0));
-        Assert.assertEquals(1, User.get().getSnake().size());
+        Assert.assertEquals(1, User.get().getUserLocationHistory().size());
     }
 
     @Test
@@ -79,6 +79,6 @@ public class UserUnitTest {
     public void testSnakeUpdated() {
         User.get().accelerometerChanged((float) 0.0, (float) 9.8, (float) -1.4, 1001);
         User.get().onLocationUpdated(new LatLng(33.0, -77.5));
-        Assert.assertEquals(1, User.get().getSnake().size());
+        Assert.assertEquals(1, User.get().getUserLocationHistory().size());
     }
 }

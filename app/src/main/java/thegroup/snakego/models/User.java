@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class User implements Listenable {
     private static User instance;
 
-    private LinkedList<PolygonOptions> snake = new LinkedList<>();
+    private LinkedList<LatLng> userLocationHistory = new LinkedList<>();
 
     private String name = null;
 
@@ -21,7 +21,6 @@ public class User implements Listenable {
     private float lastY;
     private float lastZ;
     private static final int THRESHOLD = 5;
-    private static final double RECTANGLESIZE = 0.00002;
 
     public static synchronized User get() {
         if (instance == null) {
@@ -30,7 +29,7 @@ public class User implements Listenable {
         return instance;
     }
 
-    private int score = 0;
+    private int score = 100;
 
     private int highScore = 0;
 
@@ -67,18 +66,11 @@ public class User implements Listenable {
     }
 
     public void onLocationUpdated(LatLng latLng) {
-        if (moving || this.latLng == null) {
+//        if (moving || this.latLng == null) {
             this.setLatLng(latLng);
-            snake.add(computeRectangleFromCenterPoint(latLng));
+            userLocationHistory.add(latLng);
             this.updateSnakeLength();
-        }
-    }
-
-    private PolygonOptions computeRectangleFromCenterPoint(LatLng center) {
-        return new PolygonOptions().add(new LatLng(center.latitude - RECTANGLESIZE, center.longitude - RECTANGLESIZE),
-                new LatLng(center.latitude - RECTANGLESIZE, center.longitude + RECTANGLESIZE),
-                new LatLng(center.latitude + RECTANGLESIZE, center.longitude + RECTANGLESIZE),
-                new LatLng(center.latitude + RECTANGLESIZE, center.longitude - RECTANGLESIZE));
+//        }
     }
 
     public void accelerometerChanged(float currX, float currY, float currZ, long diffTime) {
@@ -104,8 +96,8 @@ public class User implements Listenable {
         return this.highScore;
     }
 
-    public LinkedList<PolygonOptions> getSnake() {
-        return snake;
+    public LinkedList<LatLng> getUserLocationHistory() {
+        return userLocationHistory;
     }
 
     public LatLng getPosition() {
@@ -125,8 +117,8 @@ public class User implements Listenable {
     }
 
     private void updateSnakeLength() {
-        while (this.snake.size() > this.getMaxSnakeLength()) {
-            this.snake.removeFirst();
+        while (this.userLocationHistory.size() > this.getMaxSnakeLength()) {
+            this.userLocationHistory.removeFirst();
         }
     }
 
@@ -143,7 +135,7 @@ public class User implements Listenable {
     }
 
     public void clearSnake() {
-        snake.clear();
+        userLocationHistory.clear();
     }
 
     public String getName() {
