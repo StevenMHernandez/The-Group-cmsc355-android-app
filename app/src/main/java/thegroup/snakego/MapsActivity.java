@@ -38,7 +38,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.graphics.ColorUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,14 +48,12 @@ import thegroup.snakego.models.User;
 import thegroup.snakego.observers.EntitySpawnerObserver;
 import thegroup.snakego.observers.UserObserver;
 import thegroup.snakego.services.EntitySpawner;
-import thegroup.snakego.utils.DistanceCalculator;
+import thegroup.snakego.utils.Utils;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         OnMapLoadedCallback, GoogleApiClient.ConnectionCallbacks,
@@ -69,7 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int REQUEST_FINE_LOCATION = 0;
-    private static final double RECTANGLESIZE = 0.00001;
 
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
@@ -320,36 +316,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private PolygonOptions computeRectangleFromCenterPoint(LatLng center) {
-        return new PolygonOptions().add(new LatLng(center.latitude - RECTANGLESIZE, center.longitude - RECTANGLESIZE),
-                new LatLng(center.latitude - RECTANGLESIZE, center.longitude + RECTANGLESIZE),
-                new LatLng(center.latitude + RECTANGLESIZE, center.longitude + RECTANGLESIZE),
-                new LatLng(center.latitude + RECTANGLESIZE, center.longitude - RECTANGLESIZE));
-    }
-
-
-    private Collection<PolygonOptions> getRectanglesFromLine(LatLng p0, LatLng p1) {
-        ArrayList<PolygonOptions> rectangles = new ArrayList<>();
-
-        LatLng center = computeCentroid(p0, p1);
-
-        if (DistanceCalculator.distance(p0,p1) > 5) {
-            rectangles.addAll(getRectanglesFromLine(p0, center));
-            rectangles.addAll(getRectanglesFromLine(center, p1));
-        }
-        else {
-            rectangles.add(computeRectangleFromCenterPoint(center));
-            rectangles.add(computeRectangleFromCenterPoint(p1));
-        }
-
-        return rectangles;
-    }
-
-    private LatLng computeCentroid(LatLng p0, LatLng p1) {
-        return new LatLng((p0.latitude + p1.latitude)/2, (p0.longitude + p1.longitude)/2);
-    }
-
-
     public void drawSnake() {
 
         for (Polygon p : snakeSegments) {
@@ -362,7 +328,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (int i = 1; i<User.get().getUserLocationHistory().size(); i++) {
             LatLng current = User.get().getUserLocationHistory().get(i);
 
-            for (PolygonOptions po : getRectanglesFromLine(prev, current)) {
+            for (PolygonOptions po : Utils.getRectanglesFromLine(prev, current)) {
                 snakeSegments.add(map.addPolygon(po));
             }
             prev = current;

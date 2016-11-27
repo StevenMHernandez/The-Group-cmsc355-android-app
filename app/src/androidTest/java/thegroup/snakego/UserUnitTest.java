@@ -81,4 +81,7 @@ public class UserUnitTest {
         User.get().onLocationUpdated(new LatLng(33.0, -77.5));
         Assert.assertEquals(1, User.get().getUserLocationHistory().size());
     }
+
+
+
 }

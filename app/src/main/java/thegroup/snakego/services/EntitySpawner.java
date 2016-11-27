@@ -11,7 +11,7 @@ import thegroup.snakego.entities.RedApple;
 import thegroup.snakego.interfaces.AnimateEntity;
 import thegroup.snakego.interfaces.Listenable;
 import thegroup.snakego.models.User;
-import thegroup.snakego.utils.DistanceCalculator;
+import thegroup.snakego.utils.Utils;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -115,7 +115,7 @@ public class EntitySpawner implements Listenable {
         LatLng latlng = User.get().getPosition();
 
         for (BaseEntity entity : this.currentEntities) {
-            if (DistanceCalculator.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
+            if (Utils.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
                 entity.onCollision();
                 collide = true; // test dependency
                 if (entity instanceof GreenApple) {

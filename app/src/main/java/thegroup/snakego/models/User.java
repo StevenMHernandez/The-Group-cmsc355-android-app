@@ -29,7 +29,7 @@ public class User implements Listenable {
         return instance;
     }
 
-    private int score = 100;
+    private int score = 0;
 
     private int highScore = 0;
 

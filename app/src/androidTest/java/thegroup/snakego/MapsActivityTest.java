@@ -215,4 +215,5 @@ public class MapsActivityTest {
 
         Mockito.verify(spyActivity, never()).blinkScoreText(anyInt());
     }
+
 }
