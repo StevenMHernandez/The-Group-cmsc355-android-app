@@ -17,7 +17,7 @@ public class RedApple extends BaseEntity {
     }
 
     public int getImage() {
-        return R.mipmap.ic_redapple;
+        return R.mipmap.red_apple;
     }
 
     public float getColor() {

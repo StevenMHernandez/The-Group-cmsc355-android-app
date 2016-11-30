@@ -29,7 +29,7 @@ public class FoodSpawningTest2 {
         // spawn some random entity
         BaseEntity entity = spawner.spawnEntity();
 
-        Assert.assertTrue(entity.getImage() == R.mipmap.ic_greenapple || entity.getImage() == R.mipmap.ic_redapple);
+        Assert.assertTrue(entity.getImage() == R.mipmap.green_apple || entity.getImage() == R.mipmap.red_apple);
     }
 
 }

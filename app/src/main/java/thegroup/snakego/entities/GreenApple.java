@@ -20,7 +20,7 @@ public class GreenApple extends BaseEntity implements AnimateEntity {
     }
 
     public int getImage() {
-        return R.mipmap.ic_greenapple;
+        return R.mipmap.green_apple;
     }
 
     public float getColor() {

@@ -3,6 +3,7 @@ package thegroup.snakego.utils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import android.graphics.Color;
 import android.location.Location;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Collection;
 
 public class Utils {
 
-    private static final double RECTANGLESIZE = 0.00001;
+    private static final double RECT_SIZE = 0.00001;
 
     public static float distance(LatLng lat1, LatLng lat2) {
         Location location1 = new Location("1");
@@ -23,10 +24,13 @@ public class Utils {
     }
 
     public static PolygonOptions computeRectangleFromCenterPoint(LatLng center) {
-        return new PolygonOptions().add(new LatLng(center.latitude - RECTANGLESIZE, center.longitude - RECTANGLESIZE),
-                new LatLng(center.latitude - RECTANGLESIZE, center.longitude + RECTANGLESIZE),
-                new LatLng(center.latitude + RECTANGLESIZE, center.longitude + RECTANGLESIZE),
-                new LatLng(center.latitude + RECTANGLESIZE, center.longitude - RECTANGLESIZE));
+        return new PolygonOptions()
+                .add(new LatLng(center.latitude - RECT_SIZE, center.longitude - RECT_SIZE),
+                        new LatLng(center.latitude - RECT_SIZE, center.longitude + RECT_SIZE),
+                        new LatLng(center.latitude + RECT_SIZE, center.longitude + RECT_SIZE),
+                        new LatLng(center.latitude + RECT_SIZE, center.longitude - RECT_SIZE)
+                )
+                .fillColor(Color.BLACK);
     }
 
     public static Collection<PolygonOptions> getRectanglesFromLine(LatLng p0, LatLng p1) {
@@ -34,11 +38,10 @@ public class Utils {
 
         LatLng center = computeCentroid(p0, p1);
 
-        if (Utils.distance(p0,p1) > 5) {
+        if (Utils.distance(p0, p1) > 5) {
             rectangles.addAll(getRectanglesFromLine(p0, center));
             rectangles.addAll(getRectanglesFromLine(center, p1));
-        }
-        else {
+        } else {
             rectangles.add(computeRectangleFromCenterPoint(center));
             rectangles.add(computeRectangleFromCenterPoint(p1));
         }
@@ -47,6 +50,6 @@ public class Utils {
     }
 
     public static LatLng computeCentroid(LatLng p0, LatLng p1) {
-        return new LatLng((p0.latitude + p1.latitude)/2, (p0.longitude + p1.longitude)/2);
+        return new LatLng((p0.latitude + p1.latitude) / 2, (p0.longitude + p1.longitude) / 2);
     }
 }

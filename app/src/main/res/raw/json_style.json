@@ -27,7 +27,7 @@
     "featureType": "landscape",
     "stylers": [
       {
-        "color": "#40fb44"
+        "color": "#05ea0a"
       }
     ]
   },
@@ -35,7 +35,7 @@
     "featureType": "poi",
     "stylers": [
       {
-        "color": "#40fb44"
+        "color": "#05ea0a"
       }
     ]
   },
@@ -43,7 +43,7 @@
     "featureType": "road",
     "stylers": [
       {
-        "color": "#ffff80"
+        "color": "#ffdf80"
       }
     ]
   },

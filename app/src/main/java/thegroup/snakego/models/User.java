@@ -109,7 +109,7 @@ public class User implements Listenable {
     }
 
     public int getMaxSnakeLength() {
-        return ((score / 10) + 1);
+        return ((score / 10) + 2);
     }
 
     public boolean getMoving() {
