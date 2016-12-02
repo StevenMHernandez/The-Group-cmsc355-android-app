@@ -206,14 +206,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (event.getPropertyName().equals("score")) {
             this.updateScore((int)event.getOldValue(), (int)event.getNewValue());
 
-            for (int i = 6; i > 0; i--) {
-                if ((int) event.getNewValue() > i * 300 && (int)event.getOldValue() < i * 300) {
-                    Resources res = getResources();
-                    String[] milestones = res.getStringArray(R.array.milestones);
-                    Toast.makeText(context, milestones[i], Toast.LENGTH_SHORT).show();
-
-                    PropertyChangeFlag = true;
-                    break;
+            if ((int) event.getNewValue() - (int) event.getOldValue() == 100) {
+                Intent intent = new Intent(this, SnakeSpace.class);
+                startActivity(intent);
+            }
+            else {
+                for (int i = 6; i > 0; i--) {
+                    if ((int) event.getNewValue() > i * 300 && (int) event.getOldValue() < i * 300) {
+                        Resources res = getResources();
+                        String[] milestones = res.getStringArray(R.array.milestones);
+                        Toast.makeText(context, milestones[i], Toast.LENGTH_SHORT).show();
+                        PropertyChangeFlag = true;
+                        break;
+                    }
                 }
             }
 

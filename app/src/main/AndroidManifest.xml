@@ -60,6 +60,8 @@
         </activity>
         <activity android:name=".SnakeGoPoetry">
         </activity>
+        <activity android:name=".SnakeSpace">
+        </activity>
     </application>
 
 </manifest>

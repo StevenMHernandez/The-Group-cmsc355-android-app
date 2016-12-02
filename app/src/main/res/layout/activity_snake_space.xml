@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_snake_go_space"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="thegroup.snakego.SnakeSpace"
+    tools:layout_rowWeight="5"
+    >
+
+    <thegroup.snakego.elements.SnakeTextView
+        android:text="Take this with you."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="33sp"
+        android:textStyle="normal"
+        android:padding="10dip"
+        android:id="@+id/snake_space_text2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+    <thegroup.snakego.elements.SnakeTextView
+        android:text="You're in Snake Space.."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="30sp"
+        android:textStyle="normal"
+        android:padding="10dip"
+        android:id="@+id/snake_space_text1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_gandalf"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/gandalf"
+        android:scaleX="6"
+        android:scaleY="6"/>
+
+    <thegroup.snakego.elements.SnakeTextView
+        android:text="... at peace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_purple"
+        android:padding="10dip"
+        android:textSize="30sp"
+        android:textStyle="normal"
+
+        android:layout_below="@+id/snake_space_text1"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="41dp"
+        android:id="@+id/editText"/>
+
+</RelativeLayout>

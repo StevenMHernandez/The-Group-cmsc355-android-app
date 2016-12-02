@@ -47,6 +47,9 @@ public class EntitySpawner implements Listenable {
 
     private List<PropertyChangeListener> listeners = new ArrayList<>();
 
+    private int ouroborosCount = 0;
+
+
 
     public EntitySpawner(LatLngBounds currentMapBounds) {
         this(currentMapBounds, true);
@@ -85,6 +88,18 @@ public class EntitySpawner implements Listenable {
                 this.currentEntities.remove(0);
             }
             int index = new Random().nextInt(this.entityTypes.length);
+
+            if (index == 2) {
+                if (ouroborosCount < 10) {
+                    ouroborosCount++;
+                    index = 0;
+                } else {
+                    ouroborosCount = 0;
+                    index = 2;
+                }
+            }
+
+            index = 0;
 
             entity = (BaseEntity) this.entityTypes[index]
                     .getConstructor(LatLng.class)
