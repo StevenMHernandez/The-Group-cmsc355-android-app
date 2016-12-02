@@ -99,8 +99,6 @@ public class EntitySpawner implements Listenable {
                 }
             }
 
-            index = 0;
-
             entity = (BaseEntity) this.entityTypes[index]
                     .getConstructor(LatLng.class)
                     .newInstance(this.getRandomLocation());
