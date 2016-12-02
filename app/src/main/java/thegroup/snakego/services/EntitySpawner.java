@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import thegroup.snakego.entities.BaseEntity;
 import thegroup.snakego.entities.GreenApple;
+import thegroup.snakego.entities.Ouroboros;
 import thegroup.snakego.entities.RedApple;
 import thegroup.snakego.interfaces.AnimateEntity;
 import thegroup.snakego.interfaces.Listenable;
@@ -35,7 +36,7 @@ public class EntitySpawner implements Listenable {
 
     private LatLngBounds currentMapBounds;
 
-    private Class[] entityTypes = {GreenApple.class, RedApple.class};
+    private Class[] entityTypes = {GreenApple.class, RedApple.class, Ouroboros.class};
 
     private ArrayList<BaseEntity> currentEntities = new ArrayList<>();
 
