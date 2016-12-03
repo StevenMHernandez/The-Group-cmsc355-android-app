@@ -13,6 +13,9 @@
     <string name="resume">Resume Game</string>
     <string name="quit">Quit Game</string>
     <string name="type_your_username">Type your Username</string>
+    <string name="snake_space">You're in Snake Space&#8230;</string>
+    <string name="take_this_peace">Take this with you</string>
+    <string name="peace">&#8230; at peace</string>
     <string-array name="milestones">
         <item>Just a walk in the park</item>
         <item>You\'re a beast.</item>
