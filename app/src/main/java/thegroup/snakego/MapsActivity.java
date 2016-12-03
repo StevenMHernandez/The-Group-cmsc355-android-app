@@ -198,7 +198,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.spawner = new EntitySpawner(latLngBounds);
 
         new EntitySpawnerObserver(this.spawner, this.map);
-
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 public class SnakeSpace extends AppCompatActivity {
 
     private ImageView resumeGame;
+    //public static Boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

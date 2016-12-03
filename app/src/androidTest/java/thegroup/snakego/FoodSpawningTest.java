@@ -124,7 +124,7 @@ public class FoodSpawningTest {
     }
 
 
-    @Test public void spawnedEntityIsEitherRedOrGreenApple() {
+    @Test public void spawnedEntityIsEitherRedOrGreenAppleorOuroboros() {
         // Given the the user starts playing the game, which starts automatically, when the apples begin
         // to populate the screen, the graphics look like images of apples that are green and red
 
