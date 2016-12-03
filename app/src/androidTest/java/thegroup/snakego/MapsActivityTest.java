@@ -2,6 +2,8 @@ package thegroup.snakego;
 
 import android.graphics.Color;
 import android.os.Looper;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -18,6 +20,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -243,6 +246,17 @@ public class MapsActivityTest {
         onView(withId(R.id.activity_snake_go_poetry));
         pressBack();
         onView(withId(R.id.snakego_poetry_text)).check(matches(notNullValue()));
+    }
+
+    @Test
+    public void snakeGoPoetryPageIsScrollable() {
+        onView(withId(R.id.icon_button)).perform(click());
+
+        onView(withId(R.id.snakego_poetry_text)).perform(click());
+
+        onView(withId(R.id.activity_snake_go_poetry))
+        .perform(ViewActions.scrollTo())
+                .check(ViewAssertions.matches(isDisplayed()));
     }
 
 
