@@ -25,20 +25,22 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class EntitySpawnerUnitTest {
 
-    @Before public void setup() {
+    @Before
+    public void setup() {
         // required for EntitySpawner; ignore for now.
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
     }
 
-    @Test public void test_EntitySpawner_checkCollisions() {
+    @Test
+    public void test_EntitySpawner_checkCollisions() {
         // build our map latitude-longitude bounds
         LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
         // build our random food entity spawner
         EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
 
-        LatLng userLocation = new LatLng(1,1);
+        LatLng userLocation = new LatLng(1, 1);
 
         // set our user to some location
         User.get().setLatLng(userLocation);
@@ -54,16 +56,17 @@ public class EntitySpawnerUnitTest {
         Assert.assertTrue(secondScore != initialScore);
     }
 
-    @Test public void test_EntitySpawner_addEntity() {
+    @Test
+    public void test_EntitySpawner_addEntity() {
         // build our map latitude-longitude bounds
         LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
         // build our random food entity spawner
         EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
 
-        LatLng userLocation = new LatLng(1,1);
-        LatLng userLocation2 = new LatLng(2,2);
-        LatLng userLocation3 = new LatLng(3,3);
-        LatLng userLocation4 = new LatLng(4,4);
+        LatLng userLocation = new LatLng(1, 1);
+        LatLng userLocation2 = new LatLng(2, 2);
+        LatLng userLocation3 = new LatLng(3, 3);
+        LatLng userLocation4 = new LatLng(4, 4);
 
         // set our user to some location
         User.get().setLatLng(userLocation);
@@ -82,5 +85,16 @@ public class EntitySpawnerUnitTest {
         spawner.addEntity(new Ouroboros(userLocation4));
         subsequentSize = spawner.getCurrentEntities().size();
         Assert.assertEquals(3, subsequentSize);
+    }
+
+    @Test
+    public void test_EntitySpawner_spawnEntity() {
+        // build our map latitude-longitude bounds
+        LatLngBounds latLngBounds = new LatLngBounds(new LatLng(0, 0), new LatLng(10, 10));
+
+        // build our random food entity spawner
+        EntitySpawner spawner = new EntitySpawner(latLngBounds, false);
+
+        Assert.assertTrue(spawner.spawnEntity() instanceof BaseEntity);
     }
 }
