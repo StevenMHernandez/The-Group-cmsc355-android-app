@@ -20,7 +20,7 @@ public class Ouroboros extends BaseEntity {
     }
 
     public void onCollision() {
-        User.get().addPoints(100);
+        User.get().addPoints(215);
     }
 
     public int getImage() {
