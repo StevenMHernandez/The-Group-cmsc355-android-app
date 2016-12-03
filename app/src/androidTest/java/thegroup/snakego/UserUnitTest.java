@@ -19,7 +19,7 @@ public class UserUnitTest {
     @Test
     public void userAtStart() {
         //Assert that the length & score & highscore of the user("Snake") is zero at start
-        Assert.assertEquals(1, userOne.getMaxSnakeLength());
+        Assert.assertEquals(2, userOne.getMaxSnakeLength());
 
         Assert.assertEquals(0, userOne.getScore());
 
