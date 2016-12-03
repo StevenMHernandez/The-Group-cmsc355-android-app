@@ -34,6 +34,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
@@ -44,6 +45,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import thegroup.snakego.elements.SnakeTextView;
+import thegroup.snakego.entities.BaseEntity;
+import thegroup.snakego.entities.RedApple;
 import thegroup.snakego.models.User;
 import thegroup.snakego.observers.EntitySpawnerObserver;
 import thegroup.snakego.observers.UserObserver;
@@ -77,6 +80,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static boolean PropertyChangeFlag;
     public static boolean jsonFlag;
+
+    private Handler handler;
 
     private ArrayList<Polygon> snakeSegments = new ArrayList<Polygon>();
 
@@ -137,6 +142,79 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         User.get().addChangeListener(new UserObserver(this));
         User.get().addChangeListener(this);
+
+        handleAutomaticSnakeMovement();
+    }
+
+    public void handleAutomaticSnakeMovement() {
+        handler = new Handler();
+
+        User.get().onLocationUpdated(new LatLng(37.5407, 77.4360));
+
+        final Runnable r = new Runnable() {
+            public void run() {
+                LatLng latLng = User.get().getPosition();
+
+                BaseEntity closestRedApple = null;
+                double howFarIsTheClosestRedApple = 1e99;
+                if (spawner != null) {
+                    ArrayList<BaseEntity> entities = spawner.getCurrentEntities();
+
+                    for (BaseEntity entity : entities) {
+                        if (entity instanceof RedApple) {
+                            if (closestRedApple == null) {
+                                closestRedApple = entity;
+                            } else {
+                                double newRedApplePosition = Utils.distance(entity.getPosition(), latLng);
+                                if (newRedApplePosition < howFarIsTheClosestRedApple && newRedApplePosition > EntitySpawner.COLLISION_DISTANCE) {
+                                    closestRedApple = entity;
+                                }
+                            }
+
+                            howFarIsTheClosestRedApple = Utils.distance(closestRedApple.getPosition(), latLng);
+                        }
+                    }
+                }
+
+                double latitudeMovement = 0;
+                double longitudeMovement = 0;
+
+                if (closestRedApple != null) {
+                    double speed = 0.00002;
+
+                    if (latLng.latitude - speed > closestRedApple.getLat()) {
+                        latitudeMovement = -speed;
+                    } else if (latLng.latitude + speed < closestRedApple.getLat()) {
+                        latitudeMovement = speed;
+                    }
+
+                    if (latLng.longitude - speed > closestRedApple.getLong()) {
+                        longitudeMovement = -speed;
+                    } else if (latLng.longitude + speed < closestRedApple.getLong()) {
+                        longitudeMovement = speed;
+                    }
+                }
+
+                LatLng newLatLng = new LatLng(latLng.latitude + latitudeMovement,
+                        latLng.longitude + longitudeMovement);
+
+                User.get().onLocationUpdated(newLatLng);
+
+                drawSnake();
+
+                map.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
+
+                if (null != spawner) {
+                    spawner.updateLocation(map.getProjection().getVisibleRegion().latLngBounds);
+                }
+
+                handler.postDelayed(this, 500);
+            }
+        };
+
+        User.get().getUserLocationHistory().clear();
+
+        handler.postDelayed(r, 500);
     }
 
     public void onOptionsButtonPressed() {
@@ -305,17 +383,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // location listener
     @Override
     public void onLocationChanged(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        User.get().onLocationUpdated(latLng);
-
-        drawSnake();
-
-        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        if (null != spawner) {
-            spawner.updateLocation(this.map.getProjection().getVisibleRegion().latLngBounds);
-        }
+        //        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        //
+        //        User.get().onLocationUpdated(latLng);
+        //
+        //        drawSnake();
+        //
+        //        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        //
+        //        if (null != spawner) {
+        //            spawner.updateLocation(this.map.getProjection().getVisibleRegion().latLngBounds);
+        //        }
     }
 
     public void drawSnake() {
@@ -327,7 +405,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         snakeSegments.clear();
 
         LatLng prev = User.get().getUserLocationHistory().getFirst();
-        for (int i = 1; i<User.get().getUserLocationHistory().size(); i++) {
+        for (int i = 1; i < User.get().getUserLocationHistory().size(); i++) {
             LatLng current = User.get().getUserLocationHistory().get(i);
 
             for (PolygonOptions po : Utils.getRectanglesFromLine(prev, current)) {

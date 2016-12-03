@@ -24,7 +24,7 @@ public class EntitySpawner implements Listenable {
 
     private static final int SPAWN_FREQUENCY = 20000;
 
-    private static final double COLLISION_DISTANCE = 3;
+    public static final double COLLISION_DISTANCE = 3;
 
     private static final int MAX_ENTITIES = 10;
 
@@ -40,7 +40,7 @@ public class EntitySpawner implements Listenable {
 
     private ArrayList<BaseEntity> currentEntities = new ArrayList<>();
 
-    private ArrayList<BaseEntity> removeGreenEntities = new ArrayList<>();
+    private ArrayList<BaseEntity> entitiesToRemove = new ArrayList<>();
 
     private Handler handler = new Handler();
 
@@ -131,11 +131,7 @@ public class EntitySpawner implements Listenable {
             if (Utils.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
                 entity.onCollision();
                 collide = true; // test dependency
-                if (entity instanceof GreenApple) {
-                    this.removeGreenEntities.add(entity);
-                } else {
-                    this.currentEntities.remove(entity);
-                }
+                this.entitiesToRemove.add(entity);
                 notifyListeners(this, "Entities", null, currentEntities);
             }
 
@@ -182,7 +178,7 @@ public class EntitySpawner implements Listenable {
                     handler.removeCallbacks(moveEntityRunnable);
                 }
             }
-            currentEntities.removeAll(removeGreenEntities);
+            currentEntities.removeAll(entitiesToRemove);
             notifyListeners(this, "Entities", null, currentEntities);
 
 
