@@ -227,11 +227,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             this.blinkScoreText(Color.RED);
         }
 
-            if (newScore - oldScore == 215) {
-                Intent intent = new Intent(this, SnakeSpace.class);
-                startActivity(intent);
-            }
-
+        if (newScore - oldScore == 215) {
+            Intent intent = new Intent(this, SnakeSpace.class);
+            startActivity(intent);
+        }
     }
 
     public void blinkScoreText(int color) {

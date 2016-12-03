@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import thegroup.snakego.models.User;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -123,7 +124,6 @@ public class MapsActivityTest {
         // when user clicks "Return to Options Page"
         onView(withId(R.id.return_to_options_page)).perform(click());
 
-
         // then user is taken to Options page
         onView(withId(R.id.options_page_text)).check(matches(notNullValue()));
     }
@@ -215,5 +215,35 @@ public class MapsActivityTest {
 
         Mockito.verify(spyActivity, never()).blinkScoreText(anyInt());
     }
+
+    @Test
+    public void snakePoetryTextAppearsOnOptionsPage() {
+        String snakePoetryText = "Snake Poetry";
+
+        onView(withId(R.id.icon_button)).perform(click());
+
+        onView(withText(snakePoetryText)).check(matches(notNullValue()));
+    }
+
+    @Test
+    public void clickOnSnakePoetryText() {
+        onView(withId(R.id.icon_button)).perform(click());
+
+        onView(withId(R.id.snakego_poetry_text)).perform(click());
+
+        onView(withId(R.id.activity_snake_go_poetry)).check(matches(notNullValue()));
+    }
+
+    @Test
+    public void clickBackToReturnToOptionsPageFromSnakePoetryPage() {
+        onView(withId(R.id.icon_button)).perform(click());
+
+        onView(withId(R.id.snakego_poetry_text)).perform(click());
+
+        onView(withId(R.id.activity_snake_go_poetry));
+        pressBack();
+        onView(withId(R.id.snakego_poetry_text)).check(matches(notNullValue()));
+    }
+
 
 }
