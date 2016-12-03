@@ -238,7 +238,7 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void clickBackToReturnToOptionsPageFromSnakePoetryPage() {
+    public void returnToOptionsPageFromSnakePoetryPage() {
         onView(withId(R.id.icon_button)).perform(click());
 
         onView(withId(R.id.snakego_poetry_text)).perform(click());
