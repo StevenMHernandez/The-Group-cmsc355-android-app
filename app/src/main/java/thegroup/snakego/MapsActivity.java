@@ -83,6 +83,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private Handler handler;
 
+    private boolean loadedLocation = false;
+
     private ArrayList<Polygon> snakeSegments = new ArrayList<Polygon>();
 
     //Accelerator Global Variables
@@ -149,63 +151,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void handleAutomaticSnakeMovement() {
         handler = new Handler();
 
-        User.get().onLocationUpdated(new LatLng(37.5407, 77.4360));
-
         final Runnable r = new Runnable() {
             public void run() {
-                LatLng latLng = User.get().getPosition();
+                if (loadedLocation) {
+                    LatLng latLng = User.get().getPosition();
 
-                BaseEntity closestRedApple = null;
-                double howFarIsTheClosestRedApple = 1e99;
-                if (spawner != null) {
-                    ArrayList<BaseEntity> entities = spawner.getCurrentEntities();
+                    BaseEntity closestRedApple = null;
+                    double howFarIsTheClosestRedApple = 1e99;
+                    if (spawner != null) {
+                        ArrayList<BaseEntity> entities = spawner.getCurrentEntities();
 
-                    for (BaseEntity entity : entities) {
-                        if (entity instanceof RedApple) {
-                            if (closestRedApple == null) {
-                                closestRedApple = entity;
-                            } else {
-                                double newRedApplePosition = Utils.distance(entity.getPosition(), latLng);
-                                if (newRedApplePosition < howFarIsTheClosestRedApple && newRedApplePosition > EntitySpawner.COLLISION_DISTANCE) {
+                        for (BaseEntity entity : entities) {
+                            if (entity instanceof RedApple) {
+                                if (closestRedApple == null) {
                                     closestRedApple = entity;
+                                } else {
+                                    double newRedApplePosition = Utils.distance(entity.getPosition(), latLng);
+                                    if (newRedApplePosition < howFarIsTheClosestRedApple && newRedApplePosition > EntitySpawner.COLLISION_DISTANCE) {
+                                        closestRedApple = entity;
+                                    }
                                 }
-                            }
 
-                            howFarIsTheClosestRedApple = Utils.distance(closestRedApple.getPosition(), latLng);
+                                howFarIsTheClosestRedApple = Utils.distance(closestRedApple.getPosition(), latLng);
+                            }
                         }
                     }
-                }
 
-                double latitudeMovement = 0;
-                double longitudeMovement = 0;
+                    double latitudeMovement = 0;
+                    double longitudeMovement = 0;
 
-                if (closestRedApple != null) {
-                    double speed = 0.00002;
+                    if (closestRedApple != null) {
+                        double speed = 0.00002;
 
-                    if (latLng.latitude - speed > closestRedApple.getLat()) {
-                        latitudeMovement = -speed;
-                    } else if (latLng.latitude + speed < closestRedApple.getLat()) {
-                        latitudeMovement = speed;
+                        if (latLng.latitude - speed > closestRedApple.getLat()) {
+                            latitudeMovement = -speed;
+                        } else if (latLng.latitude + speed < closestRedApple.getLat()) {
+                            latitudeMovement = speed;
+                        }
+
+                        if (latLng.longitude - speed > closestRedApple.getLong()) {
+                            longitudeMovement = -speed;
+                        } else if (latLng.longitude + speed < closestRedApple.getLong()) {
+                            longitudeMovement = speed;
+                        }
+
+                        LatLng newLatLng = new LatLng(latLng.latitude + latitudeMovement,
+                                latLng.longitude + longitudeMovement);
+
+                        User.get().onLocationUpdated(newLatLng);
+
+                        drawSnake();
+
+                        map.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
+
+                        if (null != spawner) {
+                            spawner.updateLocation(map.getProjection().getVisibleRegion().latLngBounds);
+                        }
+
                     }
-
-                    if (latLng.longitude - speed > closestRedApple.getLong()) {
-                        longitudeMovement = -speed;
-                    } else if (latLng.longitude + speed < closestRedApple.getLong()) {
-                        longitudeMovement = speed;
-                    }
-                }
-
-                LatLng newLatLng = new LatLng(latLng.latitude + latitudeMovement,
-                        latLng.longitude + longitudeMovement);
-
-                User.get().onLocationUpdated(newLatLng);
-
-                drawSnake();
-
-                map.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
-
-                if (null != spawner) {
-                    spawner.updateLocation(map.getProjection().getVisibleRegion().latLngBounds);
                 }
 
                 handler.postDelayed(this, 500);
@@ -383,17 +386,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // location listener
     @Override
     public void onLocationChanged(Location location) {
-        //        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        //
-        //        User.get().onLocationUpdated(latLng);
-        //
-        //        drawSnake();
-        //
-        //        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        //
-        //        if (null != spawner) {
-        //            spawner.updateLocation(this.map.getProjection().getVisibleRegion().latLngBounds);
-        //        }
+        if (!loadedLocation) {
+            loadedLocation = true;
+
+            map.setMyLocationEnabled(false);
+
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+            User.get().onLocationUpdated(latLng);
+
+            drawSnake();
+
+            map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+            if (null != spawner) {
+                spawner.updateLocation(this.map.getProjection().getVisibleRegion().latLngBounds);
+            }
+        }
     }
 
     public void drawSnake() {
