@@ -15,7 +15,7 @@
     >
 
     <thegroup.snakego.elements.SnakeTextView
-        android:text="Take this with you."
+        android:text="@string/take_this_peace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_purple"
@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true"/>
 
     <thegroup.snakego.elements.SnakeTextView
-        android:text="You're in Snake Space.."
+        android:text="@string/snake_space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_purple"
@@ -49,7 +49,7 @@
         android:scaleY="6"/>
 
     <thegroup.snakego.elements.SnakeTextView
-        android:text="... at peace"
+        android:text="@string/peace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_purple"

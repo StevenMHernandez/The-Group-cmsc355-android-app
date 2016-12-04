@@ -96,7 +96,6 @@ public class EntitySpawner implements Listenable {
                     index = 0;
                 } else {
                     ouroborosCount = 0;
-                    index = 2;
                 }
             }
 

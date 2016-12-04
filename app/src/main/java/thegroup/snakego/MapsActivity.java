@@ -210,7 +210,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.spawner = new EntitySpawner(latLngBounds);
 
         new EntitySpawnerObserver(this.spawner, this.map);
-
     }
 
     @Override
@@ -218,22 +217,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (event.getPropertyName().equals("score")) {
             this.updateScore((int)event.getOldValue(), (int)event.getNewValue());
 
-            if ((int) event.getNewValue() - (int) event.getOldValue() == 100) {
-                Intent intent = new Intent(this, SnakeSpace.class);
-                startActivity(intent);
-            }
-            else {
-                for (int i = 6; i > 0; i--) {
-                    if ((int) event.getNewValue() > i * 300 && (int) event.getOldValue() < i * 300) {
+            for (int i = 6; i > 0; i--) {
+                if ((int) event.getNewValue() > i * 300 && (int) event.getOldValue() < i * 300) {
                         Resources res = getResources();
                         String[] milestones = res.getStringArray(R.array.milestones);
                         Toast.makeText(context, milestones[i], Toast.LENGTH_SHORT).show();
                         PropertyChangeFlag = true;
                         break;
-                    }
                 }
             }
-
         }
     }
 
@@ -244,6 +236,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             this.blinkScoreText(Color.BLUE);
         } else if (oldScore > newScore) {
             this.blinkScoreText(Color.RED);
+        }
+
+        if (newScore - oldScore == 215) {
+            Intent intent = new Intent(this, SnakeSpace.class);
+            startActivity(intent);
         }
     }
 
