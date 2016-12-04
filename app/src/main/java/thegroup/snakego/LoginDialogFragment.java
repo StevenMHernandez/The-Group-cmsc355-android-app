@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import thegroup.snakego.models.User;
 
 
 public class LoginDialogFragment extends DialogFragment {
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -30,6 +32,11 @@ public class LoginDialogFragment extends DialogFragment {
                         User.get().setName(username); // no error checking
                     }
                 });
-        return alertDialogBuilder.show();
+        try {
+            return alertDialogBuilder.show();
+        }  catch (WindowManager.BadTokenException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

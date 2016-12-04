@@ -39,6 +39,10 @@ public class MapsActivityTest {
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
+
+
+
+
     }
 
     @Test
@@ -92,7 +96,7 @@ public class MapsActivityTest {
         // clicks on Resume Game, he will return to the game
         onView(withId(R.id.icon_button)).perform(click());
         onView(withId(R.id.resume_game_text)).perform(click());
-        onView(withId(R.id.map)).check(matches(notNullValue()));
+        onView(withId(R.id.login_name)).check(matches(notNullValue()));
     }
 
     @Test

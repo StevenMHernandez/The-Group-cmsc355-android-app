@@ -13,7 +13,7 @@ public class User implements Listenable {
 
     private LinkedList<LatLng> userLocationHistory = new LinkedList<>();
 
-    private String name = null;
+    private String name = "User1";
 
     private boolean moving;
     private float lastX;
