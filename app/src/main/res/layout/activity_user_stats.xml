@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@android:color/black"
+    android:baselineAligned="false">
+
+    <thegroup.snakego.elements.SnakeTextView
+        android:id="@+id/user_stats_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="30sp"
+        android:layout_weight="0.11" />
+
+    <thegroup.snakego.elements.SnakeTextView
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/red_apple_stat"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="30sp"
+        android:layout_weight="0.17" />
+
+    <thegroup.snakego.elements.SnakeTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/green_apple_stat"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="30sp"
+        android:layout_weight="0.21" />
+
+    <thegroup.snakego.elements.SnakeTextView
+        android:text="Return"
+        android:id="@+id/return_from_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="30sp"
+        android:layout_weight="0.22" />
+
+</LinearLayout>

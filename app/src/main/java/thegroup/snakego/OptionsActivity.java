@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import thegroup.snakego.elements.SnakeEditText;
 import thegroup.snakego.elements.SnakeTextView;
 import thegroup.snakego.models.User;
-import thegroup.snakego.watchers.UsernameTextWatcher;
 
 public class OptionsActivity extends AppCompatActivity {
 
-    SnakeEditText usernameInput;
+    SnakeTextView userName;
     SnakeTextView resumeGameText;
     SnakeTextView highScoreText;
     SnakeTextView quitText;
@@ -29,9 +27,15 @@ public class OptionsActivity extends AppCompatActivity {
         score = (SnakeTextView) findViewById(R.id.your_score_text);
         score.setText("Score: " + scores);
 
-        this.usernameInput = (SnakeEditText) findViewById(R.id.user_name);
-        this.usernameInput.setText(User.get().getName());
-        this.usernameInput.addTextChangedListener(new UsernameTextWatcher());
+
+        this.userName = (SnakeTextView) findViewById(R.id.user_name);
+        this.userName.append(User.get().getName());
+        userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickUserStatsText();
+            }
+        });
 
         resumeGameText = (SnakeTextView) findViewById(R.id.resume_game_text);
         this.resumeGameText.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +68,11 @@ public class OptionsActivity extends AppCompatActivity {
                 clickQuit();
             }
         });
+    }
+
+    public void clickUserStatsText() {
+        Intent intent = new Intent(this, UserStatsActivity.class);
+        startActivity(intent);
     }
 
     public void clickResumeGameButton() {

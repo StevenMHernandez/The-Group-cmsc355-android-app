@@ -1,28 +1,12 @@
 package thegroup.snakego;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
-
 import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -43,17 +27,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
 import thegroup.snakego.elements.SnakeTextView;
 import thegroup.snakego.models.User;
 import thegroup.snakego.observers.EntitySpawnerObserver;
 import thegroup.snakego.observers.UserObserver;
 import thegroup.snakego.services.EntitySpawner;
 import thegroup.snakego.utils.Utils;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         OnMapLoadedCallback, GoogleApiClient.ConnectionCallbacks,
@@ -70,6 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     protected LocationManager locationManager;
+    private SharedPreferences sharedPref;
 
     private GoogleMap map;
     private Button optionsButton;
@@ -90,6 +91,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lastTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
+
+        sharedPref = context.getSharedPreferences(
+                "SnakeGoFile", Context.MODE_PRIVATE);
 
         setContentView(R.layout.activity_maps);
         if (getIntent().getBooleanExtra("quitclick", false)) {
@@ -120,8 +124,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         this.locationRequest = new LocationRequest()
-                .setInterval(10 * 1000)
-                .setFastestInterval(3 * 1000)
+                .setInterval(1000)
+                .setFastestInterval(1000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setSmallestDisplacement(0.5F);
 
@@ -193,6 +197,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapLoaded() {
+        String user = "userpref";
+        login();
+//        sharedPreferences = getSharedPreferences(user,Context.MODE_PRIVATE);
+//        if ((sharedPreferences.getString(user, User.get().getName())) == null) {
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putString("name", User.get().getName());
+//        }
+
         LatLngBounds latLngBounds = this.map.getProjection().getVisibleRegion().latLngBounds;
 
         this.spawner = new EntitySpawner(latLngBounds);
@@ -426,6 +438,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
             }
         }
+    }
+
+    public void login() {
+        DialogFragment logFragment = new LoginDialogFragment();
+        logFragment.show(getSupportFragmentManager(), "snakelogin");
     }
 
     public void snakeOptions() {

@@ -1,9 +1,15 @@
 package thegroup.snakego.services;
 
+import android.os.Handler;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import android.os.Handler;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import thegroup.snakego.entities.BaseEntity;
 import thegroup.snakego.entities.GreenApple;
@@ -13,12 +19,6 @@ import thegroup.snakego.interfaces.AnimateEntity;
 import thegroup.snakego.interfaces.Listenable;
 import thegroup.snakego.models.User;
 import thegroup.snakego.utils.Utils;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class EntitySpawner implements Listenable {
 
@@ -127,7 +127,7 @@ public class EntitySpawner implements Listenable {
 
     public void checkCollisions() {
         LatLng latlng = User.get().getPosition();
-
+        // check iterator here
         for (BaseEntity entity : this.currentEntities) {
             if (Utils.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
                 entity.onCollision();

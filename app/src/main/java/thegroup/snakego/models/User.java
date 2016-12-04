@@ -1,13 +1,12 @@
 package thegroup.snakego.models;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.PolygonOptions;
-
-import thegroup.snakego.interfaces.Listenable;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
+
+import thegroup.snakego.interfaces.Listenable;
 
 public class User implements Listenable {
     private static User instance;
@@ -21,6 +20,8 @@ public class User implements Listenable {
     private float lastY;
     private float lastZ;
     private static final int THRESHOLD = 5;
+    private int greenAppleCount;
+    private int redAppleCount;
 
     public static synchronized User get() {
         if (instance == null) {
@@ -36,6 +37,7 @@ public class User implements Listenable {
     private LatLng latLng;
 
     public int addPoints(int points) {
+        redAppleCount++;
         this.notifyListeners(this, "score", this.score, this.score + points);
 
         this.score += points;
@@ -50,6 +52,8 @@ public class User implements Listenable {
     }
 
     public int removePoints(int points) {
+        greenAppleCount++;
+
         int oldScore = this.score;
 
         this.score -= points;
@@ -90,6 +94,14 @@ public class User implements Listenable {
 
     public int getScore() {
         return this.score;
+    }
+
+    public int getGreenAppleCount() {
+        return this.greenAppleCount;
+    }
+
+    public int getRedAppleCount() {
+        return this.redAppleCount;
     }
 
     public int getHighScore() {
@@ -140,6 +152,7 @@ public class User implements Listenable {
 
     public String getName() {
         return name;
+
     }
 
     public void setName(String name) {
