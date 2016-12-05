@@ -5,14 +5,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import thegroup.snakego.entities.BaseEntity;
-import thegroup.snakego.services.EntitySpawner;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import thegroup.snakego.entities.BaseEntity;
+import thegroup.snakego.services.EntitySpawner;
 
 
 
@@ -40,7 +40,6 @@ public class EntitySpawnerObserver implements PropertyChangeListener {
 
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(entity.getImage()));
                 marker = this.map.addMarker(markerOptions);
-
                 this.markers.put(entity, marker);
             }
         }
@@ -80,7 +79,6 @@ public class EntitySpawnerObserver implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent event) {
         ArrayList<BaseEntity> entities = (ArrayList) event.getNewValue();
-
         this.removeOldMarkers(entities);
         this.addNewMarkers(entities);
         this.updateMarkerPosition();

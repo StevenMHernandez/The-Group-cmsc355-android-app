@@ -22,6 +22,7 @@ public class User implements Listenable {
     private static final int THRESHOLD = 5;
     private int greenAppleCount;
     private int redAppleCount;
+    private long timeUp = System.currentTimeMillis();
 
     public static synchronized User get() {
         if (instance == null) {
@@ -71,9 +72,11 @@ public class User implements Listenable {
 
     public void onLocationUpdated(LatLng latLng) {
         //if (moving || this.latLng == null) {
-            this.setLatLng(latLng);
-            userLocationHistory.add(latLng);
-            this.updateSnakeLength();
+        this.setLatLng(latLng);
+        userLocationHistory.add(latLng);
+        this.updateSnakeLength();
+        //long time = System.currentTimeMillis();
+        //setTimeUp(time);
         //}
     }
 
@@ -98,6 +101,10 @@ public class User implements Listenable {
 
     public void setGreenAppleCount(int apple) {
         this.greenAppleCount = apple;
+    }
+
+    public long getTimeUp() {
+        return (System.currentTimeMillis() - this.timeUp) / 1000;
     }
 
     public int getScore() {

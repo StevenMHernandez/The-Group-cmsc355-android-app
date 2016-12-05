@@ -32,7 +32,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:textColor="@android:color/holo_green_light"
-        android:textSize="30sp"
+        android:textSize="15sp"
         android:layout_weight="0.17" />
 
     <thegroup.snakego.elements.SnakeTextView
@@ -44,8 +44,20 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:textColor="@android:color/holo_green_light"
-        android:textSize="30sp"
+        android:textSize="15sp"
         android:layout_weight="0.21" />
+
+    <thegroup.snakego.elements.SnakeTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_up"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/holo_green_light"
+        android:textSize="15sp"
+        android:layout_weight="0.16" />
 
     <thegroup.snakego.elements.SnakeTextView
         android:text="Return"
@@ -59,7 +71,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:textColor="@android:color/holo_green_light"
-        android:textSize="30sp"
-        android:layout_weight="0.22" />
+        android:textSize="15sp"
+        android:layout_weight="0.03" />
 
 </LinearLayout>

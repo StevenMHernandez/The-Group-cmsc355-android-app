@@ -13,6 +13,7 @@ public class UserStatsActivity extends AppCompatActivity {
     SnakeTextView userTitle;
     SnakeTextView redCount;
     SnakeTextView greenCount;
+    SnakeTextView timeUp;
     SnakeTextView returnStats;
 
     @Override
@@ -28,6 +29,9 @@ public class UserStatsActivity extends AppCompatActivity {
 
         greenCount = (SnakeTextView) findViewById(R.id.green_apple_stat);
         greenCount.setText("Greens:" + User.get().getGreenAppleCount());
+
+        timeUp = (SnakeTextView) findViewById(R.id.time_up);
+        timeUp.setText("Time up:" + User.get().getTimeUp() + " sec");
 
         returnStats = (SnakeTextView) findViewById(R.id.return_from_stats);
         returnStats.setOnClickListener(new View.OnClickListener() {

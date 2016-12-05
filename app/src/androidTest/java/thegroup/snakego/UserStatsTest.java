@@ -24,6 +24,8 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static java.lang.Thread.sleep;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -86,6 +88,15 @@ public class UserStatsTest {
     }
 
     @Test
+    public void timeUpChanges() throws InterruptedException {
+        long init = User.get().getTimeUp();
+        sleep(2000);
+        long second = User.get().getTimeUp();
+
+        Assert.assertNotSame(init, second);
+    }
+
+    @Test
     public void redAppleDisplayed() {
         onView(withId(R.id.red_apple_stat))
                 .check(matches(withText("Reds:" + User.get().getRedAppleCount())));
@@ -94,6 +105,12 @@ public class UserStatsTest {
     public void greenAppleDisplayed() {
         onView(withId(R.id.green_apple_stat))
                 .check(matches(withText("Greens:" + User.get().getGreenAppleCount())));
+    }
+
+    @Test
+    public void timeUpDisplayed() {
+        onView(withId(R.id.time_up))
+                .check(matches(notNullValue()));
     }
 
 }
