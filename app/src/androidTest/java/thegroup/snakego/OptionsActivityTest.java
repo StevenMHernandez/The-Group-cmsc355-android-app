@@ -36,6 +36,14 @@ public class OptionsActivityTest {
     }
 
     @Test
+    public void statsPageReturnsToOptions() throws InterruptedException {
+        onView(withId(R.id.user_name)).perform(click());
+        onView(withId(R.id.user_stats_title)).check(matches(notNullValue()));
+        onView(withId(R.id.return_from_stats)).perform(click());
+        onView(withId(R.id.options_page_text)).check(matches(notNullValue()));
+    }
+
+    @Test
     public void optionsResumeIsClickable() {
         onView(withId(R.id.resume_game_text))
                 .check(matches(withText("Resume Game")));
@@ -71,11 +79,5 @@ public class OptionsActivityTest {
         onView(withId(R.id.user_stats_title)).check(matches(notNullValue()));
     }
 
-    @Test
-    public void statsPageReturnsToOptions() {
-        onView(withId(R.id.user_name)).perform(click());
-        onView(withId(R.id.user_stats_title)).check(matches(notNullValue()));
-        onView(withId(R.id.return_from_stats)).perform(click());
-        onView(withId(R.id.options_page_text)).check(matches(notNullValue()));
-    }
+
 }
