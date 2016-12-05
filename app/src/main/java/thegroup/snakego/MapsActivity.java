@@ -81,6 +81,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private ArrayList<Polygon> snakeSegments = new ArrayList<Polygon>();
 
+    public boolean allowLoginDialog = true;
+
     //Accelerator Global Variables
     private SensorManager sensorManager;
     private Sensor accelerometer;
@@ -196,7 +198,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapLoaded() {
-        login();
+        if (this.allowLoginDialog) {
+            login();
+        }
 
         LatLngBounds latLngBounds = this.map.getProjection().getVisibleRegion().latLngBounds;
 
