@@ -6,7 +6,7 @@
 
         <item>
             <bitmap
-                android:gravity="fill"
+                android:gravity="center"
                 android:src="@mipmap/snake_go_splash"/>
         </item>
 

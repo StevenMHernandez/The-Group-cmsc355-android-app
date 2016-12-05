@@ -4,6 +4,8 @@ package thegroup.snakego;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import thegroup.snakego.elements.SnakeTextView;
 import thegroup.snakego.models.User;
@@ -19,6 +21,9 @@ public class UserStatsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_user_stats);
 
         userTitle = (SnakeTextView) findViewById(R.id.user_stats_title);
