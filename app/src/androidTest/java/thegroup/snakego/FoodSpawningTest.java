@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +31,10 @@ public class FoodSpawningTest {
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
+    }
+
+    @After public void tearDown(){
+        Looper.myLooper().quit();
     }
 
     @Test public void randomFoodSpawnsInMyVicinity() {

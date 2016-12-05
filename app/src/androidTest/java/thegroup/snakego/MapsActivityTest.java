@@ -7,6 +7,7 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,10 +40,11 @@ public class MapsActivityTest {
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
+    }
 
-
-
-
+    @After
+    public void tearDown(){
+        Looper.myLooper().quit();
     }
 
     @Test

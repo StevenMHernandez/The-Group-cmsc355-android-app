@@ -70,11 +70,11 @@ public class User implements Listenable {
     }
 
     public void onLocationUpdated(LatLng latLng) {
-//        if (moving || this.latLng == null) {
+        //if (moving || this.latLng == null) {
             this.setLatLng(latLng);
             userLocationHistory.add(latLng);
             this.updateSnakeLength();
-//        }
+        //}
     }
 
     public void accelerometerChanged(float currX, float currY, float currZ, long diffTime) {
@@ -90,6 +90,14 @@ public class User implements Listenable {
 
     public void setMoving(boolean moving) {
         this.moving = moving;
+    }
+
+    public void setRedAppleCount(int apple) {
+        this.redAppleCount = apple;
+    }
+
+    public void setGreenAppleCount(int apple) {
+        this.greenAppleCount = apple;
     }
 
     public int getScore() {
@@ -156,6 +164,8 @@ public class User implements Listenable {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if(name.length() > 2) {
+            this.name = name;
+        }
     }
 }

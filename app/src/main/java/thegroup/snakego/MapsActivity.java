@@ -197,13 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapLoaded() {
-        String user = "userpref";
         login();
-//        sharedPreferences = getSharedPreferences(user,Context.MODE_PRIVATE);
-//        if ((sharedPreferences.getString(user, User.get().getName())) == null) {
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putString("name", User.get().getName());
-//        }
 
         LatLngBounds latLngBounds = this.map.getProjection().getVisibleRegion().latLngBounds;
 
@@ -339,7 +333,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         snakeSegments.clear();
 
         LatLng prev = User.get().getUserLocationHistory().getFirst();
-        for (int i = 1; i<User.get().getUserLocationHistory().size(); i++) {
+        for (int i = 1; i < User.get().getUserLocationHistory().size(); i++) {
             LatLng current = User.get().getUserLocationHistory().get(i);
 
             for (PolygonOptions po : Utils.getRectanglesFromLine(prev, current)) {

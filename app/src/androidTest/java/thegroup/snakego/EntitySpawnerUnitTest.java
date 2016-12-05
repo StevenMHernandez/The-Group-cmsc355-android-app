@@ -6,21 +6,16 @@ import android.support.test.runner.AndroidJUnit4;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import thegroup.snakego.entities.BaseEntity;
-import thegroup.snakego.entities.GreenApple;
 import thegroup.snakego.entities.Ouroboros;
-import thegroup.snakego.entities.RedApple;
 import thegroup.snakego.models.User;
 import thegroup.snakego.services.EntitySpawner;
-
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class EntitySpawnerUnitTest {
@@ -31,6 +26,11 @@ public class EntitySpawnerUnitTest {
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
+    }
+
+    @After
+    public void tearDown(){
+        Looper.myLooper().quit();
     }
 
     @Test

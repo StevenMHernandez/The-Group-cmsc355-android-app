@@ -1,6 +1,7 @@
 package thegroup.snakego.services;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -8,6 +9,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
 
@@ -126,19 +128,22 @@ public class EntitySpawner implements Listenable {
 
     public void checkCollisions() {
         LatLng latlng = User.get().getPosition();
-        // check iterator here
-        for (BaseEntity entity : this.currentEntities) {
-            if (Utils.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
-                entity.onCollision();
-                collide = true; // test dependency
-                if (entity instanceof GreenApple) {
-                    this.removeGreenEntities.add(entity);
-                } else {
-                    this.currentEntities.remove(entity);
+        try {
+            for (BaseEntity entity : this.currentEntities) {
+                if (Utils.distance(latlng, entity.getPosition()) < COLLISION_DISTANCE) {
+                    entity.onCollision();
+                    collide = true; // test dependency
+                    if (entity instanceof GreenApple) {
+                        this.removeGreenEntities.add(entity);
+                    } else {
+                        this.currentEntities.remove(entity);
+                    }
+                    notifyListeners(this, "Entities", null, currentEntities);
                 }
-                notifyListeners(this, "Entities", null, currentEntities);
-            }
 
+            }
+        } catch (ConcurrentModificationException exception) {
+            Log.d("concurrency", "checkcollision error", exception);
         }
     }
 
