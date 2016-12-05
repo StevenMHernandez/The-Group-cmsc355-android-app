@@ -4,6 +4,12 @@
 
 ![Gameplay Animation](./gameplay.gif)
 
+## Iteration 3 Summary
+Implemented new pages to display statistics and various snake facts. Updated the snakes appearance from a very basic line to look 8-bit. The red and green apples appearance too have been adjusted accordingly. There is now a splash page which greets the user upon startup. We have implemented a basic user login which takes in a users name and it is thus used to put into the highscores list is he/she is able to perform well enough. 
+
+User Stories Completed: 
+About Page on Snakes, My Score, Pixelized Snake, View My Statistics, (Loading Screen - Not Testable but Closed)
+
 ## Iteration 2 Summary
 
 **important note:** package directories in `app/src/main/java/thegroup/snakego/` have been changed to all lowercase for the new checkstyle guidelines. These changes may not show up if the repo had been pulled down from Github previously. Either rename the directories to all lowercase or remove and re-checkout the project from Github. 
