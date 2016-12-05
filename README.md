@@ -10,6 +10,8 @@ Implemented new pages to display statistics and various snake facts. Updated the
 User Stories Completed: 
 About Page on Snakes, My Score, Pixelized Snake, View My Statistics, (Loading Screen - Not Testable but Closed)
 
+**Note: Some of the tests might not run correctly if all are run at the same time.**
+
 ## Iteration 2 Summary
 
 **important note:** package directories in `app/src/main/java/thegroup/snakego/` have been changed to all lowercase for the new checkstyle guidelines. These changes may not show up if the repo had been pulled down from Github previously. Either rename the directories to all lowercase or remove and re-checkout the project from Github. 
