@@ -20,6 +20,11 @@ import thegroup.snakego.entities.RedApple;
 import thegroup.snakego.models.User;
 import thegroup.snakego.services.EntitySpawner;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class UserStatsTest {
@@ -78,6 +83,17 @@ public class UserStatsTest {
         spawner.checkCollisions();
 
         Assert.assertNotSame(User.get().getGreenAppleCount(), 0);
+    }
+
+    @Test
+    public void redAppleDisplayed() {
+        onView(withId(R.id.red_apple_stat))
+                .check(matches(withText("Reds:" + User.get().getRedAppleCount())));
+    }
+    @Test
+    public void greenAppleDisplayed() {
+        onView(withId(R.id.green_apple_stat))
+                .check(matches(withText("Greens:" + User.get().getGreenAppleCount())));
     }
 
 }

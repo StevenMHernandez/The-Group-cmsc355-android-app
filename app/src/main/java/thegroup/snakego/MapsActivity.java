@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -70,7 +69,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     protected LocationManager locationManager;
-    private SharedPreferences sharedPref;
 
     private GoogleMap map;
     private Button optionsButton;
@@ -91,9 +89,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lastTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-
-        sharedPref = context.getSharedPreferences(
-                "SnakeGoFile", Context.MODE_PRIVATE);
 
         setContentView(R.layout.activity_maps);
         if (getIntent().getBooleanExtra("quitclick", false)) {

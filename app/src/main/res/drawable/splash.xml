@@ -7,7 +7,7 @@
         <item>
             <bitmap
                 android:gravity="fill"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@mipmap/snake_go_splash"/>
         </item>
 
     </layer-list>

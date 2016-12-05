@@ -27,7 +27,7 @@ public class UserStatsActivity extends AppCompatActivity {
         redCount.setText("Reds:" + User.get().getRedAppleCount());
 
         greenCount = (SnakeTextView) findViewById(R.id.green_apple_stat);
-        greenCount.setText("Greens: " + User.get().getGreenAppleCount());
+        greenCount.setText("Greens:" + User.get().getGreenAppleCount());
 
         returnStats = (SnakeTextView) findViewById(R.id.return_from_stats);
         returnStats.setOnClickListener(new View.OnClickListener() {
